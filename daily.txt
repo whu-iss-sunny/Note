@@ -12,4 +12,7 @@
         4.正则表达式 分组匹配 断言
 20171023
         1.git remote fetch/merge pull
-        
+20171026
+        1.git fetch/merge push熟悉使用
+        2.git branch checkout merge(fast-forward vs no-ff)
+        3.notepad++/git bash => utf-8 无bom 
