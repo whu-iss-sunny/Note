@@ -16,3 +16,11 @@
         1.git fetch/merge push熟悉使用
         2.git branch checkout merge(fast-forward vs no-ff)
         3.notepad++/git bash => utf-8 无bom 
+20171027
+        1.git 比较差异 文件差异--stat 内容差异 branch1 branch2 file_name 
+              重定向 >覆盖 >>追加
+        2.udp通信 
+            方法一： 
+            socket----->sendto()或recvfrom() 
+            方法二： 
+            socket----->connect()----->send()或recv() => connect不进行握手 至绑定ip地址和端口
