@@ -24,3 +24,8 @@
             socket----->sendto()或recvfrom() 
             方法二： 
             socket----->connect()----->send()或recv() => connect不进行握手 至绑定ip地址和端口
+20171030-20171031
+        1.系统架构设计师系统开发基础 结束
+        2.git :fetch后比较内容差异 git diff HEAD FETCH_HEAD
+               HEAD 是本地仓库，不是本地工作区
+               其实应该是直接git diff FETCH_HEAD 就可以直接比较fetch下来的内容和本地工作区的区别了
