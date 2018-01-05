@@ -103,3 +103,6 @@
         2.git
             git status -s表示short
             git mv 重命名文件
+            git diff 比较的是工作区和暂存区的差别
+            git diff --cached 比较的是暂存区和版本库的差别
+            git diff HEAD 可以查看工作区和版本库的差别
