@@ -96,3 +96,10 @@
         1.javascript bom
 20171220
         1.sql server 字符串转义"'" => "''"
+20171231
+        1.修改表结构
+            增加字段
+            ALTER TABLE [TName] ADD [CName] [Type] [not / null] [default Value];
+        2.git
+            git status -s表示short
+            git mv 重命名文件
