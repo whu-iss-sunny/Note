@@ -97,12 +97,23 @@
 20171220
         1.sql server 字符串转义"'" => "''"
 20171231
-        1.修改表结构
+        1.SqlServer修改表结构
             增加字段
             ALTER TABLE [TName] ADD [CName] [Type] [not / null] [default Value];
+            删除字段
+            ALTER TABLE [TName] DROP COLUMN [CName]
+            修改字段名
+            ALTER TABLE [TName] RENAME COLUMN [OldName] TO [NewName]
+            修改字段类型
+            ALTER TABLE [TName] ALTER COLUMN [CName] [Type] [not / null]
         2.git
             git status -s表示short
-            git mv 重命名文件
+            git mv 重命名文件  该命令同时修改工作区和暂存区的文件名
+                运行git mv 其实就相当于运行了3条命令：
+                mv test.txt TEST
+                git rm test.txt
+                git add TEST
+                mv一个文件如果不修改内容 可以直接commit
             git diff 比较的是工作区和暂存区的差别
             git diff --cached 比较的是暂存区和版本库的差别
             git diff HEAD 可以查看工作区和版本库的差别
