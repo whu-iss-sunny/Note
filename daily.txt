@@ -1,0 +1,32 @@
+20180102-20180109
+    1. .net黑马视频 js_bom (execCommand('cmd'))
+    2. 英语 动词不定式
+       中文中动词组合直接放在一起,比如 我想见你.英文就不行,i want to see you 需要用动词不定式
+       那是不是所有的动词组合都是动词不定式呢?并不是 
+       ing: i love swimming.
+       raw: i make him eat shit (使役动词) 表示急迫 强烈的要求(对比to do的过程 比如反过来 he was made to eat shit by me)
+       a.to do 正常连接 去做 to表示先后关系 过程 进入 to do 其实是谓语一部分表示动作承替
+       b. ing  不是过程 没有延伸性 动宾结构
+            i love to swim 我想要去游泳 主谓结构 
+            i love swimming 我喜欢游泳 主谓宾结构
+            
+            Nice to meet you 很高兴见到你   刚见面即将见面
+            Nice meeting you 和你见面很高兴 见完面要离开
+            
+            i regret marrying you .后悔和你结婚     (后悔 已经发生)
+            i regret to tell you...  遗憾的告诉你...(遗憾的去做 将要)
+            
+            ps: allow
+                i allow smoking(允许去做为什么不是to smoke)因为 to do 的逻辑主语要一致, 比如 i want to see her 里面want 和 see 的主语都是i 而allow smoking 里面
+                allow的主语是我 smoke的主语就不一定是我了 因为我允许别人抽烟 它不构成逻辑上统一的 流畅的 "要做"过程整体 所以用ing 
+                如果这时候加一个人进去 比如我允许他抽烟 就变成了 i allow him to smoke 就变成了连贯统一的先后关系所以用 to do
+        
+    3. C调试工具Valgrind是一套Linux下，开放源代码（GPL V2）的仿真调试工具的集合:
+        调试内存越界
+        使用未初始化内存
+        内存覆盖
+        动态内存管理错误
+        内存泄漏
+        缺点:不管valgrind在使用memcheck工具监测内存时，它会接管应用程序，并且读取应用程序可执行文件和库文件中的debug信息来显示详细的出错位置。当valgrind启动后，应用 进程实际上在valgrind的虚拟环境中执行，valgrind会将每行代码传递给memcheck工具，memcheck工具再加入自己的调试信息，之后再将合成的代码真正运行。memcheck工具在 应用进程每个防存操作和每个变量赋值操作时加入额外的统计代码，通常情况下，使用memcheck工具后应用程序的运行时间会比原生代码慢大约10-50倍。
+        其次，对于一些不停机运行的服务器程序的内存问题，valgrind无能为力。不仅仅是因为valgrind无法使之停止，还有可能是因为服务器进程本身就被设计为申请一些生命周期 与进程生命周期一样长的内存，永远不释放，这些内存会被valgrind报泄漏错误。
+        再次，valgrind对多线程程序支持得不够好。在多线程程序执行时，valgrind在同一时刻只让其中一个线程执行，它不会充分利用多核的环境。在用valgrind运行您的多线程程序 时，您的宝贵程序的运行情况可能跟不使用valgrind的运行情况千差万别。
