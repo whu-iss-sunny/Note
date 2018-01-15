@@ -30,3 +30,62 @@
         缺点:不管valgrind在使用memcheck工具监测内存时，它会接管应用程序，并且读取应用程序可执行文件和库文件中的debug信息来显示详细的出错位置。当valgrind启动后，应用 进程实际上在valgrind的虚拟环境中执行，valgrind会将每行代码传递给memcheck工具，memcheck工具再加入自己的调试信息，之后再将合成的代码真正运行。memcheck工具在 应用进程每个防存操作和每个变量赋值操作时加入额外的统计代码，通常情况下，使用memcheck工具后应用程序的运行时间会比原生代码慢大约10-50倍。
         其次，对于一些不停机运行的服务器程序的内存问题，valgrind无能为力。不仅仅是因为valgrind无法使之停止，还有可能是因为服务器进程本身就被设计为申请一些生命周期 与进程生命周期一样长的内存，永远不释放，这些内存会被valgrind报泄漏错误。
         再次，valgrind对多线程程序支持得不够好。在多线程程序执行时，valgrind在同一时刻只让其中一个线程执行，它不会充分利用多核的环境。在用valgrind运行您的多线程程序 时，您的宝贵程序的运行情况可能跟不使用valgrind的运行情况千差万别。
+20180110-20180111
+    1.clr vir C# 22章 AppDomain
+        interface with
+        for starters
+    2.英语里面 you其实就是"您"的意思 thee thou 表示"你" 已经废弃了
+    3.C#调用C++类
+        把C++的成员函数封装成C的全局函数（称为C bindings） 要用到P/Invoke Interop
+        托管C++（Managed C++）或者叫C++/CLI，可以识别C++的类和指针，语法上又更倾向于C#，能被C#调用
+    4.契约式编程 代码协定 contract
+20180112
+    1.勾股定理证明
+        面积法(正方形 梯形) (a+b)2 = 4*(ab/2) + c2 = > a2 + b2 = c2
+    2.clr vir C# 22章 AppDomain
+        AppDomain Monitoring
+                a. MonitoringSurvivedProcessMemorySize This static  Int64 property returns the
+                number of bytes that are currently in use by all AppDomains controlled by the current
+                CLR instance. The number is accurate as of the last garbage collection.
+                b. MonitoringTotalAllocatedMemorySize This instance  Int64 property returns the
+                number of bytes that have been allocated by a specific AppDomain. The number is ac-
+                curate as of the last garbage collection.
+                c. MonitoringSurvivedMemorySize This instance  Int64 property returns the number
+                of bytes that are currently in use by a specific AppDomain. The number is accurate as of
+                the last garbage collection.
+                d. MonitoringTotalProcessorTime This instance  TimeSpan property returns the
+                amount of CPU usage incurred by a specific AppDomain.
+    3. C# ??操作符
+        左边null 则取 右边 类似oracle里面的decode 和 sqlserver里面的isnull
+20180115
+    1.windows删除nt服务
+        sc delete 命令
+        注册表 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
+    2.sqlserver
+        sysobjects 表结构 在数据库内创建的每个对象（约束、默认值、日志、规则、存储过程等）在表中占一行。只有在 tempdb 内，每个临时对象才在该表中占一行。
+            name	sysname	对象名,常用列
+            id	int	对象标识号
+            xtype	char(2)	对象类型。常用列。xtype可以是下列对象类型中的一种： 
+                                                C = CHECK 约束　　D = 默认值或 DEFAULT 约束　　F = FOREIGN KEY 约束　　L = 日志　　FN = 标量函数 
+                                                IF = 内嵌表函数 　　P = 存储过程 　　PK = PRIMARY KEY 约束（类型是 K） 　　RF = 复制筛选存储过程 
+                                                 S = 系统表 　　TF = 表函数 　　TR = 触发器 　　U = 用户表 　　UQ = UNIQUE 约束（类型是 K） 
+                                                V = 视图 　　X = 扩展存储过程
+            type	char(2) 	 对象类型。可以是下列值之一： 
+                                             C = CHECK 约束   D = 默认值或 DEFAULT 约束 F = FOREIGN KEY 约束 
+                                             FN = 标量函数 IF = 内嵌表函数  K = PRIMARY KEY 或 UNIQUE 约束 
+                                             L = 日志 P = 存储过程 R = 规则  RF = 复制筛选存储过程 
+                                             S = 系统表  TF = 表函数 TR = 触发器 U = 用户表 V = 视图 X = 扩展存储过程
+        syscolumns 每个表和视图中的每列在表中占一行，存储过程中的每个参数在表中也占一行。该表位于每个数据库中。列名 数据类型 描述 
+            name sysname 列名或过程参数的名称。 
+            id int 该列所属的表对象 ID，或与该参数关联的存储过程 ID。 
+            xtype tinyint systypes 中的物理存储类型。 
+            colid smallint 列或参数 ID。 
+            status tinyint 用于描述列或参数属性的位图： 
+                                0x08 = 列允许空值。
+                                0x10 = 当添加 varchar 或 varbinary 列时，ANSI 填充生效。保留 varchar 列的尾随空格，保留 varbinary 列的尾随零。
+                                0x40 = 参数为 OUTPUT 参数。
+                                0x80 = 列为标识列。
+            type tinyint systypes 中的物理存储类型。 
+            usertype smallint systypes 中的用户定义数据类型 ID。 
+            isnullable int 表示该列是否允许空值
+    3.clr vir C# 23章 Assembly and Reflection
