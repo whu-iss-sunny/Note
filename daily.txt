@@ -89,3 +89,179 @@
             usertype smallint systypes 中的用户定义数据类型 ID。 
             isnullable int 表示该列是否允许空值
     3.clr vir C# 23章 Assembly and Reflection
+20180118
+    1.逻辑英语第三季 介词结束
+20180119
+    1.clr vir C# 23章 Assembly and Reflection
+        嵌入资源 Embedded Resource: 把非.net dll 添加到项目中 属性->生成动作(build action)->嵌入资源
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => 
+            {
+                String resourceName = "AssemblyLoadingAndReflection." +
+                    new AssemblyName(args.Name).Name + ".dll";
+                using (var stream =
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                {
+                        Byte[] assemblyData = new Byte[stream.Length];
+                        stream.Read(assemblyData, 0, assemblyData.Length);
+                        return Assembly.Load(assemblyData);
+                }
+            };
+    2.Designing Data-Intensive Applications
+      多范式编程 最小表达式原则
+      领域驱动
+    3.vs2017 http://www.cnblogs.com/xiaochina/p/6536211.html
+    4.板瓦工 
+        购买vps 
+            http://banwagong.cn/gonglue.html
+            http://www.laozuo.org/6192.html
+        32位 or 64位
+            http://www.laozuo.org/676.html
+        kvm or ovz
+            https://baijiahao.baidu.com/s?id=1565818348600972&wfr=spider&for=pc
+20180122
+    1.clr vir C# 23章 Assembly and Reflection
+        反射缺点: 无法保证类型安全 反射速度慢
+        解决方法: 基类派生 接口派生 多态调用(强烈建议接口或者基类在自己的程序集中定义它们)
+20180123
+    1.clr vir C# 23章 Assembly and Reflection
+        BNF范式 
+            https://baijiahao.baidu.com/s?id=1583973801559216516&wfr=spider&for=pc
+            http://blog.csdn.net/xfxyy_sxfancy/article/details/44854197
+        (扩展)编译器 :
+                        编译技术当然首推龙书，读懂它对自身的编程和算法能力也是一个很大的提高。
+                        当然龙书难度还是不小的，我读了前五章，后面的也是很多不理解的，可以参考其他的一些其他的书：
+                        1.编译器设计之路 这本书写的Pascal语言的编译器，语言朴素，更好理解
+                        2.自制编程语言 这也属于入门很合适的
+                        3.编译器设计 这本书和龙书的侧重点不大一样，可以和龙书对比来读。
+                        网友的资料，本想发链接出来的，但CSDN表示不让，所以请搜索一下这几篇博文吧：
+                        1.有写编译器的冲动？进来看看！
+                        2.用LLVM来开发自己的编译器（一）——变量和函数
+                        3.自己动手开发编译器(零)序言 - 装配脑袋 - 博客园
+        类型匹配 :
+                    object o......
+                    if(o.GetType() == typeof([ClassName])) => 精准匹配 而非兼容匹配(as/is测试的兼容匹配)
+        
+20180124
+    1.clr vir C# 23章 Assembly and Reflection
+        利用反射可以为除了数组和委托以外的所有类型创建对象实例
+        数组应该用Array.CreateInstance 委托应该用Delegate.CreateDelegate
+        反射构造泛型类型
+        internal static class ConstructingGenericType {
+           private sealed class Dictionary<TKey, TValue> { }
+
+           public static void Go() {
+              // Get a reference to the generic Type 
+              Type openType = typeof(Dictionary<,>);
+
+              // Close the generic type using TKey=String, TValue=Int32
+              Type closedType = openType.MakeGenericType(typeof(String), typeof(Int32));
+
+              // Construct an instance of the closed type
+              Object o = Activator.CreateInstance(closedType);
+
+              // Prove it worked
+              Console.WriteLine(o.GetType());
+           }
+        }
+        MEF
+        反射新能比较:传统方法反射 实例化反射(静态方法调用无法使用) 快速放射(Emit) 直接调用
+        CLR用handle(intptr)引用运行时类型对象 比type和memberinfo对象 省内存
+20180125
+    1.dynamic RuntimeBinder  实际上是用反射+Object 来处理运行时的动态特性
+           dynamic是一个类型关键字，声明为dynamic的类型与"静态类型"（这里的静态类型是指编译时确定的类型，下同）相比最大的特点它是"动态类型"，它会运行时尝试调用方法，这些方法的存在与否不是在编译时检查的，而是在运行时查找，如果方法存在并且参数正确，会正常调用，否则会抛出Microsoft.CSharp.RuntimeBinder.RuntimeBinderException异常。
+           var关键字被称为：隐含类型局部变量(Local Variable Type Inference)，var只能用作局部变量，不能用于字段、参数等；声明的同时必须初始化；初始化时类型就已经明确了，并且不能再被赋值不能进行隐式类型转换的类型的数据；编译时编译器会对var定义的变量进行类型推断，这时变量的类型已经被确定。dynamic可用于类型的字段，方法参数，方法返回值，可用于泛型的类型参数等；可以赋值给或被赋值任何类型并且不需显式的强制类型转换，因为这些是运行时执行的，这要得益于dynamic类型的动态特性。
+           在字段类型、方法参数类型或方法返回类型被指定为dynamic 的前提下，编译器会将这个类型转换为System.Object，并在元数据中向字段、参数或返回类型应用System.Runtime.CompilerServices.DynamicAttribute 的一个实例。如果是一个局部变量被指定为dynamic，变量类型也会成为Object，但不会向局部变量应用DynamicAttribute，因为它的使用限制在方法之内。由于dynamic 其实就是Object，所以还有仅仅将dynamic 变成Object，又或者将Object 变成dynamic，就试图获得两个不同的方法签名。
+           任何表达式都能隐式转换为dynamic，因为所有表达式最终都会生成一个从Object 派生的类型。正常情况下，编译器不允许写代码将一个表达式从Object 隐式转型为其他类型必须使用转型。然而，编译器允许使用隐式转型语法将一个表达式从dynamic 转型为其他类型
+    2.动态语言特性 DLR https://www.cnblogs.com/xinghuayang/p/dynamic_keyword_search.html?utm_source=tuicool&utm_medium=referral
+    3.clr vir C# 24章 Runtime Serialization
+            Some extensible applications use  Assembly.LoadFrom to load an assembly
+            and then construct objects from types defined in the loaded assembly. These objects can be
+            serialized to a stream without any trouble. However, when deserializing this stream, the format-
+            ter attempts to load the assembly by calling  Assembly ’s  Load method instead of calling the
+            LoadFrom method. In most cases, the CLR will not be able to locate the assembly file, causing a
+            SerializationException exception to be thrown. This catches many developers by surprise:
+            Since the objects serialized correctly, they expect that they will deserialize correctly as well.
+            If your application serializes objects whose types are defined in an assembly that your applica-
+            tion loads using  Assembly.LoadFrom , then I recommend that you implement a method whose
+            signature matches the  System.ResolveEventHandler delegate and register this method with
+            System.AppDomain ’s  AssemblyResolve event just before calling a formatter’s  Deserialize
+            method. (Unregister this method with the event after  Deserialize returns.) Now, whenever
+            the formatter fails to load an assembly, the CLR calls your  ResolveEventHandler method.
+            This method is passed the identity of the assembly that failed to load. The method can extract
+            the assembly file name from the assembly’s identity and use this name to construct the
+            path where the application knows the assembly file can be found. Then, the method can call
+            Assembly.LoadFrom to load the assembly and return the resulting  Assembly reference back
+            from the  ResolveEventHandler method.
+20180126
+    1. C# .net 对于enum类型若使用了flag标记 则对于不合理的取值在调试时观察值是数字而非某个枚举值
+    2.clr vir C# 24章 Runtime Serialization
+        在标记了[Serializable]的类型中不要用自动属性 因为自动属性的字段名由编译器自动生成,而生成的名称每次都不同,这会阻止类型被反序列化
+        精细控制 [NonSerialized] 方法[OnDeserialized] [OnSerialized] [OnDeserializing] [OnSerializing]
+20180130
+    1.clr vir C# 24章 Runtime Serialization 结束
+        ISerializable接口
+            特殊构造器
+            自定义序列化 
+            反序列化
+        
+        up to now 到目前为止
+20180131
+    1. clr vir C# 25章 Thread Basics
+20180201
+    1.逻辑英语第三季 动词
+    2..net黑马 js bom_高级
+    3.clr vir C# 25章 Thread Basics
+20180202
+    1.clr vir C# 25章 Thread Basics
+20180205
+    1.逻辑英语第三季 分词总结 单词T
+20180206
+    1.clr vir C# 25章 Thread Basics 结束
+        NUMA 架构 Non Uniform Memory Access Architecture
+            cache-coherent
+        
+        cpu - northbridge - southbridge
+                  |             |
+                memory        device
+                
+        Wintellect Power Threading Library  http://Wintellect.com/PowerThreading.aspx
+        
+        CriticalFinalizerObject类型 Visual Studio + SOS集成调试扩展 https://www.cnblogs.com/yuyijq/archive/2009/08/09/1542435.html
+20180207
+    1.clr vir C# 26章 Compute-Bound Asynchronous Operations
+    2.逻辑英语第三季 单词T F
+20180208
+    1.clr vir C# 26章 Compute-Bound Asynchronous Operations
+        ExecutionContext 提高线程切换性能
+        scheduler:
+            thread pool task scheduler
+            synchronization context task scheduler(GUI)
+20180209
+    1.clr vir C# 26章 Compute-Bound Asynchronous Operations 结束
+        System.Threading.Timer -> 线程池 -> 为所有timer对象只使用了一个线程
+        为防止重复调用可以把period设置为Timeout.Infinite然后在回调方法中用Change方法来指定一个新的dueTime
+        缓存线和伪共享(filedoffset)
+20180212
+    1.clr vir C# 27章 IO-Bound Asynchronous Operation
+        AnsyncEnumerator
+        HTTP限制2  System.Net.ServicePointManager ’s static  DefaultConnectionLimit
+        线程模型 gui vs cmd(ntservice) SynchronizationContext
+        总是调用end方法来结束异步操作 避免使用IAsyncResult对象的AsyncWaitHandle和IsCompleted
+20180213
+    1.十恶不赦 根据 隋朝法律来的 
+        谋反 谋大逆 谋叛 恶逆(殴打尊长) 不道(偷渡 肢解 灭门 社会危害严重)
+        大不敬(失误 危害皇家) 不孝 不睦(五服内亲人) 不义(师 友 夫 领导) 内乱(强奸近亲属 伦理)
+    2.乾卦 六爻
+        初九 潜龙勿用
+        九二 见龙在田
+        九三 君子终日乾乾
+        九四 或跃在渊
+        九五 飞龙在天
+        九六 亢龙有悔
+20180226
+    1.开年第一天好好上班
+    2.git clone xxx.git 从github克隆远程库到本地
+    3.依赖注入 用框架和配置文件来生成接口对象 对象实现修改后不用修改代码只用替换xml文件即可
+    3.legacy 与 uefi启动
+    4.Binance Api
+    
