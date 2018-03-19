@@ -1,4 +1,4 @@
-20180301
+20180301-20180302
     1.git: http://blog.csdn.net/lechengyuyuan/article/details/50404461
           git clone 从远程库克隆一个版本库
           git remote -v 列出远程主机和地址
@@ -135,3 +135,325 @@
         //       NaN.CompareTo(NaN): 0
         //       NaN.CompareTo(100.0): -1
         //       (100.0).CompareTo(Double.NaN): 1
+    3.JavaScript学习
+        表单事件
+        BOM
+        Js作用域
+    4.OTC over-the-counter 场外交易 店头交易 柜台交易
+    5.Websocket协议 (WebSocket 协议本质上是一个基于 TCP 的协议 但是通过http和服务器握手)
+        https://www.cnblogs.com/fuqiang88/p/5956363.html
+20180305-20180306
+    1.在Microsoft SQL Server Management Studio文本编辑器里面注意区分数字"1"和小写字母"l"
+    2.CLR vir C# I/O-Bound Asynchronous Operations 结束
+        CreateFile总是以同步方式执行
+        FileStream特有的问题   FileOptions.Asynchronous->BeginXXX 否则调用同步方法
+        IO优先级:避免在普通优先级线程和后台优先级线程中间使用共享同步对象
+    3.  异步编程模型 (APM)APM(Begin-End IAsyncResult) 
+        基于事件的异步模式 EAP(Async-Completed)
+        任务并行TPL(Task 实现了IAsyncResult 能一定程度支持APM  FromAsync)
+    4.JavaScript学习
+        封装
+    5.正则表达式 分组 http://blog.csdn.net/okyoung188/article/details/53407021
+        这则表达式三种模式 https://www.cnblogs.com/ggkxg/p/5736064.html
+            假定要分析的字符串是xfooxxxxxxfoo
+
+            模式.*foo （贪婪模式）: 模式分为子模式p1(.*)和子模式p2(foo)两个部分. 其中p1中的量词匹配方式使用默认方式(贪婪型)。 匹配开始时,吃入所有字符xfooxxxxxx去匹配子模式p1。匹配成功,但这样以来就没有了字符串去匹配子模式p2。本轮匹配失败；第二轮：减少p1部分的匹配量，吐出最后一个字符, 把字符串分割成xfooxxxxxxfo和o两个子字符串s1和s2。 s1匹配p1, 但s2不匹配p2。本轮匹配失败；第三轮，再次减少p1部分匹配量，吐出两个字符, 字符串被分割成xfooxxxxxxfo和oo两部分。结果同上。第四轮，再次减少p1匹配量, 字符串分割成xfooxxxxxx和foo两个部分, 这次s1/s2分别和p1/p2匹配。停止尝试,返回匹配成功。
+            模式.*?foo （勉强模式）: 最小匹配方式。第一次尝试匹配, p1由于是0或任意次，因此被忽略，用字符串去匹配p2,失败；第二次，读入第一个字符x, 尝试和p1匹配, 匹配成功; 字符串剩余部分fooxxxxxxfoo中前三个字符和p2也是匹配的. 因此, 停止尝试, 返回匹配成功。在这种模式下，如果对剩余字符串继续去寻找和模式相匹配的子字符串，还会找到字符串末尾的另一个xfoo，而在贪婪模式下，由于第一次匹配成功的子串就已经是所有字符，因此不存在第二个匹配子串。
+            模式.*+foo （侵占模式）: 也叫占用模式。匹配开始时读入所有字符串, 和p1匹配成功, 但没有剩余字符串去和p2匹配。因此, 匹配失败。返回。
+
+            简单地说, 贪婪模式和占有模式相比, 贪婪模式会在只有部分匹配成功的条件下, 依次从多到少减少匹配成功部分模式的匹配数量, 将字符留给模式其他部分去匹配; 而占用模式则是占有所有能匹配成功部分, 绝不留给其他部分使用。
+            
+            例子:
+                正则：\w+[a-z]与\w++[a-z]
+                目标串：232hjdhfd7474$
+                 分析：①\w+[a-z]：\w+属于贪婪模式，会一次性吃掉它所能吃掉的所有的字符，也就是子串232hjdhfd7474，此时[a-z]不能够找到匹配了，故\w+匹配的串会吐出一个字符4，但此时还是得不到匹配。反复的这样吐出回退，直到吐出字符d时，此时[a-z]能够匹配h，所以这时正则表达式会返回一次成功的匹配结果，为232hjdhfd
+                 ②\w++[a-z]：\w++属于侵占模式，它会一次性吃掉它所能够吃掉的所有字符，即子串232hjdhfd7474，而且不留给其他部分使用，故不会回退。此时[a-z]不能够找到匹配，所以此次匹配失败。在余下的子串中也找不到能匹配成功的子串。所以整个正则表达式是找不到匹配结果的！
+                    量　词　种　类	意　　义
+                    贪婪	勉强	侵占
+                    X?	X??	X?+	匹配 X 零次或一次
+                    X*	X*?	X*+	匹配 X 零次或多次
+                    X+	X+?	X++	匹配 X 一次或多次
+                    X{n}	X{n}?	X{n}+	匹配 X n 次(这个应该不存在这几种模式，就是固定匹配n个)
+                    X{n,}	X{n,}?	X{n,}+	匹配 X 至少 n 次
+                    X{n,m}	X{n,m}?	X{n,m}+	匹配 X 至少 n 次，但不多于 m 次
+    6.clr vir C# Primitive Thread Synchronization Constructs
+        FCL提供的静态方法都是线程安全的 例如 Console类包含一个静态字段许多方法都要获取这个字段上的所以确保一次只有一个线程访问控制台
+    10.win10磁盘占用率100% http://blog.csdn.net/dirful/article/details/74090523
+    11.性能指标 QPS(TPS) 并发数 响应时间 https://www.cnblogs.com/cynchanpin/p/7365859.html
+20180307-20180308
+    1.JavaScript学习
+        闭包:函数内部可以访问函数外部变量,函数外部无法读取函数内部变量.
+             怎样读取函数内部变量,需要变通=>函数内部再定义一个函数 如下:
+                function f1(){
+                    var n=999;
+                    function f2(){
+                        alert(n); // 999
+                    }
+                    return f2;
+                }
+             这样f2就可以访问f1函数内部的变量,那么把f2作为返回值,就可以在f1外部访问到f1内部的变量了(链式作用域)
+             简单说f2就是一个闭包,闭包就是能够读取其他函数内部变量的函数;
+             由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成"定义在一个函数内部的函数"。
+             所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
+             闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。
+             怎么来理解这句话呢？请看下面的代码。
+                function f1(){
+                    var n=999;
+                    nAdd=function(){n+=1}
+                    function f2(){
+                        alert(n);
+                    }
+                    return f2;
+                }
+                var result=f1();
+                result(); // 999
+                nAdd();
+                result(); // 1000
+             在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。
+             为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。
+             这段代码中另一个值得注意的地方，就是"nAdd=function(){n+=1}"这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。
+        闭包注意点:
+            1）由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。
+            2）闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。
+            3)说明 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+                    不要在循环中创建闭包(例如循环绑定事件处理函数) = > 关键字let
+                    性能考虑 处理速度和内存损耗
+                             For instance, when creating a new object/class, methods should normally be associated to the object's prototype rather than defined into the object constructor. The reason is that whenever the constructor is called, the methods would get reassigned (that is, for every object creation).
+        
+        页面onload之前调用getelementByXXX可能会返回null,因为页面还未构造完成=>页面执行顺序
+        关键字 let let声明的变量只在其声明的块或子块中可用，这一点，与var相似。二者之间最主要的区别在于var声明的变量的作用域是整个封闭函数
+        https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let
+        
+    2.由闭包不由得想到C#里面的lambda表达式访问外部变量,如下:
+        using System;
+        using System.Collections.Generic;
+        using System.Linq;
+        using System.Text;
+
+        namespace ClosureTest
+        {
+            class Program
+            {
+                static void Main(string[] args)
+                {
+                    Action act = GetAction();
+                    act();//1
+                    act();//2
+                    act();//3
+                    Console.ReadLine();
+                }
+
+                static Action GetAction()
+                {
+                    int i = 0;
+                    return () =>
+                    {
+                        i++;
+                        Console.WriteLine(string.Format("i = {0}", i.ToString()));
+                    };
+                }
+            }
+        }
+        委托变量act是不是和闭包很像?!其实C#针对lambda表达式生成了一个匿名类并根据对应的外部变量来生成相应的私有字段,然后有一个构造函数来传递外部变量初始值给相应的字段.以后每次调用lambda方法,相当于直接访问私有字段
+    3.SQL Server Profile 是 SQL Trace图形化工具
+        SQL Trace 
+                  select * from sys.configurations where configuration_id = 1568 => 配置
+                  select * from sys.traces => 跟踪文件
+                  --开启Default Trace
+                  sp_configure 'show advanced options' , 1 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+                  sp_configure 'default trace enabled' , 1 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+
+                  --测试是否开启
+                  EXEC sp_configure 'default trace enabled';
+                  GO
+
+                  --关闭Default Trace
+                  sp_configure 'default trace enabled' , 0 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+                  sp_configure 'show advanced options' , 0 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+        https://www.cnblogs.com/zhijianliutang/p/4113911.html
+    4.sqlserver cpu占用率高
+        各种CPU和SQLSERVER版本组合自动配置的最大工作线程数
+            CPU数                 32位计算机                        64位计算机
+            <=4                     256                                   512
+              8                     288                                   576
+             16                     352                                   704
+             32                     480                                   960
+             
+        查询CPU占用高的SQL语句
+        SELECT TOP 100
+           total_worker_time/execution_count AS avg_cpu_cost, plan_handle,
+           execution_count,
+           (SELECT SUBSTRING(text, statement_start_offset/2 + 1,
+              (CASE WHEN statement_end_offset = -1
+                 THEN LEN(CONVERT(nvarchar(max), text)) * 2
+                 ELSE statement_end_offset
+              END - statement_start_offset)/2)
+           FROM sys.dm_exec_sql_text(sql_handle)) AS query_text
+        FROM sys.dm_exec_query_stats
+        ORDER BY [avg_cpu_cost] DESC
+        查询缺失索引
+        SELECT DatabaseName = DB_NAME(database_id)
+                ,[Number Indexes Missing] = count(*) 
+        FROM sys.dm_db_missing_index_details
+        GROUP BY DB_NAME(database_id)
+        ORDER BY 2 DESC;
+        
+        SELECT  TOP 10 
+        [Total Cost]  = ROUND(avg_total_user_cost * avg_user_impact * (user_seeks + user_scans),0) 
+                , avg_user_impact
+                , TableName = statement
+                , [EqualityUsage] = equality_columns 
+                , [InequalityUsage] = inequality_columns
+                , [Include Cloumns] = included_columns
+        FROM        sys.dm_db_missing_index_groups g 
+        INNER JOIN    sys.dm_db_missing_index_group_stats s 
+               ON s.group_handle = g.index_group_handle 
+        INNER JOIN    sys.dm_db_missing_index_details d 
+               ON d.index_handle = g.index_handle
+        ORDER BY [Total Cost] DESC;
+        
+        总结
+        从多次历史经验来看，如果CPU负载持续很高，但内存和IO都还好的话，这种情况下，首先想到的一定是索引问题，十有八九错不了。
+        https://www.cnblogs.com/lyhabc/archive/2013/06/12/3133273.html
+                
+        SELECT TOP 10 execution_count as [Number Of Executions],
+        total_worker_time/execution_count as [Average CPU Time],
+        total_elapsed_time/execution_count as [Average Elapsed Time],
+        (
+        SELECT SUBSTRING(text,statement_start_offset/2,
+        (CASE WHEN statement_end_offset = -1
+         THEN LEN(CONVERT(nvarchar(max),text)) *2
+         ELSE statement_end_offset END - statement_start_offset) /2)
+        FROM sys.dm_exec_sql_text(sql_handle)
+        ) as query_text
+        FROM sys.dm_exec_query_stats
+        ORDER BY [Average CPU Time] DESC;
+        
+        sql server基于like的模糊查询很特别，像上述那种like'%%'，前后都有通配符的情况，不管该字段有没有索引，走的都是table scan或clustered index scan，效率非常低（该生产环境表数据量在1000W行左右，全表扫描性能消耗很大）！如果是只是后面通配符如 like 'abc%',且有合适索引是可以走index seek的（实际生产环境会更复杂，有基于cost的算法有时也会做全表扫描）。解决办法只能从两个方面入手：1.创建合适的索引，更改模糊查询匹配为后匹配（经测试cpu时间会降低10-20倍）；2.创建全文索引，全文索引类似于搜索引擎功能，它不同于基于B+树或hash索引的普通索引，性能上优于模糊查询
+        http://blog.sina.com.cn/s/blog_14bd4da2e0102wlii.html
+    5.clr vir C# Primitive Thread Synchronization Constructs
+        用户模式构造User-Mode-Construct
+            volatile vs interlocked
+                字节对齐([StructLayout(LayoutKind.Explicit)][FieldOffset]) => DataMisalignedException
+                torn read
+            volatile mode:
+                VolatileWrite
+                VolatileRead
+                当线程通过内存共享来通信时,用VolatileWrite来写最后一个值,用VolatileRead来读取第一个值
+                internal sealed class ThreadsSharingData {
+                    private Int32 m_flag = 0;
+                    private Int32 m_value = 0;
+                    // This method is executed by one thread
+                    public void Thread1() {
+                        // Note: 5 must be written to m_value before 1 is written to m_flag
+                        m_value = 5;
+                        Thread.VolatileWrite(ref m_flag, 1);
+                    }
+                    // This method is executed by another thread
+                    public void Thread2() {
+                        // Note: m_value must be read after m_flag is read
+                        if (Thread.VolatileRead(ref m_flag) == 1)
+                        Console.WriteLine(m_value);
+                    }
+                }
+20180309
+    1.clr vir C# Primitive Thread Synchronization Constructs
+        简单实现自旋锁=>线程并非被挂起二是在自旋等待需要消耗CPU,适合执行较快的任务并且不要在单cpu上使用
+        struct SimpleSpinLock
+        {
+            private Int32 m_flag = 0;
+            
+            public void Enter()
+            {
+                while(Interlocked.Exchange(ref m_flag,1) != 0)
+                {
+                    ;//Black magic => System.Threading.SpinWait
+                }
+            }
+            
+            public void Leave()
+            {
+                Thread.VolatileWrite(ref m_flag,0);
+            }
+        }
+        Thread.Sleep() => 表示该线程在多长时间内不想被调度
+        Thread.Yield() => 表示该想成要求系统调度另一线程true false
+        调用Yield的效果介于Sleep(0)和Sleep(1)之间 Sleep(0)不允许较低优先级的线程运行 Sleep(1)强迫切换一次上下文(由于系统内部计时解析度的问题这个时间总是超过1ms)
+        Thread.SpinWait() => 自旋等待精度高但是占用cpu
+20180309-20180310
+    1.黑马JS学习 bom=>js高级=>jq
+        五星评分
+        函数调用:
+            全局函数 一般
+            成员方法 that模式(沙箱 闭包不绑定任何对象)
+            构造函数 new (若返回值不是对象 直接放回this 否则是返回值那个对象)
+            上下文调用 apply call
+    2.Windows动态编译和静态编译 http://blog.csdn.net/zhangxiao93/article/details/51367216
+        dll和lib简介
+        在Windows下很好理解这些概念，因为当你需要引入一个动态库（dll）或者一个静态库（lib）时一般的步骤是：
+        添加头文件 
+        配置头文件目录 
+        配置库的目录 
+        将dll拷贝到可执行文件所在的目录（仅限于动态库）
+        因此，就很好理解.h文件、.dll文件和.lib文件的关系：
+        .h文件是编译时需要的，因为里面有函数或变量声明。 
+        .dll文件是生成的动态库，是在程序运行时动态加载的。 
+        而.lib文件就有话说了，首先，对于一个静态库来说，其是以xxx.lib的形式.
+        而对于一个动态库来说，当IDE帮我们生成了.dll文件时，还会同时生成一个xxx.lib文件，这里的.lib不是静态库，而是动态链接库的导入库（Import Libary）
+    3.Visual Studio 预编译头
+        在Windows程序开发时，经常要在各个文件中包含windows.h、afx.h等标准头文件，而这些文件非常的大，在编译时就非常的慢，非常耗时。为解决这个问题，已是就有了预编译头文件的技术。
+        所谓头文件预编译技术，就是把一个工程(Project)中常用的一些头文件(如标准头文件Windows.h、Afxwin.h等，也可以是自己定义的头文件)包含在stdafx.h中，并对stdafx.h预先编译(在所有的.cpp文件编译之前进行编译)，得到编译结果.pch文件(默认名称为ProjectName.pch)，后期该工程在编译其它.cpp文件时不再编译stdafx.h中的内容(即使include了它)，仅仅使用预编译的结果。 
+        其中stdafx.h叫做预编译头文件，stdafx名称的英文全称为：Standard Application Framework Extensions，当然你也可以自己定义预编译头文件的名称，手动重命名stdafx.h，同时将上面图2和图3中对应的名称也得改过来。ProjectName.pch叫做预编译头。
+        采用预编译头技术后，可以加快编译速度，节省编译时间。因为只需要预先编译一次就可以在所有的.cpp编译时使用，不用再次编译。这样带来的一个问题就是每一个.cpp文件的开头都要包含预编译头文件#include “stdafx.h”。因为预编译头技术是假定预编译头中的内容会在所有.cpp文件中使用，在编译你的 .cpp 的时候，就会将预编译头中已经编译完的部分加载到内存中。
+        使用预编译头文件需要注意的几个要点： 
+        1. 你编写的任何.cpp文件都必须首先包含stdafx.h。 
+        2. 如果你有工程文件里的大多数.cpp文件需要的.h文件，顺便将它们加在stdafx.h(后部)上，然后预编译stdafx.cpp。 
+        3. 由于.pch文件具有大量的符号信息，它是你的工程文件里最大的文件
+    4.clr vir C# Primitive Thread Synchronization Constructs 结束
+        Event构造 (AutoResetEvent)
+            AutoResetEvent构造 一次一个
+                class SimpleWaitLock
+                {
+                    private AutoResetEvent m_event = new  AutoResetEvent(true);
+                    
+                    public void Enter()
+                    {
+                        m_event.WaitOne();
+                    }
+                    
+                    public void Leave()
+                    {
+                        m_event.Set();
+                    }
+                    
+                    public void Dispose()
+                    {
+                        m_event.Dispose();
+                    }
+                }
+            ManualResetEvent构造 一次所有
+        Semaphore构造 一次N个
+        mutex构造更复杂 异常 累积计数(递归锁)
+        线程同步能避免尽量避免=>用户模式构造=>内核模式构造
+        在一个内核对象可用时调用一个方法System.Threading.ThreadPool.RegisterWaitForSingleObject
+20180314
+    1.黑马JS高级
+        继承
+        原型对象
+        原型链
+20180318
+    1.黑马JS  
+        JQuery基础
+    2.JS继承
