@@ -1,0 +1,910 @@
+20180301-20180302
+    1.git: http://blog.csdn.net/lechengyuyuan/article/details/50404461
+          git clone 从远程库克隆一个版本库
+          git remote -v 列出远程主机和地址
+            $ git remote -v
+                origin  git@github.com:jquery/jquery.git (fetch)
+                origin  git@github.com:jquery/jquery.git (push)
+            克隆版本库的时候，所使用的远程主机自动被Git命名为origin。如果想用其他的主机名，需要用git clone命令的-o选项指定。
+                $ git clone -o jQuery https://github.com/jquery/jquery.git
+                $ git remote
+                jQuery
+          git remote show <主机名>
+            $ git remote show origin
+            * remote origin
+              Fetch URL: git@github.com:whu-iss-sunny/Note.git
+              Push  URL: git@github.com:whu-iss-sunny/Note.git
+              HEAD branch: master
+              Remote branch:
+                master tracked
+              Local branch configured for 'git pull':
+                master merges with remote master
+              Local ref configured for 'git push':
+                master pushes to master (up to date)
+          git fetch <主机名><分支名> 默认取回所有更新
+            git fetch命令通常用来查看其他人的进程，因为它取回的代码对你本地的开发代码没有影响
+            所取回的更新，在本地主机上要用"远程主机名/分支名"的形式读取。比如origin主机的master，就要用origin/master读取。
+            git branch命令的-r选项，可以用来查看远程分支，-a选项查看所有分支。
+            $ git branch -r
+            origin/master
+
+            $ git branch -a
+            * master
+              remotes/origin/master
+            上面命令表示，本地主机的当前分支是master，远程分支是origin/master。
+            取回远程主机的更新以后，可以在它的基础上，使用git checkout命令创建一个新的分支。
+
+            $ git checkout -b newBrach origin/master
+            上面命令表示，在origin/master的基础上，创建一个新分支。
+            此外，也可以使用git merge命令或者git rebase命令，在本地分支上合并远程分支。
+
+            $ git merge origin/master
+            # 或者
+            $ git rebase origin/master
+            上面命令表示在当前分支上，合并origin/master。
+          git pull
+            git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。
+
+            $ git pull <远程主机名> <远程分支名>:<本地分支名>
+            比如，取回origin主机的next分支，与本地的master分支合并，需要写成下面这样。
+
+            $ git pull origin next:master
+            如果远程分支是与当前分支合并，则冒号后面的部分可以省略。
+
+            $ git pull origin next
+            上面命令表示，取回origin/next分支，再与当前分支合并。实质上，这等同于先做git fetch，再做git merge。
+
+            $ git fetch origin
+            $ git merge origin/next
+            在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。比如，在git clone的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动"追踪"origin/master分支。
+            Git也允许手动建立追踪关系。
+
+            git branch --set-upstream master origin/next
+            上面命令指定master分支追踪origin/next分支。
+            如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。
+
+            $ git pull origin
+            上面命令表示，本地的当前分支自动与对应的origin主机"追踪分支"（remote-tracking branch）进行合并。
+            如果当前分支只有一个追踪分支，连远程主机名都可以省略。
+
+            $ git pull
+            上面命令表示，当前分支自动与唯一一个追踪分支进行合并。
+            如果合并需要采用rebase模式，可以使用--rebase选项。
+
+            $ git pull --rebase <远程主机名> <远程分支名>:<本地分支名>
+            如果远程主机删除了某个分支，默认情况下，git pull 不会在拉取远程分支的时候，删除对应的本地分支。这是为了防止，由于其他人操作了远程主机，导致git pull不知不觉删除了本地分支。
+            但是，你可以改变这个行为，加上参数 -p 就会在本地删除远程已经删除的分支。
+
+            $ git pull -p
+            # 等同于下面的命令
+            $ git fetch --prune origin 
+            $ git fetch -p
+          git push
+            git push命令用于将本地分支的更新，推送到远程主机。它的格式与git pull命令相仿。
+
+            $ git push <远程主机名> <本地分支名>:<远程分支名>
+            注意，分支推送顺序的写法是<来源地>:<目的地>，所以git pull是<远程分支>:<本地分支>，而git push是<本地分支>:<远程分支>。
+            如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。
+
+            $ git push origin master
+            上面命令表示，将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建。
+            如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。
+
+            $ git push origin :master
+            # 等同于
+            $ git push origin --delete master
+            上面命令表示删除origin主机的master分支。
+            如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。
+
+            $ git push origin
+            上面命令表示，将当前分支推送到origin主机的对应分支。
+            如果当前分支只有一个追踪分支，那么主机名都可以省略。
+
+            $ git push
+            如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机，这样后面就可以不加任何参数使用git push。
+
+            $ git push -u origin master
+            上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。
+            不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用git config命令。
+
+            $ git config --global push.default matching
+            # 或者
+            $ git config --global push.default simple
+            还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用--all选项。
+
+            $ git push --all origin
+            上面命令表示，将所有本地分支都推送到origin主机。
+            如果远程主机的版本比本地版本更新，推送时Git会报错，要求先在本地做git pull合并差异，然后再推送到远程主机。这时，如果你一定要推送，可以使用--force选项。
+
+            $ git push --force origin 
+            上面命令使用--force选项，结果导致远程主机上更新的版本被覆盖。除非你很确定要这样做，否则应该尽量避免使用--force选项。
+            最后，git push不会推送标签（tag），除非使用--tags选项。
+
+            $ git push origin --tags
+    2..Net Double.NaN
+        //       NaN == NaN: False
+        //       NaN != NaN: True
+        //       NaN.Equals(NaN): True
+        //       ! NaN.Equals(NaN): False
+        //       NaN > NaN: False
+        //       NaN >= NaN: False
+        //       NaN < NaN: False
+        //       NaN < 100.0: False
+        //       NaN <= 100.0: False
+        //       NaN >= 100.0: False
+        //       NaN.CompareTo(NaN): 0
+        //       NaN.CompareTo(100.0): -1
+        //       (100.0).CompareTo(Double.NaN): 1
+    3.JavaScript学习
+        表单事件
+        BOM
+        Js作用域
+    4.OTC over-the-counter 场外交易 店头交易 柜台交易
+    5.Websocket协议 (WebSocket 协议本质上是一个基于 TCP 的协议 但是通过http和服务器握手)
+        https://www.cnblogs.com/fuqiang88/p/5956363.html
+20180305-20180306
+    1.在Microsoft SQL Server Management Studio文本编辑器里面注意区分数字"1"和小写字母"l"
+    2.CLR vir C# I/O-Bound Asynchronous Operations 结束
+        CreateFile总是以同步方式执行
+        FileStream特有的问题   FileOptions.Asynchronous->BeginXXX 否则调用同步方法
+        IO优先级:避免在普通优先级线程和后台优先级线程中间使用共享同步对象
+    3.  异步编程模型 (APM)APM(Begin-End IAsyncResult) 
+        基于事件的异步模式 EAP(Async-Completed)
+        任务并行TPL(Task 实现了IAsyncResult 能一定程度支持APM  FromAsync)
+    4.JavaScript学习
+        封装
+    5.正则表达式 分组 http://blog.csdn.net/okyoung188/article/details/53407021
+        这则表达式三种模式 https://www.cnblogs.com/ggkxg/p/5736064.html
+            假定要分析的字符串是xfooxxxxxxfoo
+
+            模式.*foo （贪婪模式）: 模式分为子模式p1(.*)和子模式p2(foo)两个部分. 其中p1中的量词匹配方式使用默认方式(贪婪型)。 匹配开始时,吃入所有字符xfooxxxxxx去匹配子模式p1。匹配成功,但这样以来就没有了字符串去匹配子模式p2。本轮匹配失败；第二轮：减少p1部分的匹配量，吐出最后一个字符, 把字符串分割成xfooxxxxxxfo和o两个子字符串s1和s2。 s1匹配p1, 但s2不匹配p2。本轮匹配失败；第三轮，再次减少p1部分匹配量，吐出两个字符, 字符串被分割成xfooxxxxxxfo和oo两部分。结果同上。第四轮，再次减少p1匹配量, 字符串分割成xfooxxxxxx和foo两个部分, 这次s1/s2分别和p1/p2匹配。停止尝试,返回匹配成功。
+            模式.*?foo （勉强模式）: 最小匹配方式。第一次尝试匹配, p1由于是0或任意次，因此被忽略，用字符串去匹配p2,失败；第二次，读入第一个字符x, 尝试和p1匹配, 匹配成功; 字符串剩余部分fooxxxxxxfoo中前三个字符和p2也是匹配的. 因此, 停止尝试, 返回匹配成功。在这种模式下，如果对剩余字符串继续去寻找和模式相匹配的子字符串，还会找到字符串末尾的另一个xfoo，而在贪婪模式下，由于第一次匹配成功的子串就已经是所有字符，因此不存在第二个匹配子串。
+            模式.*+foo （侵占模式）: 也叫占用模式。匹配开始时读入所有字符串, 和p1匹配成功, 但没有剩余字符串去和p2匹配。因此, 匹配失败。返回。
+
+            简单地说, 贪婪模式和占有模式相比, 贪婪模式会在只有部分匹配成功的条件下, 依次从多到少减少匹配成功部分模式的匹配数量, 将字符留给模式其他部分去匹配; 而占用模式则是占有所有能匹配成功部分, 绝不留给其他部分使用。
+            
+            例子:
+                正则：\w+[a-z]与\w++[a-z]
+                目标串：232hjdhfd7474$
+                 分析：①\w+[a-z]：\w+属于贪婪模式，会一次性吃掉它所能吃掉的所有的字符，也就是子串232hjdhfd7474，此时[a-z]不能够找到匹配了，故\w+匹配的串会吐出一个字符4，但此时还是得不到匹配。反复的这样吐出回退，直到吐出字符d时，此时[a-z]能够匹配h，所以这时正则表达式会返回一次成功的匹配结果，为232hjdhfd
+                 ②\w++[a-z]：\w++属于侵占模式，它会一次性吃掉它所能够吃掉的所有字符，即子串232hjdhfd7474，而且不留给其他部分使用，故不会回退。此时[a-z]不能够找到匹配，所以此次匹配失败。在余下的子串中也找不到能匹配成功的子串。所以整个正则表达式是找不到匹配结果的！
+                    量　词　种　类	意　　义
+                    贪婪	勉强	侵占
+                    X?	X??	X?+	匹配 X 零次或一次
+                    X*	X*?	X*+	匹配 X 零次或多次
+                    X+	X+?	X++	匹配 X 一次或多次
+                    X{n}	X{n}?	X{n}+	匹配 X n 次(这个应该不存在这几种模式，就是固定匹配n个)
+                    X{n,}	X{n,}?	X{n,}+	匹配 X 至少 n 次
+                    X{n,m}	X{n,m}?	X{n,m}+	匹配 X 至少 n 次，但不多于 m 次
+    6.clr vir C# Primitive Thread Synchronization Constructs
+        FCL提供的静态方法都是线程安全的 例如 Console类包含一个静态字段许多方法都要获取这个字段上的所以确保一次只有一个线程访问控制台
+    10.win10磁盘占用率100% http://blog.csdn.net/dirful/article/details/74090523
+    11.性能指标 QPS(TPS) 并发数 响应时间 https://www.cnblogs.com/cynchanpin/p/7365859.html
+20180307-20180308
+    1.JavaScript学习
+        闭包:函数内部可以访问函数外部变量,函数外部无法读取函数内部变量.
+             怎样读取函数内部变量,需要变通=>函数内部再定义一个函数 如下:
+                function f1(){
+                    var n=999;
+                    function f2(){
+                        alert(n); // 999
+                    }
+                    return f2;
+                }
+             这样f2就可以访问f1函数内部的变量,那么把f2作为返回值,就可以在f1外部访问到f1内部的变量了(链式作用域)
+             简单说f2就是一个闭包,闭包就是能够读取其他函数内部变量的函数;
+             由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成"定义在一个函数内部的函数"。
+             所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
+             闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。
+             怎么来理解这句话呢？请看下面的代码。
+                function f1(){
+                    var n=999;
+                    nAdd=function(){n+=1}
+                    function f2(){
+                        alert(n);
+                    }
+                    return f2;
+                }
+                var result=f1();
+                result(); // 999
+                nAdd();
+                result(); // 1000
+             在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。
+             为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。
+             这段代码中另一个值得注意的地方，就是"nAdd=function(){n+=1}"这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。
+        闭包注意点:
+            1）由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。
+            2）闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。
+            3)说明 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+                    不要在循环中创建闭包(例如循环绑定事件处理函数) = > 关键字let
+                    性能考虑 处理速度和内存损耗
+                             For instance, when creating a new object/class, methods should normally be associated to the object's prototype rather than defined into the object constructor. The reason is that whenever the constructor is called, the methods would get reassigned (that is, for every object creation).
+        
+        页面onload之前调用getelementByXXX可能会返回null,因为页面还未构造完成=>页面执行顺序
+        关键字 let let声明的变量只在其声明的块或子块中可用，这一点，与var相似。二者之间最主要的区别在于var声明的变量的作用域是整个封闭函数
+        https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let
+        
+    2.由闭包不由得想到C#里面的lambda表达式访问外部变量,如下:
+        using System;
+        using System.Collections.Generic;
+        using System.Linq;
+        using System.Text;
+
+        namespace ClosureTest
+        {
+            class Program
+            {
+                static void Main(string[] args)
+                {
+                    Action act = GetAction();
+                    act();//1
+                    act();//2
+                    act();//3
+                    Console.ReadLine();
+                }
+
+                static Action GetAction()
+                {
+                    int i = 0;
+                    return () =>
+                    {
+                        i++;
+                        Console.WriteLine(string.Format("i = {0}", i.ToString()));
+                    };
+                }
+            }
+        }
+        委托变量act是不是和闭包很像?!其实C#针对lambda表达式生成了一个匿名类并根据对应的外部变量来生成相应的私有字段,然后有一个构造函数来传递外部变量初始值给相应的字段.以后每次调用lambda方法,相当于直接访问私有字段
+    3.SQL Server Profile 是 SQL Trace图形化工具
+        SQL Trace 
+                  select * from sys.configurations where configuration_id = 1568 => 配置
+                  select * from sys.traces => 跟踪文件
+                  --开启Default Trace
+                  sp_configure 'show advanced options' , 1 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+                  sp_configure 'default trace enabled' , 1 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+
+                  --测试是否开启
+                  EXEC sp_configure 'default trace enabled';
+                  GO
+
+                  --关闭Default Trace
+                  sp_configure 'default trace enabled' , 0 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+                  sp_configure 'show advanced options' , 0 ;
+                  GO
+                  RECONFIGURE;
+                  GO
+        https://www.cnblogs.com/zhijianliutang/p/4113911.html
+    4.sqlserver cpu占用率高
+        各种CPU和SQLSERVER版本组合自动配置的最大工作线程数
+            CPU数                 32位计算机                        64位计算机
+            <=4                     256                                   512
+              8                     288                                   576
+             16                     352                                   704
+             32                     480                                   960
+             
+        查询CPU占用高的SQL语句
+        SELECT TOP 100
+           total_worker_time/execution_count AS avg_cpu_cost, plan_handle,
+           execution_count,
+           (SELECT SUBSTRING(text, statement_start_offset/2 + 1,
+              (CASE WHEN statement_end_offset = -1
+                 THEN LEN(CONVERT(nvarchar(max), text)) * 2
+                 ELSE statement_end_offset
+              END - statement_start_offset)/2)
+           FROM sys.dm_exec_sql_text(sql_handle)) AS query_text
+        FROM sys.dm_exec_query_stats
+        ORDER BY [avg_cpu_cost] DESC
+        查询缺失索引
+        SELECT DatabaseName = DB_NAME(database_id)
+                ,[Number Indexes Missing] = count(*) 
+        FROM sys.dm_db_missing_index_details
+        GROUP BY DB_NAME(database_id)
+        ORDER BY 2 DESC;
+        
+        SELECT  TOP 10 
+        [Total Cost]  = ROUND(avg_total_user_cost * avg_user_impact * (user_seeks + user_scans),0) 
+                , avg_user_impact
+                , TableName = statement
+                , [EqualityUsage] = equality_columns 
+                , [InequalityUsage] = inequality_columns
+                , [Include Cloumns] = included_columns
+        FROM        sys.dm_db_missing_index_groups g 
+        INNER JOIN    sys.dm_db_missing_index_group_stats s 
+               ON s.group_handle = g.index_group_handle 
+        INNER JOIN    sys.dm_db_missing_index_details d 
+               ON d.index_handle = g.index_handle
+        ORDER BY [Total Cost] DESC;
+        
+        总结
+        从多次历史经验来看，如果CPU负载持续很高，但内存和IO都还好的话，这种情况下，首先想到的一定是索引问题，十有八九错不了。
+        https://www.cnblogs.com/lyhabc/archive/2013/06/12/3133273.html
+                
+        SELECT TOP 10 execution_count as [Number Of Executions],
+        total_worker_time/execution_count as [Average CPU Time],
+        total_elapsed_time/execution_count as [Average Elapsed Time],
+        (
+        SELECT SUBSTRING(text,statement_start_offset/2,
+        (CASE WHEN statement_end_offset = -1
+         THEN LEN(CONVERT(nvarchar(max),text)) *2
+         ELSE statement_end_offset END - statement_start_offset) /2)
+        FROM sys.dm_exec_sql_text(sql_handle)
+        ) as query_text
+        FROM sys.dm_exec_query_stats
+        ORDER BY [Average CPU Time] DESC;
+        
+        sql server基于like的模糊查询很特别，像上述那种like'%%'，前后都有通配符的情况，不管该字段有没有索引，走的都是table scan或clustered index scan，效率非常低（该生产环境表数据量在1000W行左右，全表扫描性能消耗很大）！如果是只是后面通配符如 like 'abc%',且有合适索引是可以走index seek的（实际生产环境会更复杂，有基于cost的算法有时也会做全表扫描）。解决办法只能从两个方面入手：1.创建合适的索引，更改模糊查询匹配为后匹配（经测试cpu时间会降低10-20倍）；2.创建全文索引，全文索引类似于搜索引擎功能，它不同于基于B+树或hash索引的普通索引，性能上优于模糊查询
+        http://blog.sina.com.cn/s/blog_14bd4da2e0102wlii.html
+    5.clr vir C# Primitive Thread Synchronization Constructs
+        用户模式构造User-Mode-Construct
+            volatile vs interlocked
+                字节对齐([StructLayout(LayoutKind.Explicit)][FieldOffset]) => DataMisalignedException
+                torn read
+            volatile mode:
+                VolatileWrite
+                VolatileRead
+                当线程通过内存共享来通信时,用VolatileWrite来写最后一个值,用VolatileRead来读取第一个值
+                internal sealed class ThreadsSharingData {
+                    private Int32 m_flag = 0;
+                    private Int32 m_value = 0;
+                    // This method is executed by one thread
+                    public void Thread1() {
+                        // Note: 5 must be written to m_value before 1 is written to m_flag
+                        m_value = 5;
+                        Thread.VolatileWrite(ref m_flag, 1);
+                    }
+                    // This method is executed by another thread
+                    public void Thread2() {
+                        // Note: m_value must be read after m_flag is read
+                        if (Thread.VolatileRead(ref m_flag) == 1)
+                        Console.WriteLine(m_value);
+                    }
+                }
+20180309
+    1.clr vir C# Primitive Thread Synchronization Constructs
+        简单实现自旋锁=>线程并非被挂起二是在自旋等待需要消耗CPU,适合执行较快的任务并且不要在单cpu上使用
+        struct SimpleSpinLock
+        {
+            private Int32 m_flag = 0;
+            
+            public void Enter()
+            {
+                while(Interlocked.Exchange(ref m_flag,1) != 0)
+                {
+                    ;//Black magic => System.Threading.SpinWait
+                }
+            }
+            
+            public void Leave()
+            {
+                Thread.VolatileWrite(ref m_flag,0);
+            }
+        }
+        Thread.Sleep() => 表示该线程在多长时间内不想被调度
+        Thread.Yield() => 表示该想成要求系统调度另一线程true false
+        调用Yield的效果介于Sleep(0)和Sleep(1)之间 Sleep(0)不允许较低优先级的线程运行 Sleep(1)强迫切换一次上下文(由于系统内部计时解析度的问题这个时间总是超过1ms)
+        Thread.SpinWait() => 自旋等待精度高但是占用cpu
+20180309-20180310
+    1.黑马JS学习 bom=>js高级=>jq
+        五星评分
+        函数调用:
+            全局函数 一般
+            成员方法 that模式(沙箱 闭包不绑定任何对象)
+            构造函数 new (若返回值不是对象 直接放回this 否则是返回值那个对象)
+            上下文调用 apply call
+    2.Windows动态编译和静态编译 http://blog.csdn.net/zhangxiao93/article/details/51367216
+        dll和lib简介
+        在Windows下很好理解这些概念，因为当你需要引入一个动态库（dll）或者一个静态库（lib）时一般的步骤是：
+        添加头文件 
+        配置头文件目录 
+        配置库的目录 
+        将dll拷贝到可执行文件所在的目录（仅限于动态库）
+        因此，就很好理解.h文件、.dll文件和.lib文件的关系：
+        .h文件是编译时需要的，因为里面有函数或变量声明。 
+        .dll文件是生成的动态库，是在程序运行时动态加载的。 
+        而.lib文件就有话说了，首先，对于一个静态库来说，其是以xxx.lib的形式.
+        而对于一个动态库来说，当IDE帮我们生成了.dll文件时，还会同时生成一个xxx.lib文件，这里的.lib不是静态库，而是动态链接库的导入库（Import Libary）
+    3.Visual Studio 预编译头
+        在Windows程序开发时，经常要在各个文件中包含windows.h、afx.h等标准头文件，而这些文件非常的大，在编译时就非常的慢，非常耗时。为解决这个问题，已是就有了预编译头文件的技术。
+        所谓头文件预编译技术，就是把一个工程(Project)中常用的一些头文件(如标准头文件Windows.h、Afxwin.h等，也可以是自己定义的头文件)包含在stdafx.h中，并对stdafx.h预先编译(在所有的.cpp文件编译之前进行编译)，得到编译结果.pch文件(默认名称为ProjectName.pch)，后期该工程在编译其它.cpp文件时不再编译stdafx.h中的内容(即使include了它)，仅仅使用预编译的结果。 
+        其中stdafx.h叫做预编译头文件，stdafx名称的英文全称为：Standard Application Framework Extensions，当然你也可以自己定义预编译头文件的名称，手动重命名stdafx.h，同时将上面图2和图3中对应的名称也得改过来。ProjectName.pch叫做预编译头。
+        采用预编译头技术后，可以加快编译速度，节省编译时间。因为只需要预先编译一次就可以在所有的.cpp编译时使用，不用再次编译。这样带来的一个问题就是每一个.cpp文件的开头都要包含预编译头文件#include “stdafx.h”。因为预编译头技术是假定预编译头中的内容会在所有.cpp文件中使用，在编译你的 .cpp 的时候，就会将预编译头中已经编译完的部分加载到内存中。
+        使用预编译头文件需要注意的几个要点： 
+        1. 你编写的任何.cpp文件都必须首先包含stdafx.h。 
+        2. 如果你有工程文件里的大多数.cpp文件需要的.h文件，顺便将它们加在stdafx.h(后部)上，然后预编译stdafx.cpp。 
+        3. 由于.pch文件具有大量的符号信息，它是你的工程文件里最大的文件
+    4.clr vir C# Primitive Thread Synchronization Constructs 结束
+        Event构造 (AutoResetEvent)
+            AutoResetEvent构造 一次一个
+                class SimpleWaitLock
+                {
+                    private AutoResetEvent m_event = new  AutoResetEvent(true);
+                    
+                    public void Enter()
+                    {
+                        m_event.WaitOne();
+                    }
+                    
+                    public void Leave()
+                    {
+                        m_event.Set();
+                    }
+                    
+                    public void Dispose()
+                    {
+                        m_event.Dispose();
+                    }
+                }
+            ManualResetEvent构造 一次所有
+        Semaphore构造 一次N个
+        mutex构造更复杂 异常 累积计数(递归锁)
+        线程同步能避免尽量避免=>用户模式构造=>内核模式构造
+        在一个内核对象可用时调用一个方法System.Threading.ThreadPool.RegisterWaitForSingleObject
+20180314
+    1.黑马JS高级
+        继承
+        原型对象
+        原型链
+20180318
+    1.黑马JS  
+        JQuery基础
+    2.JS继承
+    3.廖雪峰javascript 
+        从 高阶函数 到 generator 都在讲函数式编程的思想，函数和数据的界限变得模糊，都可以被当做对象来操作和传递，想要更深入的了解函数式编程可以阅读下经典书籍 SICP。
+        当然还有一篇 博客，翻译了国外一位大神对lambda演算，也就是丘奇数的讲解，让没有接触过泛函概念的人也能容易理解丘奇数是什么，也就容易理解 脑洞大开 一节在说的是什么。
+        当然了这些知识可以当做扩展性阅读，工作中我们基本上用不到如此抽象的编程方式的。
+         http://blog.csdn.net/g9yuayon/article/details/748684
+         https://mitpress.mit.edu/sicp/
+        脑洞大开
+            很久很久以前，有个叫阿隆佐·邱奇的帅哥，发现只需要用函数，就可以用计算机实现运算，而不需要0、1、2、3这些数字和+、-、*、/这些符号
+        箭头函数 => this. 词法作用域 (that模式)
+    4.how to share data between stored procedures
+        http://www.sommarskog.se/share_data.html
+20180320
+    1.黑马JS
+        JQuery基本用法
+20180321
+    1.80端口被System进程占用 pid=4
+        netstat -ano
+        netsh http show servicestate
+20180322
+    1.JS面向对象编程
+        __proto__ vs prototype => https://www.zhihu.com/question/34183746
+                                  https://www.zhihu.com/question/56770432/answer/315342130
+        对象具有属性__proto__，可称为隐式原型，一个对象的隐式原型指向构造该对象的构造函数的原型
+        
+        1).对象有属性__proto__,指向该对象的构造函数的原型对象。
+        2).方法除了有属性__proto__,还有属性prototype，prototype指向该方法的原型对象。
+        3).Object.prototype的__proto__属性指向null
+        example: 
+            <script>
+                var Student = {
+                    name: 'Robot',
+                    height: 1.2,
+                    run: function () {
+                        console.log(this.name + ' is running...');
+                    }
+                };
+
+                var xiaoming = {
+                    name: '小明'
+                };
+
+                xiaoming.__proto__ = Student;
+                alert(xiaoming.__proto__ === Student);//true
+                alert(Student.__proto__ === Object);//false
+                alert(Student.__proto__ === Object.prototype);//true
+            </script>
+        4)构造函数继承 构造函数绑定 prototype模式 直接继承prototype  利用空对象中介 拷贝继承
+        5)非构造函数继承 object方法 浅拷贝 深拷贝
+        6)继承思想 http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html
+    2.SQLServer数据库还原时产生孤立用户的解决方法 
+        http://blog.csdn.net/aking8736/article/details/38782713
+        http://blog.csdn.net/rivarola/article/details/41724851
+20180323-20180324
+    1.JS继承设计思想 http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html
+    2.JS 原型链 this new
+    3.sql server error : 事务(进程 ID X)与另一个进程被死锁在 锁 | 通信缓冲区 资源上
+     => 死锁 
+     => sql server中的锁
+        https://www.cnblogs.com/sthinker/p/5922967.html
+        https://www.cnblogs.com/zoro-zero/p/6140280.html
+     => 分析查询
+        SET STATISTICS PROFILE ON 
+        SET STATISTICS IO ON  
+        SET STATISTICS TIME ON
+     => 死锁图 sqlserver profile(事件探查器) -> deadlock graph
+     => 事务日志分析
+     => 原因分析
+        死锁产生的原因是书签查找和更新数据产生的僵持状态。
+        简单来说,就是由于Update语句对基本表产生X锁，然后需要对表上的索引也进行更新，
+        而表上的索引正好被另一个连接进行查找，加了S锁，此时又产生书签查找去基本表加了X锁的数据进行书签查找，此时形成死锁
+     => select with nolock/READPAST
+        https://www.cnblogs.com/cjm123/p/8303200.html
+20180326
+    1.数据库可疑:数据库异常中断
+        当数据库发生这种操作故障时，可以按如下操作步骤可解决此方法，打开数据库里的Sql 查询编辑器窗口，运行以下的命令。
+        　　1、修改数据库为紧急模式
+        　　ALTER DATABASE Zhangxing SET EMERGENCY
+        　　2、使数据库变为单用户模式
+        　　ALTER DATABASE Zhangxing SET SINGLE_USER
+        　　3、修复数据库日志重新生成，此命令检查的分配，结构，逻辑完整性和所有数据库中的对象错误。当您指定“REPAIR_ALLOW_DATA_LOSS”作为DBCC CHECKDB命令参数，该程序将检查和修复报告的错误。但是，这些修复可能会导致一些数据丢失。
+        　　DBCC CheckDB (Zhangxing, REPAIR_ALLOW_DATA_LOSS)
+        　　4、使数据库变回为多用户模式
+        　　ALTER DATABASE Zhangxing SET MULTI_USER
+    　　也可以这样做：
+        　　1：重新建立一个，一样的数据库，路径名称，文件都一样。
+        　　2：关掉SQL Server服务;
+        　　3：把源文件COPY过来;
+        　　4：开启SQL Server服务，这样问题同样就解决了。
+20180327-20180330
+    1.天财第三期缓存盘口数据
+        memcached 基本使用 set get replace
+        tcpclient 连接memcached 利用networkstream读写数据
+        =>memcached深入
+        =>C# tcp socket编程
+    2.风控时序修改引发的对任务队列的优化处理(不用常驻线程)************
+        https://www.cnblogs.com/zw369/p/4021135.html
+        流水线编程模型
+        BlockingCollection vs ConcurrentQueue
+            BlockingCollection has a Take method that would block the consumer if there is nothing to take, 
+            and wait for a producer side to provide an item. 
+            ConcurrentQueue lacks such method - if it is empty, 
+            the consumer would need to handle the wait, 
+            and the producer would need to provide a non-empty notification.
+        我们需要什么样的消息队列 https://blog.csdn.net/paolei/article/details/73277439
+        异步 vs 并行https://www.cnblogs.com/qixuejia/p/7801581.html
+        =>结论         (常驻线程可以在没有任务时阻塞,也不占用cpu资源,还减少了频繁创建和销毁开销以及不必要的线程切换 用blockingcollection重做时间队列)
+          Ps.(.net 4.0 CQ-Bug http://www.cnblogs.com/gaochundong/p/net4_memory_leak_of_cocurrent_queue.html)
+
+    3. C# singleton 静态构造函数(Clr via C# 8 chapter:Type Constructor )=>BeforeFieldInit
+        C# 里面的静态构造函数，也称为类型构造器，类型初始化器，它是私有的，就是在上图中的.cctor : void()。CLR保证一个静态构造函数在每个AppDomain中只执行一次，而且这种执行是线程安全的，所以在静态构造函数中非常适合于单例模式的初始化
+        初始化静态字段等同于在静态构造函数中初始化，但不完全相同，因为显式定义静态构造函数会抑制beforefieldinit标志。
+        JIT编译器在编译一个方法时，会查看代码中引用了哪些类型，任何一个类型定义了静态构造函数，JIT编译器都会检查针对当前AppDomain，是否执行了这个静态构造函数。如果类型构造去没有执行，JIT编译器就会在生成的本地代码中添加对静态构造函数的一个调用，否则就不会添加，因为类型已经初始化。同时CLR还保证在执行本地代码中生成的静态构造函代码的线程安全。
+        根据上面的描述，我们知道JIT 必须决定是否生成类型静态构造函数代码，还须决定何时调用它。具体在何时调用有两中方式：
+        precise：JIT编译器可以刚好在创建类型的第一个实例之前，或刚好在访问类的一个非继承的字段或成员之前生产这个调用。
+        beforefieldinit：JIT编译器可以在首次访问一个静态字段或者一个静态/实例方法之前，或者创建类型的第一个实例之前，随便找一个时间生成调用。具体调用时机由CLR决定，它只保证访问成员之前会执行静态构造函数，但可能会提前很早就执行。
+        简单点说就是beforefieldinit可能会提前调用一个类型的静态构造函数，而precise模式是非要等到用时才调用类型的静态构造函数，它是严格的延迟装载。
+        beforefieldinit 是首选的（如果没有自定义静态构造函数，默认就是这种方式），因为它使CLR能够自由选择调用静态构造函数的时机，而CLR会尽可能利用这一点来生成运行得更快的代码。比如说在一个循环中调用单例（且包含首次调用），beforefieldinit方式可以让CLR决定在循环之前就调用静态构造函数来优化，而precise模式则只会在循环体中来调用静态构造函数，并在之后的调用会检测静态构造函数是否已被执行的标志位，这样效率稍低一些。在前面使用静态Field的情况下，beforefieldinit 方式下CLR也认为提前执行静态构造函数是更好的选择。
+        C# 的单例实现，可以利用 precise 延迟调用这一点来延迟对单例对象的构造（饿汗模式），从而带来一丁点的优化，但是在绝大部分情况下这一丁点的优化作用并不大！
+            http://blog.sina.com.cn/s/blog_752ca76a0101fb2g.html
+    4. .NET timer
+        特殊环境的单线程计时器：
+        单线程使用消息循环机制,这意味着Tick事件总是在创建timer的那个线程上执行，同时也意味着如果上一个Tick消息还未被处理，即使时间超过了间隔时间，在消息循环中也只存在一个Tick消息
+        1：System.Windows.Forms.Timer（使用环境:Windows Forms Timer）
+        2：System.Windows.Threading.DispatcherTimer( 使用环境:WPF timer);
+        多线程计时器
+        多线程计时器使用回调方法并由线程池线程提供服务.当计时器间隔小于执行此回调(Tick方法)所需的时间时,回调可以同时在多个线程中执行.
+        比如当计时器的时间间隔是5秒,但过了5秒后,上一次的回调仍未完成,此时新的回调将在新的线程中运行.在开发中需要避免此种情况
+        1：System.Threading.Timer
+            是最简单的多线程计时器。  
+            只要在使用 System.Threading.Timer，就必须保留对它的引用。对于任何托管对象，如果没有对 Timer 的引用，计时器会被垃圾回收。 
+            即使 Timer 仍处在活动状态，也会被回收。
+        2：System.Timers.Timer
+        在《CLR Via C#》中讲多线程时有提到这3个计时器，但作者说System.Timers.Timer是对System.Threading.Timer的报装，不推荐使用   
+    5. 软件调试
+        windows高级调试
+        软件调试
+        windows程序调试
+        .net高级调试
+    6.TcpClient
+        不同的构造函数功能不同,空构造函数仅构造tcp对象不会自动连接,带地址的构造函数不仅构造tcp对象还会自动进行连接
+        NetworkStream的Read方法在关闭连接时会抛异常(IOException)。但是它会将线程阻塞。如果不想陷入阻塞状态，就只能通过上面的方法检测了！在读取网络流之前最好检测一下NetworkStream.DataAvailable有数据再读。
+20180402
+    1.并发环境下的容器性能优化
+        "读写锁"场景:某个线程读取字典的同时，另一个线程正在修改字典。一旦出现读写操作同时进行的情况，字典就很可能被破坏了。因此，其实我们的要求有两点：
+            只能由单个线程写，但可以由多个线程同时读。
+            在进行读操作时，不可同时进行写操作。反之亦然。
+        这便是“读写锁”使用场景。只要使用“写”锁来保护修改操作，而使用“读”锁来保护读取操作，便可以让字典正确并高效地工作在并发环境下。
+        “读写锁”在.NET框架中有着两个实现：ReaderWriterLock和ReaderWriterLockSlim。前者出现在.NET 1.x中，而后者随.NET 2.0发布。两者的区别在于前者性能低，后者性能高.
+        因此在目前，基本上需要读写锁的场景都会建议使用ReaderWriterLockSlim（除了稍后会提到的情况）。
+20180403
+    1. NuGet使用 (asp.net mvc)
+        https://www.cnblogs.com/liyanwei/p/af94dcd17cc45977968211162ecebabb.html
+        https://msdn.microsoft.com/zh-cn/magazine/hh547106.aspx
+    2. .Net MemcachedClient
+        https://github.com/enyim
+    3.sqlserver一个存储过程返回多个结果集
+            //方式一：使用SqlDataAdapter
+            SqlDataAdapter sda = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            sda.Fill(ds);//Fill DataSet:如果结果集有多个，对应dataset中的多个table
+
+            //方式二：使用SqlDataReader
+            SqlDataReader sdr = cmd.ExecuteReader();
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    //读取第一个结果集
+                }
+                if (sdr.NextResult())
+                {
+                    while (sdr.Read())
+                    {
+                        //读取第二个结果集
+                    }
+                }
+                //if (sdr.NextResult())可以继续读取多个结果集（如果有的话）
+            }
+    4.C# 高性能 TCP 服务的多种实现方式
+        https://www.cnblogs.com/gaochundong/p/csharp_tcp_service_models.html
+20180409
+    1.public IEnumerator<T> GetEnumerator()
+          ConcurrentStack<T>
+            The enumeration represents a moment-in-time snapshot of the contents of the stack. 
+            It does not reflect any updates to the collection after GetEnumerator was called. 
+            The enumerator is safe to use concurrently with reads from and writes to the stack. 
+            The enumerator returns items in LIFO (last-in, first-out) order.
+          ConcurrentQueue<T>
+            The enumeration represents a moment-in-time snapshot of the contents of the queue. 
+            It does not reflect any updates to the collection after GetEnumerator was called. 
+            The enumerator is safe to use concurrently with reads from and writes to the queue.
+            The enumerator returns the collection elements in the order in which they were added, which is FIFO order (first-in, first-out).
+          ConcurrentDictionary<T>
+            The enumerator returned from the dictionary is safe to use concurrently with reads and writes to the dictionary, 
+            however it does not represent a moment-in-time snapshot of the dictionary. 
+            The contents exposed through the enumerator may contain modifications made to the dictionary after GetEnumerator was called.
+20180412
+    1.sqlsever数据存在就更新,不存在就插入的两种方法
+        两种经常使用的方法:
+        1). Update, if @@ROWCOUNT = 0 then insert
+        UPDATETable1 SETColumn1 = @newValue WHEREId = @id
+        IF@@ROWCOUNT= 0
+        BEGIN
+        INSERT INTOTable1 (Id, Column1) VALUES(@id, @newValue)
+        END
+        如果一行数据存在更新就有效,否则插入将被执行.个人感觉这种方法倾向于数据多半存在于数据表中的情况;
+
+        2). If row exists update, otherwise insert
+        IFEXISTS(SELECT* FROMTable1 WHEREId = @id)
+        BEGIN
+        UPDATETable1 SETColumn1 = @newValue WHEREId = @id
+        END
+        ELSE
+        BEGIN
+        INSERT INTOTable1 (Id, Column1) VALUES(@id, @newValue)
+        END
+        在这种方法,select语句执行后紧接着就是执行update或是insert,消耗资源是少与方法一的.
+        3).mysql数据存在就更新,不存在就插入
+        insert into T(f1,f2,f3) values(v1,v2,v3) on DUPLICATE KEY UPDATE v3=values(v3)+v3
+    2.sqlserver 存储过程细节
+        1).char(x) 结尾空格可以匹配 例如 'SHFE' == 'SHFE  '
+        2).IF EXISTS (SELECT* FROM Table1 WHEREId = @id)
+                BEGIN
+                INSERT INTO Table1 (Id, Column1) VALUES(@id, @newValue)
+                END
+           ExecuteNonQuery(..)执行存储过程其返回值只有两种情况
+           (1)假如通过查询分析器执行该存储过程，在显示栏中假如有影响的行数，则影响几行count就是几(注释掉SET　NOCOUNT ON)
+           (2)假如通过查询分析器执行该存储过程，在显示栏中假如显示'命令已成功完成。'则count = -1;在显示栏中假如有查询结果，则count = -1
+           (3)假如存储过城中开启了SET　NOCOUNT ON则不会返回受影响的行数 在显示栏中始终显示'命令已成功完成' count = -1
+        3).SqlDataAdapter内部获取数据是通过调用SqlDataReader来实现的，而两者都需要使用SqlConnection和SqlCommand
+        4).存储过程返回值https://blog.csdn.net/youlong198808/article/details/52909851
+20180416-20180417
+    1.ADO.net 参数化查询
+        需要向SqlCommand对象的Parameters集合添加SqlParameter对象。生成SqlParameter对象最简单的方式是调用SqlCommand对象的Parameters集合的AddWithValue方法
+        使用参数化SQL语句的步骤是：
+            定义包含参数的SQL语句，用@符号声明参数。
+            为SQL语句中出现的每一个参数定义参数对象，并将参数对象加入到SqlCommand对象中。
+            给参数赋值，并执行SQL语句。
+            
+            string sqlStr = "select * from [Users] where UserName='" + txtUserName.Text.Trim() + "'and Password='" + txtUserPassword.Text.Trim() + "'";  
+            所以，修改上面的代码为：
+            string sqlStr="select * from [Users] where UserName=@UserName and Password=@Password"  
+            
+        1)防止sql注入攻击
+        2)注意指定参数类型优化查询效率
+    2.jvm 线程可见性 与 指令重排
+        1).在JVM规定多个线程进行通讯是通过共享变量进行的，而Java内存模型规定了有主内存是所有线程共享的，而各个线程又有自己的工作内存，线程只能访问自己的工作内存中数据；
+        如：有一个共享变量x，两个线程a、b变量x存储在主内存中然后又两个x的拷贝分别存储在a、b线程的工作内存中线程a、b只能对自己工作内存中的x的拷贝进行操作，不可直接操作主内存；
+        线程a对x修改时先把值放到自己的工作内存中，然后再把工作内存中的x拷贝更新到主内存中，线程b同样如此；当线程a更新了主内存后线程b刷新工作内存后就能看到a更新后的最新值这就是内存可见性问题
+        当线程引用共享变量时，工作内存中没有共享变量时它会从主内存复制共享变量到自己工作内存中，当工作内存有共享变量时线程可能会从主内存更新也有可能直接使用工作内存中的共享变量
+        2).指令重排
+        看下面这段代码：
+        int i = 0;              
+        boolean flag = false;
+            i = 1;                //语句1  
+            flag = true;          //语句2
+        上面代码定义了一个int型变量，定义了一个boolean类型变量，然后分别对两个变量进行赋值操作。从代码顺序上看，语句1是在语句2前面的，那么JVM在真正执行这段代码的时候会保证语句1一定会在语句2前面执行吗？不一定，为什么呢？这里可能会发生指令重排序（Instruction Reorder）。
+        下面解释一下什么是指令重排序，一般来说，处理器为了提高程序运行效率，可能会对输入代码进行优化，它不保证程序中各个语句的执行先后顺序同代码中的顺序一致，但是它会保证程序最终执行结果和代码顺序执行的结果是一致的。
+        比如上面的代码中，语句1和语句2谁先执行对最终的程序结果并没有影响，那么就有可能在执行过程中，语句2先执行而语句1后执行。
+        但是要注意，虽然处理器会对指令进行重排序，但是它会保证程序最终结果会和代码顺序执行结果相同，那么它靠什么保证的呢？再看下面一个例子：
+            int a = 10;    //语句1
+            int r = 2;    //语句2
+            a = a + 3;    //语句3
+            r = a*a;     //语句4
+        这段代码有4个语句，那么可能的一个执行顺序是：语句2 语句1 语句3 语句4
+        那么可不可能是这个执行顺序呢： 语句2 语句1 语句4 语句3
+        不可能，因为处理器在进行重排序时是会考虑指令之间的数据依赖性，如果一个指令Instruction 2必须用到Instruction 1的结果，那么处理器会保证Instruction 1会在Instruction 2之前执行
+        指令重排序不会影响单个线程的执行，但是会影响到线程并发执行的正确性
+        => volatile 关键字
+           1) 可见性 当一个共享变量被volatile修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值
+                    而普通的共享变量不能保证可见性，因为普通共享变量被修改之后，什么时候被写入主存是不确定的，当其他线程去读取时，此时内存中可能还是原来的旧值，因此无法保证可见性
+           2) 禁止进行指令重排序
+           3) volatile不能确保原子性
+           4) volatile保证有序性
+            x = 2;        //语句1
+            y = 0;        //语句2
+            flag = true;  //语句3
+            x = 4;         //语句4
+            y = -1;       //语句5
+            由于flag变量为volatile变量，那么在进行指令重排序的过程的时候，不会将语句3放到语句1、语句2前面，也不会讲语句3放到语句4、语句5后面。但是要注意语句1和语句2的顺序、语句4和语句5的顺序是不作任何保证的。
+            并且volatile关键字能保证，执行到语句3时，语句1和语句2必定是执行完毕了的，且语句1和语句2的执行结果对语句3、语句4、语句5是可见的。
+        Ps:volatile的实现原理
+            a.如果对声明了volatile变量进行写操作时，JVM会向处理器发送一条Lock前缀的指令，将这个变量所在缓存行的数据写会到系统内存。 这一步确保了如果有其他线程对声明了volatile变量进行修改，则立即更新主内存中数据。
+            但这时候其他处理器的缓存还是旧的，所以在多处理器环境下，为了保证各个处理器缓存一致，每个处理会通过嗅探在总线上传播的数据来检查 自己的缓存是否过期，当处理器发现自己缓存行对应的内存地址被修改了，就会将当前处理器的缓存行设置成无效状态，当处理器要对这个数据进行修改操作时，会强制重新从系统内存把数据读到处理器缓存里。 这一步确保了其他线程获得的声明了volatile变量都是从主内存中获取最新的
+            b.Lock前缀指令实际上相当于一个内存屏障（也成内存栅栏），它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面；即在执行到内存屏障这句指令时，在它前面的操作已经全部完成
+    3.C# volatile 关键字避免被编译器优化
+      volatile constructor <=> interlocked constructor
+    4.C# Synchronized vs SyncRoot (封装lock &&  ICollection.SyncRoot)
+    5.windows管道简介(内存共享)
+        https://blog.csdn.net/caoshangpa/article/details/53199022
+        http://www.cnblogs.com/shipfi/archive/2006/05/27/410658.html
+        windows 进程间通信https://msdn.microsoft.com/en-us/library/windows/desktop/aa365574(v=vs.85).aspx
+    6.读写锁
+        1、当文件无锁的时候，任何进程都能上读锁或写锁。
+        2、当文件被A进程上了读锁的时候，其它任何进程都可以上读锁，但不能上写锁！（很容易理解，A进程上了读锁（需要读此文件），此时其它进程也上读锁不会对A做成影响。但如果其它进程要上写锁（需要对文件进行写操作），那会影响到A的进行，因为写操作会修改原文件！！）
+        3、当文件被A进程上了写锁，其它任何进程都不能上写或读锁。（因为A进程上写锁（代表需要写此文件），如果此时其它进程读此文件的话必定受影响，其它进程写操作的话，双方都受影响。）
+    7.clr vir C# chapter29 hybird thread synchronization constructs
+        a.ReaderWriterLockSlim => oneManyLock
+        b.double-check http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+        c.Monitor的一点补充 TryEnter(Object, Int32, Boolean) lockTaken 尝试获取锁的结果，通过引用传递。 输入必须为 false。 如果已获取锁，则输出为 true；否则输出为 false。 即使在尝试获取锁的过程中发生异常，也会设置输出。 
+            bool acquiredLock = false;
+            try
+            {
+                Monitor.TryEnter(lockObject, 500, ref acquiredLock);
+                if (acquiredLock)
+                {
+
+                    // Code that accesses resources that are protected by the lock.
+
+                }
+                else
+                {
+
+                    // Code to deal with the fact that the lock was not acquired.
+
+                }
+            }
+            finally
+            {
+                if (acquiredLock)
+                {
+                    Monitor.Exit(lockObject);
+                }
+            }
+
+20180418-20180420
+    1.C# in depth http://csharpindepth.com/
+    2.clr vir C# chapter29 hybird thread synchronization constructs 结束
+        a.SpinWait
+            SpinWait ： 自旋等待
+                    internal const int YIELD_THRESHOLD = 10; // When to switch over to a true yield.
+                    internal const int SLEEP_0_EVERY_HOW_MANY_TIMES = 5; // After how many yields should we Sleep(0)?
+                    internal const int SLEEP_1_EVERY_HOW_MANY_TIMES = 20; // After how many yields should we Sleep(1)?
+                SpinWait.NextSpinWillYield：一个bool值，表示下一次通过SpinOnce方法自旋是否会让出底层线程的时间片并发生上下文切换。
+                                            public bool NextSpinWillYield
+                                            {
+                                                get { return m_count > YIELD_THRESHOLD /*default value 10*/|| PlatformHelper.IsSingleProcessor; }
+                                            }
+ 
+                SpinOnce:This is typically called in a loop, and may change in behavior based on the number of times a SpinOnce has been called thus far on this instance. 
+                         Each spin results in the SpinWait method being called. 
+                         A count is kept of the number of times SpinOnce is called, and after a threshold count is reached, the Yield method is called.
+                         (内部使用NextSpinWillYield)
+                SpinUntil ：等待某个条件发生 内部调用 SpinOnce
+        b.yield
+            keyword
+                yield return;
+                yield break;
+            Thread.yield(放弃时间片 把线程放入就绪队列 只能调度同一个处理器的线程，不能调度其它处理器的线程。当没有其它就绪的线程，会一直占用 CPU 时间片，造成 CPU 100%占用率) https://www.cnblogs.com/stg609/p/3857242.html
+        c.Monitor.Enter(s_lock);
+          if (s_value == null)
+          {
+              Singleton temp = new Singleton();        //----|
+              Interlocked.Exchange(ref s_value, temp); //-----> vs s_value = new new Singleton();
+          }
+          Monitor.Exit(s_lock);
+          
+         s_value = new new Singleton()
+         意图:1.分配Singleton内存2.调用构造器来初始化字段3.然后将内存引用赋值给s_value4.然后对其它线程publish
+         实际:编译器以及cpu优化可能导致 指令重排 例如,1.分配Singleton内存3.然后将内存引用赋值给s_value4.对其它线程publish2.再调用构造器来初始化字段 若此时在4和2之间有其它线程读取s_value,会发现s_value不为null但是其实此时构造并未结束
+         所以用Interlocked.Exchange修正了这个问题他构成了一个内存栅栏,确保temp构造完成后,再以原子的方式发布到s_value中
+         同时将s_value声明为volatile也可以达到类似效果,不过会使所有对s_value的读操作也具有"volatile",性能无谓地收到损害
+         简单的Singleton
+         internal sealed class Singleton
+         {
+            private static Singleton s_value = new Singleton();
+            // Private constructor prevents any code outside this class from creating an instance
+            private Singleton() {
+            // Code to initialize the one Singleton object goes here...
+            }
+            // Public, static method that returns the Singleton object (creating it if necessary)
+            public static Singleton GetSingleton() { return s_value; }
+        }
+        缺点:若有其它静态成员,就会在访问其它成员时创建一个Singleton,可以通过定义嵌套类来解决这个问题(C# 4.0 => Lazy<T>)
+        public sealed class Singleton
+        {   
+            private Singleton()   {   }     
+            public static Singleton Instance { get { return Nested._instance; } }     
+            private class Nested   
+            {     
+                // Explicit static constructor to tell C# compiler     
+                // not to mark type as beforefieldinit     
+                static Nested()     {     }       
+                internal static readonly Singleton _instance = new Singleton();   
+            }
+        } 
+        另一种Singleton的方法
+        internal sealed class Singleton
+        {
+            private static Singleton s_value = null;
+            // Private constructor prevents any code outside this class from creating an instance
+            private Singleton() 
+            {
+                // Code to initialize the one Singleton object goes here...
+            }
+            // Public, static method that returns the Singleton object (creating it if necessary)
+            public static Singleton GetSingleton() 
+            {
+                if (s_value != null) return s_value;
+                // Create a new Singleton and root it if another thread didn't do it first
+                Singleton temp = new Singleton();
+                Interlocked.CompareExchange(ref s_value, temp, null);
+                // If this thread lost, then the second Singleton object gets GC'd
+                return s_value; // Return reference to the single object
+            }
+        }
+        在多线程调用的情况下,有可能构造多个temp,但是最终只有一个temp可以发布到s_value,而且速度快,永远不阻塞线程
+        System.Threading.LazyInitializer延迟初始化避免分配Lazy<T>对象节省内存
+        d. java内存模型(寄存器 主内存 线程工作区) .net内存模型(clr任何锁调用都构成一个内存栅栏)
+    3.C#各版本新特性 
+        https://blog.csdn.net/paxhujing/article/details/52290017
+        https://blog.csdn.net/meplusplus/article/details/76762203
+20180423
+    1. SQL Server Error: provider: TCP Provider, error: 0 - 远程主机强迫关闭了一个现有的连接。
+        https://bbs.csdn.net/topics/220013571
+        https://bbs.csdn.net/topics/392203049
+    2.cpu架构 
+        https://blog.csdn.net/gaijf/article/details/8571084
+        https://blog.csdn.net/primox/article/details/46877047?ref=myread
+    3.C#多线程编程实战 1 2章
+        AutoResetEvent(内核构造) 初始化false => unsignaled状态 => WaitOne等待
+        ManualResetEventSlim(混合构造)
+        ManualResetEvent和AutoResetEvent的区别在于：
+        前者调用Set方法后将自动将开关量值将一直保持为true,后者调用Set方法将变为true随后立即变为false,可以将它理解为一个脉冲
+        CountDown 初始化 x => signal() //x-- => wait() //x = 0
+        Barrier 分步骤同步SignalAndWait() 异常处理
+        读写锁ReadWriteLockSlim  场景:读后写 => EnterUpgradeableReadLock / ExitUpgreadeableReadLock
+20180424-20180425
+    1.C#多线程编程实战 3章
+        线程池 ThreadPool.RegisterWaitForSingleObject 定时调用或信号量触发调用 https://www.cnblogs.com/Kazaf/archive/2012/03/26/2417341.html
+        System.Threading.Timer 在定时器内部设置下次运行时间
+        (Asynchronous Programming Model)APM异步编程模型(begin\end IAsyncResult)
+        (Event-based Asynchronous Pattern)EAP基于事件的异步模式(AsyncXXX && Completed)(BackgroundWorker)
+        (Task Parallel Library)TPL任务并行库 => C#5.0 async\await
+    2.关于BlockingCollection<T>
+            BlockingCollection<T> Take =>TryTake=>SemaphoreSlim.Wait=> SpinWait && Monitor
+    3.逻辑英语第三季完结
+20180426
+    1.C#多线程编程实战 3 4章
+        a.任务 http://www.cnblogs.com/x-xk/archive/2012/12/11/2804563.html
+             https://www.cnblogs.com/enuo/p/6668941.html
+        b.APM -> TPL FromAsync()
+          EAP -> TPL TaskCompletionSourece<T>
+        c.var cts = new CancellationTokenSource();
+          var longTask = new Task<int>(()=>TaskMethod("Task 1",10,cts.Token),cts.Token);
+          我们给任何和任务函数分别传入了参数cts.Token
+          因为如果任务实际启动前取消它,该任务的TPL基础设施有责任取消操作,因为任务函数代码根本不会执行,如果尝试Start() 会抛出InvalidateOperationException异常
+          如果需要自己的代码来处理取消过程,这意味着我们自己负责处理取消,并且取消后任务的状态是RanToCompletion,因为从TPL视角看该任务正常完成了.
+          辨别这两种情况非常重要.
+        d.AggregatesException Flatten枚举 innerException
+        e.并行 whenAll whenAny continueWith
