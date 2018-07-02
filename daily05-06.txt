@@ -1,0 +1,723 @@
+20180502
+    1.C#多线程编程实战 5 章
+        a.C# 5.0 async/await 
+        b.async并不启动一个异步 直到await等待一个Task操作完成
+            static void WriteLineWithThreadID(string text)
+            {
+                Console.WriteLine("ThreadID {0}: {1}", Thread.CurrentThread.ManagedThreadId, text);
+            }
+            static void Main(string[] args)
+            {
+                WriteLineWithThreadID("Main Begins.");
+                var task = TestAsync();
+                WriteLineWithThreadID("Main Ends.");
+                Console.ReadLine();
+            }
+
+
+            static async Task<int> TestAsync()
+            {
+                WriteLineWithThreadID("TestAsync Begins.");
+                int ret = await Task.Run(() =>
+                {
+                    int sum = 0;
+                    for (int index = 0; index < 3; index++)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        WriteLineWithThreadID("Step " + index);
+                        sum += index;
+                    }
+                    return sum;
+                });
+                WriteLineWithThreadID("TestAsync Ends.");
+                return ret;
+            }
+            输出如下:
+                ThreadID 1: Main Begins.
+                ThreadID 1: TestAsync Begins.
+                ThreadID 1: Main Ends.
+                ThreadID 3: Step 0
+                ThreadID 3: Step 1
+                ThreadID 3: Step 2
+                ThreadID 3: TestAsync Ends.
+        c.异步编程中的最佳做法
+            https://msdn.microsoft.com/zh-cn/magazine/jj991977.aspx
+            死锁
+            public static class DeadlockDemo
+            {
+                  private static async Task DelayAsync()
+                  {
+                    await Task.Delay(1000);
+                  }
+                  // This method causes a deadlock when called in a GUI or ASP.NET context.
+                  public static void Test()
+                  {
+                    // Start the delay.
+                    var delayTask = DelayAsync();
+                    // Wait for the delay to complete.
+                    delayTask.Wait();
+                  }
+            }
+            这种死锁的根本原因是 await 处理上下文的方式。 
+            默认情况下，当等待未完成的 Task 时，会捕获当前“上下文”，在 Task 完成时使用该上下文恢复方法的执行。 
+            此“上下文”是当前 SynchronizationContext（除非它是 null，这种情况下则为当前 TaskScheduler）。 
+            GUI 和 ASP.NET 应用程序具有 SynchronizationContext，它每次仅允许一个代码区块运行。 
+            当 await 完成时，它会尝试在捕获的上下文中执行 async 方法的剩余部分。 
+            但是该上下文已含有一个线程，该线程在（同步）等待 async 方法完成。 它们相互等待对方，从而导致死锁。
+            请注意，控制台应用程序不会形成这种死锁。 
+            它们具有线程池 SynchronizationContext 而不是每次执行一个区块的 SynchronizationContext，因此当 await 完成时，它会在线程池线程上安排 async 方法的剩余部分。 
+            该方法能够完成，并完成其返回任务，因此不存在死锁。 当程序员编写测试控制台程序，观察到部分异步代码按预期方式工作，
+            然后将相同代码移动到 GUI 或 ASP.NET 应用程序中会发生死锁，此行为差异可能会令人困惑。
+        d.c# await 为什么没有阻塞ui现场
+            但是这里有个问题就是你这个方法是写在UI线程里面的，控件的事件会被UI线程触发，而UI线程上有个SynchronizationContext对象，这个对象的存在就会使得系统在异步回调的时候去捕获源线程。
+            在原来的线程（UI线程）去执行延续的任务。
+            
+            界面死锁 https://www.cnblogs.com/OpenCoder/p/4434574.html
+            1).ConfigureAwait(false) : await client.GetStringAsync(uri).ConfigureAwait(false);
+            2).Don’t block on Tasks; use async all the way down.
+            3).如果想结束async & await模式的调用，启动一个新的线程去await异步方法的返回结果
+            
+        e.不会创建新线程?
+            一些同学可能认为await会创建新线程，这显然是不正确的，因为它只是个语法糖。
+            但是出现await的地方，确实有可能会创建新线程。我觉得我们不妨观察一下await一个返回Task的async方法，和直接await一个new出来的Task，或者Task自带的静态方法创建的Task，是有些许不同的。
+            我们在await一个返回Task的async方法时，其实这么写纯粹是方便编译器做翻译工作，标记出状态机里面要创建几个状态罢了。生成的代码依然是同步工作的，只不过是经状态机兜几个圈子罢了。
+            但是await一个new出来的Task，或者Task自带的静态方法创建的Task，这个地方的Task里面是真异步，跑到另一个线程去工作了，另一个线程可能是线程池中一开始就有的，也可能是特意新建的。对于带有GUI的应用，肯定是不会用UI线程运行Task里面的代码的。
+            
+            回过头来看我们讲的主题：异步编程。
+            在学习使用async/await的时候，很多文档包括msdn都刻意提到async/await关键字不会创建新的线程，用async关键字写的函数中的代码都在调用线程中执行。
+            这里是最容易混淆的地方，严格意义上这个说法不准确，异步编程必然是多线程的。
+            msdn文档里提到的不会创建新线程是指async函数本身不会直接在新线程中运行。
+            通过上面的分析，我们知道本质上是await调用的异步函数执行完成后回调状态机的MoveNext来执行余下未执行完成的代码，
+            await调用的异步函数必然在某个地方——也许是嵌套了很深的一个地方——启动了一个新的工作线程来完成导致我们要使用异步调用的耗时比较长的工作，比如网络内容读取。
+            
+            说的是异步【可以做到】不浪费线程来等待锁，不是异步绝对不会开线程。如果你所有的一部操作都是异步IO，而不是你自己写的Task的话，那的确是有可能不需要开线程的
+            面试题：给出在for、try和finally里面的await，修改成Register的形式?
+
+        f.多个await http://www.cnblogs.com/manupstairs/p/3532879.html
+                    https://msdn.microsoft.com/zh-cn/library/hh696703%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
+            static async Task Delay3000Async()
+            {
+                await Task.Delay(3000);
+                Console.WriteLine(3000);
+                Console.WriteLine(DateTime.Now);
+            }
+
+            static async Task Delay2000Async()
+            {
+                await Task.Delay(2000);
+                Console.WriteLine(2000);
+                Console.WriteLine(DateTime.Now);
+            }
+
+            static async Task Delay1000Async()
+            {
+                await Task.Delay(1000);
+                Console.WriteLine(1000);
+                Console.WriteLine(DateTime.Now);
+            }
+            
+            1).Console.WriteLine(DateTime.Now);
+ 
+                new Action(async () =>
+                {
+                    await Delay3000Async();
+                    await Delay2000Async();
+                    await Delay1000Async();
+                })();
+                
+                串行执行
+            2). Console.WriteLine(DateTime.Now);
+            
+                var task3 = Delay3000Async();
+                var task2 = Delay2000Async();
+                var task1 = Delay1000Async();
+
+                new Action(async () =>
+                {
+                    await task3;
+                    await task2;
+                    await task1;
+                })(); 
+                并行执行
+        g.迭代器异步模式 
+            1)https://www.cnblogs.com/manupstairs/p/3588637.html
+              http://tomasp.net/blog/csharp-async.aspx/ Asynchronous Programming in C# using Iterators
+            2)https://www.oschina.net/translate/await-tasks-in-csharp4-using-iterators
+20180507-20180508
+    1.async/await
+        C# Task的GetAwaiter和ConfigureAwait   https://blog.csdn.net/ma_jiang/article/details/78654173
+        CLR vir C# 4th 28章 编译器如何将异步函数转化为状态机
+        C# in depth 15章 使用async/await进行异步编程
+            异常:1.用await unwarp异常只会返回第一个异常(如果有多个异常的话 task里面应该是aggregateException)
+                 2.避免同步抛出的异常没有直接处理
+                    参数验证和实现分离,否则即使同步的抛出异常,也只能在等待任务返回时才能接收到异常
+                    异步匿名函数
+                 3.Task.WhenAll https://msdn.microsoft.com/zh-cn/library/hh160374.aspx
+                 4.取消异常
+            异步匿名函数
+                async ()=> ...
+                async delegate(){...;}
+        跳出Task，构建自己的Awaiter https://www.cnblogs.com/xiaoqiyanzi/archive/2011/04/01/2002225.html
+        暂时结束对async/await的继续研究 ContinueWith => Async in C#5.0
+    2.调试.net源码
+20180509
+    1.C#多线程编程实战 5章
+20180514-20180515
+    1. .net黑马 jq学习  map each
+    2. .net cpu利用率高
+        windows性能监视器
+        procexp进程监视工具
+    3. max book 重装
+        https://www.zhihu.com/question/21454213
+        https://blog.csdn.net/yangyao_iphone/article/details/78937818
+        https://zhidao.baidu.com/question/148104017.html
+20180516
+    1.数据库原理 https://blog.csdn.net/sinat_33363493/article/details/51870064
+    2.SQLServer死锁图分析
+        SQL SERVER中的两种常见死锁及解决思路
+        一.第一种就是最经典的race condition思路
+           两个数据库进程，a和b，则a进程中修改数据表t1（假设id=100），再修改数据表t2（假设id=200）；
+           而在进程b中修改数据表t2（id=200），然后再修改数据库表t1（id=100）
+           当两个进程在并发的情况下，就会出现a尝试获取t2的排他锁或意向排他锁，b尝试获取t1的排他锁或意向排他锁的情况
+           由于a已经占有了t1的排他锁，b占有了t2的排他锁，因此，进程a和进程b一直处于僵持地步，从而造成了死锁
+            进程1：
+                begin tran
+                update customer set name='test' where id=2
+                waitfor delay '00:00:20';
+                update bill set remark=remark+':test' where id=2;
+                commit tran
+            进程2：
+                begin tran
+                update bill set remark=remark+':test' where id=2;
+                waitfor delay '00:00:20';
+                update customer set name='test' where id=2;
+                commit tran
+        二.第二种死锁是由数据库底层在锁的转换时出现僵持情况造成的。
+           例如，两个进程在各自的事务中都获取了表t中某行(id=300)的共享锁，
+           而都需要对该行做修改，那么两个进程都要获取该行的意向排他锁，由于两个进程都拥有该行的共享锁
+           因此两个进程出现争端，从而产生死锁。对于这种死锁，数据库选择一个牺牲品并终止它，从而来解决死锁问题。
+           
+           两个或多个进程同时执行如下脚本：
+            begin tran
+            select * from customer where id=2;
+            waitfor delay '00:00:05';
+            update customer set name=name+'a' where id=2;
+            commit tran
+           
+           如果我再去掉select语句，那么就绝对不会有此类死锁了，一次更新就是一个更新锁(u锁），对同一个数据库资源，sql server是不会允许多于一个进程在申请同一个数据库资源时存在交叉。
+           那么同样的道理，之所以出现这种死锁，就是由于让多于一个进程拥有了同一个数据库资源的共享锁所导致的。我不能说我的这种理解非常恰当，但是从这种死锁所产生的场景来看，只要避免共享锁过早被占，就能够解决此类死锁。
+           避免共享锁过早被占，其实还可以解决另外一个问题，那就是不可重复读的问题。因为共享锁过早被占，因为这在不同的进程中，数据库资源被过早的检索出来，这样就会导致不同进程的操作被覆盖，而不是累加。
+    3.聚簇索引与非聚簇索引
+       聚簇索引与物理数据顺序一致 叶子结点就是数据结点
+       非聚簇索引与物理数据顺序无光 叶子结点仍然是索引结点
+      一个表的聚簇索引也只能有一个，通常默认都是主键，设置了主键，系统默认就为你加上了聚簇索引.
+      当然有人说我不想拿主键作为聚簇索引，我需要用其他字段作为索引，当然这也是可以的，这就需要你在设置主键之前自己手动的先添加上唯一的聚簇索引，然后再设置主键，这样就木有问题啦
+20180521
+    1. .net黑马  jq 与 dom对象
+    2. 数据库磁盘io高 考虑日志文件过大 排查发现数据文件300m 日志文件60g 删除日志文件后问题解决
+       数据库删除日志: 1.备份->2.分离->3.删除日志文件->4.附加
+    3.drop、truncate和delete的区别 https://blog.csdn.net/ws0513/article/details/49980547
+    4.SQL Server删除整个数据库中表数据的方法
+        1.查看数据库中所有表名称：
+            select Name  from sysobjects where xtype='U' order by name asc;
+            sysobjects是系统表，关于SQL Server数据库的一切信息都保存在系统表中
+        2.删除整个数据库表数据：
+            declare c cursor for   --定义游标
+            select NAME from sysobjects where xtype='U'
+            declare @t varchar(20)
+            open c
+            fetch next from c into @t
+            while @@FETCH_STATUS=0
+            begin
+            print @t
+            exec('truncate table '+@t) 
+            --exec('delete from '+@t)
+            fetch next from c into @t
+            end
+            close c
+    5.winserver 我的电脑图标
+        rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,0
+    6.exec sp_change_users_login 'REPORT'
+      列出当前数据库的孤立用户
+20180522-20180524
+    1.数据库死锁问题已经解决,主键缺失导致U锁升级的问题
+        https://bbs.csdn.net/topics/392381579
+    2.风控cpu利用率高的问题已经解决
+    3.SQL Server management studio 导出脚本
+        https://www.cnblogs.com/sunxi/p/4012648.html
+    4.C# foreach 迭代器
+    https://msdn.microsoft.com/zh-cn/magazine/mt797654.aspx
+        1)  foreach 和数组
+            int[] array = new int[]{1, 2, 3, 4, 5, 6};
+            foreach (int item in array)
+            {
+              Console.WriteLine(item);
+            }
+            =>
+            int[] tempArray;
+            int[] array = new int[]{1, 2, 3, 4, 5, 6};
+            tempArray = array;
+            for (int counter = 0; (counter < tempArray.Length); counter++)
+            {
+              int item = tempArray[counter];
+              Console.WriteLine(item);
+            }
+        2) foreach 和 IEnumerable<T> 集合
+            在不实现 IEnumerable 的情况下使用 foreach： C# 不要求必须实现 IEnumerable/IEnumerable<T> 才能使用 foreach 迭代数据类型。
+            编译器改用鸭子类型这一概念；它使用 Current 属性和 MoveNext 方法查找可返回类型的 GetEnumerator 方法。鸭子类型涉及按名称搜索，而不依赖接口或显式方法调用。
+            （“鸭子类型”一词源自将像鸭子一样的鸟视为鸭子的怪诞想法，对象必须仅实现 Quack 方法，无需实现 IDuck 接口。） 
+            如果鸭子类型找不到实现的合适可枚举模式，编译器便会检查集合是否实现接口。
+    https://www.cnblogs.com/LilianChen/archive/2013/03/08/2949783.html
+20180525
+    1.Control.ProcessCmdKey => 键盘处理总事件
+    2.C# Double比较 存在浮点数精度问题
+        https://msdn.microsoft.com/zh-cn/library/vs/alm/ya2zha7s/css
+        Double.Equals(Object obj);
+        Double.Equals(Double obj);
+        
+        using System;
+        public class Example
+        {
+           static double value = 112;
+
+           public static void Main()
+           {
+              byte byte1= 112;
+              Console.WriteLine("value = byte1: {0,16}", value.Equals(byte1));
+              TestObjectForEquality(byte1);
+
+              short short1 = 112;
+              Console.WriteLine("value = short1: {0,16}", value.Equals(short1));
+              TestObjectForEquality(short1);
+
+              int int1 = 112;
+              Console.WriteLine("value = int1: {0,18}", value.Equals(int1));
+              TestObjectForEquality(int1);
+
+              long long1 = 112;
+              Console.WriteLine("value = long1: {0,17}", value.Equals(long1));
+              TestObjectForEquality(long1);
+
+              sbyte sbyte1 = 112;
+              Console.WriteLine("value = sbyte1: {0,16}", value.Equals(sbyte1));
+              TestObjectForEquality(sbyte1);
+
+              ushort ushort1 = 112;
+              Console.WriteLine("value = ushort1: {0,16}", value.Equals(ushort1));
+              TestObjectForEquality(ushort1);
+
+              uint uint1 = 112;
+              Console.WriteLine("value = uint1: {0,18}", value.Equals(uint1));
+              TestObjectForEquality(uint1);
+
+              ulong ulong1 = 112;
+              Console.WriteLine("value = ulong1: {0,17}", value.Equals(ulong1));
+              TestObjectForEquality(ulong1);
+
+              decimal dec1 = 112m;
+              Console.WriteLine("value = dec1: {0,21}", value.Equals(dec1));
+              TestObjectForEquality(dec1);
+
+              float sng1 = 112;
+              Console.WriteLine("value = sng1: {0,19}", value.Equals(sng1));
+              TestObjectForEquality(sng1);
+           }
+
+           private static void TestObjectForEquality(Object obj)
+           {
+              Console.WriteLine("{0} ({1}) = {2} ({3}): {4}\n",
+                                value, value.GetType().Name,
+                                obj, obj.GetType().Name,
+                                value.Equals(obj));
+           }
+        }
+        // The example displays the following output:
+        //       value = byte1:             True
+        //       112 (Double) = 112 (Byte): False
+        //
+        //       value = short1:             True
+        //       112 (Double) = 112 (Int16): False
+        //
+        //       value = int1:               True
+        //       112 (Double) = 112 (Int32): False
+        //
+        //       value = long1:              True
+        //       112 (Double) = 112 (Int64): False
+        //
+        //       value = sbyte1:             True
+        //       112 (Double) = 112 (SByte): False
+        //
+        //       value = ushort1:             True
+        //       112 (Double) = 112 (UInt16): False
+        //
+        //       value = uint1:               True
+        //       112 (Double) = 112 (UInt32): False
+        //
+        //       value = ulong1:              True
+        //       112 (Double) = 112 (UInt64): False
+        //
+        //       value = dec1:                 False
+        //       112 (Double) = 112 (Decimal): False
+        //
+        //       value = sng1:                True
+        //       112 (Double) = 112 (Single): False
+    3.C++字节对齐
+      1)x86=x64 https://www.cnblogs.com/libertycode/p/6013275.html
+      2)关于Windows下64位和32位通讯的问题 
+        https://blog.csdn.net/tangl_99/article/details/1963762
+        https://blog.csdn.net/u012654882/article/details/44833533
+      3)
+    4.notepad++ json插件 JSTool
+    5.数据库日志太大 
+        a.数据库属性->选项->恢复模式(简单) 
+        b.数据库->任务->收缩->文件->日志
+20180531
+    1.C#多线程编程实战 第五章
+    1).Task.Run 与 Task.Delay
+      async static Task Test()
+      {
+        Task<string> t1 = GetInfoAsync("Task 1",3);
+        Task<string> t2 = GetInfoAsync("Task 2",5);
+        
+        string[] results = await Task.WhenAll(t1,t2);
+        foreach(string result in results)
+        {
+            Consolo.WriteLine(result);
+        }
+      }
+      
+      async static Task<string> GetInfoAsync(string name, int seconds)
+      {
+        await Task.Delay(TimsSpan.FromSeconds(seconds);//有可能同一个线程执行
+        /*await Task.Run(() => Thread.Sleep(TimeSpan.Fro,Seconds(seconds)));*///不同线程执行
+        return ... Thread.CurrentThread.ManagedThreadId...
+      }
+      
+      Task.Delay内部启动一个定时器,定时器触发时取一个线程池线程执行
+      Task.Run从线程池中获取一个线程并将其阻塞几秒,所以会消费两个线程
+    2).多个awaity异步操作用try-catch会捕捉到AggregateException
+20180601
+    1.sql server cpu利用率高 SSMS => 通过活动监视器=>最近耗费大量资源的查询 => 发现费率载入存储过程占用cpu利用率过高 => 费率历史数据过多,清理表数据后问题解决
+20180605
+    1. .net高并发思路 https://www.cnblogs.com/LiangSW/p/6428313.html
+            数据库分表 分库 => 水平(同业务数据分库存) or 垂直(不同业务分库存)
+            数据库读写分离(主写,从读,主从同步)
+            缓存(内存数据库)redis memcached
+            负载均衡 集群
+    2.C#多线程编程实战 第五章
+        1).强烈建议只在ui事件处理器中使用async void方法其余情况返回Task(Task<T>)
+        2).自定义 awaitable 类型 GetAwaiter => INotifyCompletion/GetResult/bool IsCompleted
+           (ICriticalNotifyCompletion=>同步上下文传播)
+        3).Dynamic + ExpandoObject + Impromptu.ActLike(NuGet ImpromptuInterface库)创建代理对象,该对象将实现任何需要的接口
+20180607
+    1.C#多线程编程实战 第六章
+        1).ConcurrentQueue<T> CAS + SpinWait
+           ConcurrentStack<T> CAS
+           ConcurrentBag
+                Count=>O(n) IsEmpty=>O(0)
+           ConcurrentDictionary<TKey,TValue> 读操作无锁 写操作细粒度锁模型 concurrencyLevel指定锁的数量
+                以下操作将使用锁:Count IsEmpty Keys Values CopyTo ToArray
+           BlockingCollection IProductConsumerCollection
+        2) ConcurrentDictionary<TKey,TValue> vs Dictionary<TKey,TValue>
+           ConcurrentDictionary 读较快 写较慢
+           ReadOnlyDictionary<TKey,?TValue>
+    2.Linq编程技术内幕
+20180608
+    1.Linq编程技术内幕
+        IL https://www.cnblogs.com/zery/p/3366175.html#!comments
+           https://www.cnblogs.com/brookshi/p/5225801.html?ref=myread
+20180611
+    1.IL => Emit动态编译 => AOP面向切面编程
+        https://www.cnblogs.com/yuming1983/p/3701540.html
+        https://www.cnblogs.com/landeanfen/p/4782370.html
+    2.Linq编程技术内幕 第三章
+20180613
+    1.websocket基本概念
+        https://blog.zengrong.net/post/2199.html
+20180614
+    1.Linq编程技术内幕 第三章 结束
+        分布方法 
+            分布方法允许将方法声明与方法实现代码分布于不同的文件中。与分部类类似，使用partial关键字定义分部方法。
+                1        partial void show(string str);
+                2         partial void show(string str)
+                3         {
+                4             Console.WriteLine(str+"再见");
+                5         }
+            当分部方法没有实现代码时，C#编译器会在编译时删除其调用语句。
+            现在我们知道了分部方法有这种特性，但是它有什么用呢？
+            使用分部方法允许我们在一个普通方法中插入一个方法占位符，从而为编写可随时添加功能的方法提供支持。
+            分部方法不能有多个实现。
+    1.Linq编程技术内幕 第四章 结束
+        yield 状态机
+20180615
+    1.Linq编程技术内幕 第五章 
+        1)lambda表达式技巧:
+            public delegate TResult Func<in T, out TResult>(T arg) => Func<int,int> => (int n) => {return n;} => n => n;
+            Predicate<T> => Func<T,bool>
+            static void Main(string[] args)
+            {
+                //使用C# 2.0中的匿名方法获取字符串长度
+                Func<string, int> strLength = delegate(string str) { return str.Length; };
+                Console.WriteLine(strLength("Hello World!"));
+             
+                //使用Lambda表达式
+                //（显式类型参数列表）=> {语句}，lambda表达式最冗长版本
+                strLength = (string str) => { return str.Length; };
+                Console.WriteLine(strLength("Hello World!"));
+             
+                //单一表达式作为主体
+                //（显式类型参数列表）=> 表达式
+                strLength = (string str) => str.Length;
+                Console.WriteLine(strLength("Hello World!"));
+             
+                //隐式类型的参数列表
+                //（隐式类型参数列表）=> 表达式
+                strLength = (str) => str.Length;
+                Console.WriteLine(strLength("Hello World!"));
+             
+                //单一参数的快捷语法
+                //参数名 => 表达式
+                strLength = str => str.Length;
+                Console.WriteLine(strLength("Hello World!"));
+            }
+        2)表达式树
+            System.Linq.Expression
+            
+            并不是所有的Lambda表达式都能转换成表达式树,有一些限制:不能将带有一个语句块的Lambda转换成一个表达式树.
+            只有对的那个表达式进行求值的Lambda才可以.
+            表达式中不能包含赋值操作,因为表达式树中表示不了这种操作.
+            还有其他一些较少见的限制,总而言之,如果存在转换问题,会在编译时发现.
+            在.NET 3.5中的表达式树只能是单一的表达式，不能表示完整的类、方法。这在.NET 4.0中得到了一定的改进，表达式树可以支持动态类型，我们可以创建块，为表达式赋值等等  
+            
+            表达式树可以说是LINQ的核心之一,为什么是LINQ的核心之一呢?
+            因为表达式树使得C#不再是仅仅能编译成IL,我们可以通过C#生成一个表达式树,将结果作为一个中间格式,在将其转换成目标平台上的本机语言.
+            比如SQL.我们常用的LINQ to SQL就是这样生成的
+            
+            创建表达式树具体有两个优势：
+                1.对表达式树的代码进行编辑修改，使表达式树中的代码变成动态代码，根据不同的数据库修改树上的代码逻辑从而达到动态切换数据库查询语句的目的，用表达式树可以动态构建针对不同数据库的查询语句。
+                2.完成类似反射访问未知对象的属性，通过动态构造表达式树，生成委托。 
+        3)闭包 
+            https://blog.csdn.net/u010533180/article/details/53127651
+            https://blog.csdn.net/cjolj/article/details/60868305
+            
+            通过IL理解C# try catch finally中真正的return 返回值
+                static int TestIntReturnInTry()
+                {
+                    int i = 0;
+                    try
+                    {
+                        return i;
+                    }
+                    finally
+                    {
+                        i = 2;
+                    }
+                }
+                => IL
+                .method private hidebysig static int32  TestIntReturnInTry() cil managed
+                {
+                  // 代码大小       16 (0x10)
+                  /计算栈(Evaluation Stack) 可容纳数据项的最大个数
+                  .maxstack  1
+                  //定义并初始化参数 并存入 局部变量表(Record Frame)中 (此时我们会发现 这个局部变量表中有CS$1$0000 这个其实是真实return 后面的那个变量,这里我们可以理解为只要return 变量 ,C# 编译器就会创建两个变量,一个局部变量,一个局部变量的副本,用于真实的返回。我们通过.NET Reflector 可以查看到，如通过NET Reflector所示(num2其实就是对应的CS$1$0000))
+                  .locals init ([0] int32 i,
+                           [1] int32 CS$1$0000)   
+                  //如果修补操作码，则填充空间。尽管可能消耗处理周期，但未执行任何有意义的操作。
+                  IL_0000:  nop
+                  //将整数值 0 作为 int32 推送到计算堆栈上。
+                  IL_0001:  ldc.i4.0
+                  //从计算堆栈的顶部弹出当前值并将其存储到索引 0 处的局部变量列表中。
+                  IL_0002:  stloc.0
+                  .try
+                  {
+                   //如果修补操作码，则填充空间。尽管可能消耗处理周期，但未执行任何有意义的操作。
+                    IL_0003:  nop
+                    //将索引 0 处的局部变量加载到计算堆栈上。
+                    IL_0004:  ldloc.0
+                    //从计算堆栈的顶部弹出当前值并将其存储到索引 1 处的局部变量列表中。
+                    IL_0005:  stloc.1
+                    //退出受保护的代码区域，无条件将控制转移到目标指令（缩写形式）。到IL_000d
+                    IL_0006:  leave.s    IL_000d
+                  }  // end .try
+                  finally
+                  {
+                   //如果修补操作码，则填充空间。尽管可能消耗处理周期，但未执行任何有意义的操作。
+                    IL_0008:  nop
+                    //将整数值 2 作为 int32 推送到计算堆栈上。
+                    IL_0009:  ldc.i4.2
+                     //从计算堆栈的顶部弹出当前值并将其存储到索引 0 处的局部变量列表中。
+                    IL_000a:  stloc.0
+                    //如果修补操作码，则填充空间。尽管可能消耗处理周期，但未执行任何有意义的操作。
+                    IL_000b:  nop
+                    //finally 结束
+                    IL_000c:  endfinally
+                  }  // end handler
+                  //如果修补操作码，则填充空间。尽管可能消耗处理周期，但未执行任何有意义的操作。
+                  IL_000d:  nop
+                  //将索引 1 处的局部变量加载到计算堆栈上。
+                  IL_000e:  ldloc.1
+                  // 从当前方法返回，并将返回值（如果存在）从调用方的计算堆栈推送到被调用方的计算堆栈上。由于上一步(IL_000e) 把索引1处的加载到计算机堆栈上,所以return 返回的就是这个值 即CS$1$0000
+                  IL_000f:  ret
+                } // end of method TryRetrunFinally::TestIntReturnInTry
+                =>反编译
+                private static int TestIntReturnInTry()
+                {
+                    int num2;
+                    int num = 0;
+                    try
+                    {
+                        num2 = num;
+                    }
+                    finally
+                    {
+                        num = 2;
+                    }
+                    return num2;
+                }
+            http://www.cnblogs.com/happyframework/p/3421754.html
+            private static void Before()
+            {
+                Action[] actions = new Action[10];
+
+                for (var i = 0; i < actions.Length; i++)
+                {
+                    actions[i] = () =>
+                    {
+                        Console.WriteLine(i);
+                    };
+                }
+
+                foreach (var item in actions)
+                {
+                    item();
+                }
+            }
+            =>
+            private static void After()
+            {
+                Action[] actions = new Action[10];
+
+                var anonymous = new AnonymousClass();
+
+                for (anonymous.i = 0; anonymous.i < actions.Length; anonymous.i++)
+                {
+                    actions[anonymous.i ] = anonymous.Action;
+                }
+
+                foreach (var item in actions)
+                {
+                    item();
+                }
+            }
+
+            class AnonymousClass
+            {
+                public int i;
+
+                public void Action()
+                {
+                    Console.WriteLine(this.i);
+                }
+            }
+        4)IL分析
+            MSIL代码由CLR“托管”。CLR托管至少包括三个主要的活动：类型控制，结构化异常和垃圾收集。
+            类型控制设计在执行期间项类型的验证和转换。
+            托管异常处理在功能上与“非托管的”结构化异常处理类似，但它是由CLR执行的而不是有操作系统执行的。
+            垃圾收集涉及对不再使用的对象进行自动标识和释放
+            简要概述下整个过程，首先是我们编写的C#源文件hello.cs通过C#编译器进行编译，
+            编译成.NET 的PE文件结构，也就是exe文件格式，当程序运行时，
+            Windows的Loader加载器不会负责该程序的内存分配，线程管理等工作，
+            而是只负责跳转到CLR的执行引擎（EE）中，
+            将控制权交由CLR，由CLR进行分配内存，线程管理，异常处理等
+            通过查看.NET 的PE文件导入表中只有一个API，exe对应mscoree.dll的_CorExeMain;而dll对应mscoree.dll的_CorDllMain。
+            这就说明windows的loader加载器载入.NET PE后，只负责跳转到相应的DLL，随后改程序边运行在EE的监管中
+            
+            managed heap : 堆内存由 Garbage Collector（GC）在执行时自动管理
+            call stack : 这是由 .NET CLR 在执行时自动管理的记忆体，每个Thread都有自己的Call Stack堆栈。每调用一次method，就会使得Call Stack上多了一个Record Frame；调用完毕之后，此Record Frame会被丢弃。一般来说，Record Frame内记录着method参数（Parameter）、返回位址（Return Address）、以及局部变量（Local Variable）。.NET CLR都是使用0, 1, 2…编号的方式来识别局部变量
+            evaluation stack : 这是由.NET CLR在执行时自动管理的记忆体，每个Thread都有自己专属的Evaluation Stack。压入的到Evaluation Stack的值，当方法调用结束时必须保持这个堆栈的平衡，这里面存放例如局部变量值，以及引用类型的地址。
+            
+            *指令ldc是将参数存储至堆栈Evaluation Stack
+            *指令stloc是将变量存储至堆栈Call Stack
+            *技巧：ld开头就是加载数据到Evaluation Stack中，
+                   st开头就是将Envaluation Stack中的数据保存到Call Stack [Call Stack存放局部变量值]
+20180620
+    1.websocket-sharp
+        1).查看第三方库类型,跳转到定义看不到构造函数,因为构造函数是internal
+20180622
+    1.Linq编程技术内幕 第六章
+        1)Linq OrderBy  原理:https://msdn.microsoft.com/zh-cn/library/bb534966.aspx
+            因为服务器装的是英文版操作系统，没有中文包，所以碰见中文排序无法识别，所以使用OrderBy时需要单独处理下
+            CultureInfo culture = CultureInfo.GetCultureInfo("zh-cn");
+
+            List<TeamDto> teamDtos = teams
+                    .GroupBy(x => new
+                    {
+                        x.TestId,
+                        x.TestName
+                    })
+                    .Select(g => new TeamDto()
+                    {
+                        TestID = g.Key.TestId,
+                        Test = g.Key.TestName,
+                        Teams = g.ToList()
+                    })
+                    .OrderBy(t=>t.Test,StringComparer.Create(culture,true))
+                    .ToList();
+        2)OfType<int> and Cast<T>
+            
+    2.逆变和协变
+        func1=Func<in Person, out Student>() 
+        func2=Func<Student, Person >()  => in 逆变 out 协变
+    3.Take & Skip
+20180623
+    1.http协议
+        1) post 与 get 区别 https://zhuanlan.zhihu.com/p/38078342?utm_source=qq&utm_medium=social
+            入门:GET在浏览器回退时是无害的，而POST会再次提交请求。
+                GET产生的URL地址可以被Bookmark，而POST不可以。
+                GET请求会被浏览器主动cache，而POST不会，除非手动设置。
+                GET请求只能进行url编码，而POST支持多种编码方式。
+                GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。
+                GET请求在URL中传送的参数是有长度限制的，而POST么有。
+                对参数的数据类型，GET只接受ASCII字符，而POST没有限制。
+                GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。
+                GET参数通过URL传递，POST放在Request body中。
+            进阶:HTTP是什么？HTTP是基于TCP/IP的关于数据如何在万维网中如何通信的协议。
+                HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，GET/POST都是TCP链接。
+                GET和POST能做的事情是一样一样的。
+                你要给GET加上request body，给POST带上url参数，技术上是完全行的通的。
+            boss:
+                GET和POST还有一个重大区别，
+                简单的说：
+                        GET产生一个TCP数据包；POST产生两个TCP数据包。
+                长的说：
+                        对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+                        而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+                因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑！跳入需谨慎。为什么？
+                1. GET与POST都有自己的语义，不能随便混用。
+                2. 据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。
+                3. 并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。
+        2)contenttype http头部字段Content-Type约定请求和响应的HTTP body内容编码类型，客户端和服务端根据http头部字段Content-Type正确解码HTTP body内容
+        http头部Content-Type： https://blog.csdn.net/jekxi/article/details/54342789
+        * application/x-www-form-urlencoded  
+        * multipart/form-data  
+        * application/json  
+        * application/xml 
+    2.MD5 加密 
+        /** * 16进制字符集 */
+        private static final char HEX_DIGITS[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        /** * 将单个字节码转换成16进制字符串 * @param bt 目标字节 * @return 转换结果 */
+        public static String byteToHex(byte bt) {
+            return HEX_DIGITS[(bt & 0xf0) >> 4] + "" + HEX_DIGITS[bt & 0xf];
+        }
+20180626
+    1. okex rest通信: post方法通信 传参其实 数据实际顺序无所谓 但是进行md5签名时一定要进行排序然后签名否则无法校验
+20180627
+    1. Linq编程技术内幕 第六章 结束
+        Linq Repeat生成引用类型为浅拷贝
+    2. Linq编程技术内幕 第七章
+        1). group by 
+            IGroup<key,value> => Key + IEnumerable<Value>
+            Linq语法 group [Value] by [Key]
+/////////////////////////////////////////////////////////////////////
+    3.how to share data between stored procedures
+    
