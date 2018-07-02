@@ -589,7 +589,7 @@
             只要在使用 System.Threading.Timer，就必须保留对它的引用。对于任何托管对象，如果没有对 Timer 的引用，计时器会被垃圾回收。 
             即使 Timer 仍处在活动状态，也会被回收。
         2：System.Timers.Timer
-        在《CLR Via C#》中讲多线程时有提到这3个计时器，但作者说System.Timers.Timer是对System.Threading.Timer的报装，不推荐使用   
+        在《CLR Via C#》中讲多线程时有提到这3个计时器，但作者说System.Timers.Timer是对System.Threading.Timer的包装，不推荐使用   
     5. 软件调试
         windows高级调试
         软件调试

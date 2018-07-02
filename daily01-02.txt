@@ -164,7 +164,7 @@
            }
         }
         MEF
-        反射新能比较:传统方法反射 实例化反射(静态方法调用无法使用) 快速放射(Emit) 直接调用
+        反射性能比较:传统方法反射 实例化反射(静态方法调用无法使用) 快速反射(Emit) 直接调用
         CLR用handle(intptr)引用运行时类型对象 比type和memberinfo对象 省内存
 20180125
     1.dynamic RuntimeBinder  实际上是用反射+Object 来处理运行时的动态特性
