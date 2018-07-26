@@ -1,0 +1,145 @@
+20180702
+    1.C# List<T>分析
+        List<Point> list = new List<Point>()
+        {
+            new Point(){ X = 1,Y = 1},
+            new Point(){ X = 2,Y = 2},
+            new Point(){ X = 3,Y = 3}
+        };
+        Point p = list[1];
+        p = new Point() { X = 0, Y = 0};//并不改变list[1];
+    2. Linq编程技术内幕 第七章
+        into 子句  into子句提供了一个临时标识符，它存储了into子句前面的查询内容，使它后面的子句可以方便的使用，对其进行再次查询，投影等操作
+        例如:按照名字的前两个字进行分组，再用分组Key进行排序
+        var query = from customer in clist
+                        group customer by customer.Name.Substring(0, 2) into gpcustomer
+                        orderby gpcustomer.Key descending
+                        select gpcustomer;
+20180704-20180705
+    1.ThreadPool.QueueUserWorkItem
+        检查风控系统BUG发现,当同一时刻大量任务被QueueUserWorkItem调度时,任务可能不会立即执行,并且延时不可控
+        起先认为是线程池可用线程太少了,但是通过GetAvailableThreads查看可用线程数发现可用还有很多
+        改成Task.Factory.StartNew调度任务并且指定参数TaskCreationOptions.LongRunning,保证启动尽可能多的线程去执行任务
+        默认情况下多个任务可能调度到统一线程上引起等待
+        参考:https://bbs.csdn.net/topics/380165316
+             http://www.cnblogs.com/Charltsing/p/taskpoolthread.html
+             http://www.mamicode.com/info-detail-1780424.html
+        有一个诡异的问题,也是在查这个问题时发现的就是:就在线程(or 定时器?)数量较多时 System.Timers.Timer实际间隔时间可能比设定的要长一些
+    2.cpu利用率高
+        http://blog.sina.com.cn/s/blog_5ea024430100yp2i.html
+        https://blog.csdn.net/smartartisan/article/details/72956314
+        http://www.cnblogs.com/onlytiancai/archive/2009/06/24/heightcpu_diag.html
+        using Microsoft.Samples.Debugging.MdbgEngine = > AttachToProcess
+20180706
+    1.Linq编程技术内幕 第七章 结束
+        1) let子句 临时结果可以在整个查询其它地方使用
+        2) 增加对接口投影的支持
+        var max1 = (from fileName in files
+                        let info = new FileInfo(fileName)
+                        select
+                            new
+                            {
+                                fileName = info.Name,
+                                Size = info.Length
+                            }
+                        ).Max(s => s.Size);
+        =>
+        var max1 = (from fileName in files
+                        let info = new FileInfo(fileName)
+                        select
+                            new
+                            {
+                                fileName = info.Name,
+                                Size = info.Length,
+                                CompareTo = GetCompare(info.Length)
+                            }
+                        ).Max();
+        private static void Func<T, int> GetCompare<T>(T y) where T:ICompare
+        {
+            return k => y.CompareTo(k);
+        }
+    2.Linq编程技术内幕 第八章 结束
+    3.Linq编程技术内幕 第九章 结束
+20180708
+    1.客户服务器cpu利用率100% 任务管理器无法打开 ->通过资源监视器发现 进程minergate.exe把cpu吃完了
+        https://blog.csdn.net/u014542626/article/details/52606277
+        
+20180712-20180713
+    1.Linq编程技术内幕 第十章
+        1) select 扩展方法有一个隐含的索引变体 (shuffler ['??fl?] n => 洗牌者; 做事漫不经心者; 曳步而行者; 轮到洗牌的人;)
+        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector);
+        
+        int[] cards = new int[52];
+        Random rand = new Random();
+
+        var shuffler = cards.Select((num, index) => new
+        {
+            Key = index,
+            Random = rand.Next()
+        });
+
+        /*
+        int index = 0;
+        var shuffler = from card in cards
+                       select new
+                       {
+                           Key = index++,
+                           Random = rand.Next()
+                       };
+        */
+        2)  GDI+与DC(设备上下文)
+        //GDI+用的是托管句柄 => 设备上下文(DC)的非缓存托管版本
+        //设备上下文实际就是GDI+中国的图形对象
+        //早起Win API方法只能使用原始的非托管DC
+        //PaintFace 演示了如何从Graphics获取DC 并且在finally块中执行清理工作
+        private static void PaintFace(Graphics g, Card card, int x, int y, int dx, int dy)
+        {
+            IntPtr hdc = g.GetHdc();
+            try 
+            {
+
+            }
+            catch (Exception ex) 
+            {
+
+            }
+            finally 
+            {
+                g.ReleaseHdc(hdc);
+            }
+        }
+20180717
+    1.测试服务器 内存占用率居高不下后来发现是硬盘分区被沾满了 => 磁盘清理后OK
+    2.svn:重命名文件之后,不允许提交
+      https://www.cnblogs.com/a198720/p/4481167.html
+20180723
+    1.Https请求——基础连接已经关闭 发送时发生错误
+        https://www.cnblogs.com/farb/p/HttpRequestProblem.html
+    2. .NET连接数的设置 System.Net.ServicePointManager.DefaultConnectionLimit 默认为2
+        https://www.cnblogs.com/Lawson/archive/2012/07/08/2581484.html
+        https://www.cnblogs.com/yaosj/p/6705203.html
+    3.https keepalive
+        http://www.nowamagic.net/academy/detail/23350305
+        https://blog.csdn.net/woshiwu/article/details/7273396
+    4.web代理 (代理与反向代理)
+        https://blog.csdn.net/dolphin98629/article/details/54599850
+20180724
+    1.Centos7下使用Squid快速搭建带认证的HTTP代理服务器
+        https://blog.csdn.net/mingzznet/article/details/52921218
+        https://www.cnblogs.com/liaoyuanyang/p/6780983.html
+    2..Net Framework 中设置Web Proxy 的方法
+        https://blog.csdn.net/mapdigit/article/details/7606503
+        https://msdn.microsoft.com/zh-cn/library/system.net.networkcredential.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
+    3.C# 实现Socket5代理协议通讯
+        http://www.cnblogs.com/zhujiechang/archive/2008/10/21/1316308.html
+    4.英语地址写法 http://www.langfly.com/a/20160528/164718.shtml
+        Room 702,Unit 3,Building 9,XuDong Road,HongShan District
+        Room 208,Building 17,No.49 Jiefang Park Road,Jiangan District
+20180715
+    1.centos7 安装squid 启动报错 https://blog.csdn.net/liumiaocn/article/details/80586879
+    2.搬瓦工 ss教程
+        搬瓦工没有一键SS功能了怎么办？最新搬瓦工SS教程！
+        http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed19fa950d100b92314204dd743ca0814820c9d50ec0241d1a1638b4a6653f515e8e806b6675f41f4beb863673340227b598ca8a48dfb894282c8c22317716864618d31ca4cd4c31847dd00ce6b869e5ad873184afa2c4ae2244bc27120a8be7f85c1714bb2eb1033192b1e84b022c61adec40728f596059ef3441c65088eb251f73&p=8b2a97189d9601e540bd9b7d0a50&newp=882a9642828450e518bfc7710f0e92695d0fc20e3dd1da01298ffe0cc4241a1a1a3aecbf20281305d4c77f6d05ae4d5beaf036783d0034f1f689df08d2ecce7e7bcf367e304e&user=baidu&fm=sc&query=%B0%E1%CD%DF%B9%A4+ss+%C1%AC%B2%BB%C9%CF&qid=8fae74b300021dd3&p1=8
+        https://www.yigeni.com/build-a-wall-ss-server/
+        客户端配置
+        https://blog.csdn.net/horrible123/article/details/52452324
