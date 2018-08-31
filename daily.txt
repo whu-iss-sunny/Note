@@ -127,7 +127,7 @@
     1.Centos7下使用Squid快速搭建带认证的HTTP代理服务器
         https://blog.csdn.net/mingzznet/article/details/52921218
         https://www.cnblogs.com/liaoyuanyang/p/6780983.html
-    2..Net Framework 中设置Web Proxy 的方法
+    2..Net Framework 中设置Web Proxy 的方法 => 只支持http代理
         https://blog.csdn.net/mapdigit/article/details/7606503
         https://msdn.microsoft.com/zh-cn/library/system.net.networkcredential.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
     3.C# 实现Socket5代理协议通讯
@@ -135,7 +135,7 @@
     4.英语地址写法 http://www.langfly.com/a/20160528/164718.shtml
         Room 702,Unit 3,Building 9,XuDong Road,HongShan District
         Room 208,Building 17,No.49 Jiefang Park Road,Jiangan District
-20180715
+20180725
     1.centos7 安装squid 启动报错 https://blog.csdn.net/liumiaocn/article/details/80586879
     2.搬瓦工 ss教程
         搬瓦工没有一键SS功能了怎么办？最新搬瓦工SS教程！
@@ -143,3 +143,576 @@
         https://www.yigeni.com/build-a-wall-ss-server/
         客户端配置
         https://blog.csdn.net/horrible123/article/details/52452324
+20180731
+    1.修改host 科学上网
+        https://www.jianshu.com/p/c96dc32eca35
+    2.linux tee命令用于将数据重定向到文件，另一方面还可以提供一份重定向数据的副本作为后续命令的stdin。简单的说就是把数据重定向到给定文件和屏幕上
+    3.重定向输出 https://blog.csdn.net/register_man/article/details/78653195
+20180801
+    1.C#WinForm程序显示控制台窗口Console
+        [DllImport("kernel32.dll")]
+        public static extern Boolean AllocConsole();
+        [DllImport("kernel32.dll")]
+        public static extern Boolean FreeConsole(); 
+    2.Great Firewall  GFW https://baike.baidu.com/item/Great%20Firewall/4843556?fromtitle=GFW&fromid=18582731&fr=aladdin
+20180802
+    1.今天发现个问题 在程序中使用 System.Timers.Timer 在代码里面把Interval设置成了double.MaxValue然后又设置成 1000 * 10 结果发现定时器无响应
+      后来发现System.Timers.Timer的Interval最大值为int.MaxValue
+20180806
+    1.Linq编程技术内幕 第十章 结束
+        SelectMany 带有多个from和多个where
+        SelectMany 是一个扩展方法其LINQ关键字是select
+        SelectMany 使用索引 
+            class Program
+            {
+                public class Customer
+                {
+                    public int ID { get; set; }
+                    public string CompanyName { get; set; }
+                }
+
+                public class Order
+                {
+                    public int ID { get; set; }
+                    public int CustomerID { get; set; }
+                    public string ItemDescription { get; set; }
+                }
+
+                static void Main(string[] args)
+                {
+                    List<Customer> customers = new List<Customer>
+                    {
+                        new Customer{ID = 1,CompanyName = "Tom's Toffees"},
+                        new Customer{ID = 2, CompanyName = "Karl's Coffess"}
+                    };
+
+                    List<Order> orders = new List<Order>
+                    {
+                        new Order{ID = 1,CustomerID = 1,ItemDescription = "G"},
+                        new Order{ID = 2,CustomerID = 1,ItemDescription = "M"},
+                        new Order{ID = 3,CustomerID = 2,ItemDescription = "F"},
+                        new Order{ID = 4,CustomerID = 2,ItemDescription = "C"}
+                    };
+
+                    var orderInfo = customers.SelectMany(
+                        (customer, index) => from order in orders
+                                             where order.CustomerID == customer.ID
+                                             select new
+                                             {
+                                                 Key = index + 1,
+                                                 Customer = customer.CompanyName,
+                                                 Item = order.ItemDescription
+                                             }
+
+                    );
+
+                    Array.ForEach(orderInfo.ToArray(),
+                                  o => Console.WriteLine("Key:{0},Name:{1},Item:{2}",
+                                            o.Key, o.Customer, o.Item));
+
+                    Console.ReadLine();
+                }
+            }
+20180807
+    1.windows程序调试
+        1).windows下dump文件生成与分析 https://blog.csdn.net/icandoit_2014/article/details/78739962
+            1.1任务管理器
+                在程序崩溃后，先不关闭程序，在任务管理器中找到该程序对应的进程。右键—>创建转储文件。
+                此时会在默认的目录下创建出一个dump文件。
+                可以看出，此种方法只适用于程序崩溃但没有立即自行退出的情况。倘若程序故障后自行退出，则此方法就难以应用。
+                不过，我们可以在注册表中添加如下信息已确保系统在程序崩溃后自行保存一个dump文件：
+                在注册表中找到 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\WindowsError Reporting\LocalDumps
+                其中DumpType代表的含义是：
+                0 = Create a custom dump  
+                1 = Mini dump  
+                2 = Full dump  
+                如此一来，一旦程序崩溃，系统会在C:\CrashDump下生成一个dump文件。
+            1.2WinDbg抓取
+                程序运行崩溃后，先不关闭程序，将WinDbg附加到改进程上.
+                执行命令：.dump –ma Test.dmp  ，则会产生一个Test.dmp的转储文件。
+            1.3程序中加入存储Dump的代码
+                通过SetUnhandledExceptionFilter设置捕获dump的入口，然后通过MiniDumpWriteDump生成dump文件。
+            1.4调试 打开dump文件
+                vs调试 把这个DMP文件拷到开发机器上，用VS打开： 会出现下面的界面，要想知道发生错误时候的调用栈，需要设置symbol的路径，点击”Set Symbol Paths“：
+                windbg调试
+        2).系统蓝屏dump 如何分析 WindowsDump：Dump 起源与初始设置 https://www.cnblogs.com/tcicy/p/8076382.html
+        3).Windows下获取Dump文件以及进程下各线程调用栈的方法总结  https://blog.csdn.net/iihero/article/details/17184903
+        4).How to debug Windows services https://support.microsoft.com/en-us/help/824344/how-to-debug-windows-services
+20180808
+    1.Linq编程技术内幕 第十一章
+20180813
+    1.sql server 表字段基本信息
+        SELECT
+             表名       = Case When A.colorder=1 Then D.name Else '' End,
+             --表说明     = Case When A.colorder=1 Then isnull(F.value,'') Else '' End,
+             字段序号   = A.colorder,
+             字段名     = A.name,
+             --字段说明   = isnull(G.[value],''),
+             标识       = Case When COLUMNPROPERTY( A.id,A.name,'IsIdentity')=1 Then '√'Else '' End,
+             主键       = Case When exists(SELECT 1 FROM sysobjects Where xtype='PK' and parent_obj=A.id and name in (
+                              SELECT name FROM sysindexes WHERE indid in( SELECT indid FROM sysindexkeys WHERE id = A.id AND colid=A.colid))) then '√' else '' end,
+            --聚集索引    = EXEC Sp_helpindex table_name,
+             类型       =  B.name,
+             占用字节数 = A.Length,
+             长度       = COLUMNPROPERTY(A.id,A.name,'PRECISION'),
+             小数位数   = isnull(COLUMNPROPERTY(A.id,A.name,'Scale'),0),
+             允许空     = Case When A.isnullable=1 Then '√'Else '' End,
+             默认值     = isnull(E.Text,'')
+         FROM
+             syscolumns A
+         Left Join
+             systypes B
+         On
+             A.xusertype=B.xusertype
+         Inner Join
+             sysobjects D
+         On
+             A.id=D.id  and D.xtype='U' and  D.name<>'dtproperties'
+         Left Join
+             syscomments E
+         on
+             A.cdefault=E.id
+         Left Join
+         sys.extended_properties  G
+         on
+             A.id=G.major_id and A.colid=G.minor_id
+         Left Join
+         
+         sys.extended_properties F
+         On
+             D.id=F.major_id and F.minor_id=0
+             --where d.name='OrderInfo'    --如果只查询指定表,加上此条件
+         Order By
+             A.id,A.colorder
+        ---------------------------------------------------------------------------------------------------------------------------------------
+        select t2.name as TableName,t1.colorder as ColIndex,t1.ColName,t1.TypeName,t1.[Length],t1.IsIdentify,t1.IsNullable,t1.IsPrimaryKey
+         from (select col.id,
+                      col.colorder,
+                      col.name as ColName,
+                      typ.name as TypeName,
+                      COLUMNPROPERTY(col.id,col.name,'PRECISION') as [Length],
+                      COLUMNPROPERTY(col.id,col.name,'IsIdentity') as IsIdentify, 
+                      col.isnullable as IsNullable,
+                      case when exists(SELECT 1 
+                                         FROM sysobjects 
+                                        Where xtype='PK' 
+                                          and parent_obj=col.id 
+                                          and name in (SELECT name 
+                                                         FROM sysindexes 
+                                                        WHERE indid in(SELECT indid 
+                                                                         FROM sysindexkeys 
+                                                                        WHERE id = col.id AND colid=col.colid))) 
+                           then 1 else '' 
+                      end as IsPrimaryKey
+                from  syscolumns col,systypes typ  
+               where col.xusertype=typ.xusertype) t1,
+             (select name,id 
+                from sysobjects  
+               where xtype = 'U' and name<>'dtproperties') t2
+          where t1.id = t2.id
+          order by t2.name,t1.colorder
+    2.利用.NET生成数据库表的创建脚本，类似SqlServer编写表的CREATE语句
+      https://blog.csdn.net/chinahuyong/article/details/9469661
+      C# 获取数据库中某个某个表的创建脚本
+      https://blog.csdn.net/hutao1101175783/article/details/21477431
+      C# 操作SQLServer SMO中遇到的几个问题
+      https://blog.csdn.net/guokeeryi_/article/details/44117147
+    3.SMO SQL Server Management Objects 
+    https://docs.microsoft.com/en-us/sql/relational-databases/server-management-objects-smo/create-program/connecting-to-an-instance-of-sql-server?view=sql-server-2017
+    https://www.mssqltips.com/sqlservertip/1826/getting-started-with-sql-server-management-objects-smo/
+20180814
+    1.网页抓取
+        1)python方法 https://blog.csdn.net/oscer2016/article/details/70209144
+         抓取方法	    性能	     使用难度	     安装难度
+        正则表达式	     快	            困难	     简单(内置模块)
+        Beautiful Soup	 慢	            简单	     简单(纯Python)
+        Lxml	         快	            简单	     相对困难
+        2)C# 
+        使用WebClient （引用自：http://fbljava.blog.163.com/blog/static/265211742008712105145244/）
+        使用WebBrowser （引用自：http://topic.csdn.net/u/20091225/14/4ea221cd-4c1e-4931-a6db-1fd4ee7398ef.html）
+        使用HttpWebRequest/HttpWebResponse （引用自：http://hi.baidu.com/onlyafar/blog/item/7ac4c6bf92d4810019d81f98.html）
+        3)python爬虫教程
+        https://www.cnblogs.com/xin-xin/p/4297852.html
+    2.Linq编程技术内幕 第十一章
+    3.Asp.net 后台执行任务
+        详解.NET异步 https://www.cnblogs.com/wisdomqq/archive/2012/03/26/2412349.html
+        详解 ASP.NET异步 https://www.cnblogs.com/wisdomqq/archive/2012/03/29/2417723.html
+        ASP.NET中进行消息处理(MSMQ) http://www.cnblogs.com/beniao/archive/2008/06/26/1229934.html
+20180815
+    1.C# 线程手册 第五章 多线程应用程序 一个多线程微软消息队列(MSMQ)监听器 https://www.cnblogs.com/danielWise/archive/2012/04/15/2450221.html
+        mq1 = new MessageQueue(@".\private$\myfirstq3");
+        mq1.ReceiveCompleted += new ReceiveCompletedEventHandler(MessageReceived);
+        mq1.BeginReceive(new TimeSpan(0,0,2));
+20180822
+    1.调试http请求/返回(get,post) requestheader/requestbody  responseheader/responsebody 
+    2.socks5代理转http代理 
+        https://www.cnblogs.com/straycats/p/8452354.html
+        https://www.cnblogs.com/liuxuzzz/p/5324749.html
+        http代理更通用.net httpwebrequest直接支持 socks5不行
+    3.C#使用Socks5代理
+        http://blog.sina.com.cn/s/blog_5ff1ba480100iwow.html
+20180823
+    1.调试ConcurrentDictionary的KeysToList效率 万次几十ms
+20180825
+    1.梦想改造家 -> 骆新施琰
+      生活改造家 改名字 美好生活家 ->白克力
+20180827
+    1.vs  c++项目属性 字符集
+    项目设置里的UNICODE指的是所有API和MFC相关使用UNICODE版本，也就是后缀带W的版本
+    如果要指定使用UNICODE字符串，wchar_t a[] = L"我";这条语句和项目设置里的UNICODE一点关系都没有
+    2.用char[]存一个中文字，每个元素的为负数是怎么得出来的？
+    https://bbs.csdn.net/topics/390814154
+    3.十进制负数转换为二进制、八进制、十六进制的知识分享
+    https://www.cnblogs.com/wxb20/p/6033458.html
+    4.今天研究字符编码的时候发现一个有趣的问题 //gb2312
+    int _tmain(int argc, _TCHAR* argv[])
+    {
+        char arr1[3]= {206,210,'\0'};// ===>>>我
+        char arr2[3]= {-50,-46,'\0'};// ===>>>我
+        return 0;
+    }
+    原因 c++里面char是单字 8bit c#里面char是双字节 16bit
+    5.C#调用C/C++动态库 封送结构体,结构体数组
+    https://www.cnblogs.com/HuangWj/p/5633675.html
+20180828
+    1.window下的中文编码
+        https://blog.csdn.net/leonardwang/article/details/5972776
+        在windows下的记事本中输入“我a”，分别以ANSI、Unicode、UTF-8保存，然后用16进制打开：
+        ANSI：ced2 61 ANSI编码(默认)：英文1个字节，中文2个字节，即一个字节最高为1时，与后一个字节合并组成双字节，为一个字符，否则为ASCII字符。
+        Unicode：fffe 1162 6100    （fffe是记事本用于标识是unicode编码的标识符）Unicode：无论中英文，每个都是2个字节。
+        UTF-8：efbb bfe6 8891 61       （efbb bf是记事本用于标识是utf-8编码的标识符）UTF-8：英文1个字节，中文3个字节。
+    2.c++对编码格式ANSI utf8 unicode 进行转换 https://blog.csdn.net/c914620529/article/details/73503708
+    3.C++判断字符串中是否有中文 https://blog.csdn.net/wordwarwordwar/article/details/39940119
+    4.CTP官方api版本升级6.3.11 可以运行更多api实例 说是能到300个
+    5.关于编码ansi、GB2312、unicode与utf-8的区别 https://blog.csdn.net/chruan/article/details/8812110
+        在中文和日文操作系统里生成的（txt和xml）文件的编码虽然都是ansi
+        但是，在简体中文系统下，ansi 编码代表 GB2312 编码，在日文操作系统下，ansi 编码代表 JIS 编码。
+        不同 ansi 编码之间互不兼容，当信息在国际间交流时，无法将属于两种语言的文字，存储在同一段 ansi 编码的文本中
+      字符编码（ASCII、ANSI、GB2312、UTF-8等）系统梳理 https://blog.csdn.net/u012152619/article/details/43235747
+20180829
+    1.前几天被需求和乱码问题搞吐了 今天难得闲下来 老规矩还是看看xml 今天看得是xslt
+        a.<xsl:template match="/"> XSL 
+           样式表由一个或多套被称为模板（template）的规则组成。 
+           match 属性的值是 XPath 表达式（举例，match="/" 定义整个文档）。
+        b.<xsl:value-of>
+            用于提取某个 XML 元素的值，并把值添加到转换的输出流中
+            例如:<xsl:value-of select="catalog/cd/title"/> select 属性的值是一个 XPath 表达式
+        c.<xsl:for-each>
+            可用于选取指定的节点集中的每个 XML 元素 
+            例如:<xsl:for-each select="catalog/cd"> select 属性的值是一个 XPath 表达式
+            过滤输出结果  <xsl:for-each select="catalog/cd[artist='Bob Dylan']"> 合法的过滤运算符: = （等于）!= （不等于）&lt; （小于）&gt; （大于）
+            ps:<xsl:sort> 元素用于对输出结果进行排序 如需对输出结果进行排序，只要简单地在 XSL 文件中的 <xsl:for-each> 元素内部添加一个 <xsl:sort> 元素
+                例如:    <xsl:for-each select="catalog/cd">
+                            <xsl:sort select="artist"/>
+                            ...
+                         </xsl:for-each>
+               <xsl:if> 用于放置针对 XML 文件内容的条件测试 如需添加有条件的测试，请在 XSL 文件中的 <xsl:for-each> 元素内部添加 <xsl:if> 元素
+                <xsl:if test="expression">
+                    ...如果条件成立则输出...
+                </xsl:if>
+                例如:   <xsl:for-each select="catalog/cd">
+                          <xsl:if test="price &gt; 10">
+                            <tr>
+                              <td><xsl:value-of select="title"/></td>
+                              <td><xsl:value-of select="artist"/></td>
+                              <td><xsl:value-of select="price"/></td>
+                            </tr>
+                          </xsl:if>
+                        </xsl:for-each>
+        d.<xsl:choose> 元素用于结合 <xsl:when> 和 <xsl:otherwise> 来表达多重条件测试
+            <xsl:choose>
+                <xsl:when test="expression">
+                ... some output ...
+                </xsl:when>
+                <xsl:otherwise>
+                ... some output ....
+                </xsl:otherwise>
+            </xsl:choose>
+            例如:在 CD 的价格高于 10 时向 "Artist" 列添加粉色的背景颜色，并在 CD 的价格高于 9 且低于等于 10 时向 "Artist" 列添加灰色的背景颜色
+                    <xsl:for-each select="catalog/cd">
+                        <tr>
+                          <td><xsl:value-of select="title"/></td>
+                          <xsl:choose>
+                            <xsl:when test="price &gt; 10">
+                              <td bgcolor="#ff00ff">
+                              <xsl:value-of select="artist"/></td>
+                            </xsl:when>
+                            <xsl:when test="price &gt; 9">
+                              <td bgcolor="#cccccc">
+                              <xsl:value-of select="artist"/></td>
+                            </xsl:when>
+                            <xsl:otherwise>
+                              <td><xsl:value-of select="artist"/></td>
+                            </xsl:otherwise>
+                          </xsl:choose>
+                        </tr>
+                    </xsl:for-each>
+        e.<xsl:apply-templates> 元素可把一个模板应用于当前的元素或者当前元素的子节点
+          <xsl:apply-templates select="expression" mode="name"> select可选。规定要处理的节点。星号选取整个节点集。如果省略该属性，则将选取当前节点的所有子节点。
+            <!-- Content:(xsl:sort|xsl:with-param)* -->         可选。如果存在为相同元素定义的多个处理方法，那么用 mode 可以区分它们
+          </xsl:apply-templates>
+          例子 用 h1 元素包围文档中每个 title 元素：
+                <?xml version="1.0" encoding="ISO-8859-1"?>
+                <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:template match="title">
+                      <h1><xsl:apply-templates/></h1>
+                    </xsl:template>
+                </xsl:stylesheet>
+               用 h1 元素包围文档中所有属于 message 的子元素的 title 元素
+                    <xsl:template match="message">
+                       <h1><xsl:apply-templates select="title"/></h1>
+                    </xsl:template>
+               用 h1 元素包围文档中 mode 属性设置为 "big" 的 message 所有子节点
+                    <xsl:template match="message">
+                       <h1><xsl:apply-templates select="*" mode="big"/></h1>
+                    </xsl:template>
+          ps.
+          比如说，有这样一个文档结构   
+          <Root>   
+              <Row>   
+                  <name>1</name>   
+                  <age>12</age>   
+              </Row>   
+              <Row>   
+                  <name>2</name>   
+                  <age>13</age>   
+              </Row>   
+          </Root>   
+            
+          你写了一个模板匹配Row   
+              <xsl:template   match="Row">   
+                <xsl:apply-templates/>   
+              </xsl:template>   
+            
+          <xsl:apply-templates/>会自行匹配Row下的所有Element和Attribute   
+          如果你没有为name和age写模板，缺省显示它的文本信息。如果你定义了以下两个模板   
+              <xsl:template   match="name">   
+                姓名：<xsl:value-of   select="text()"/>   
+              </xsl:template>   
+              <xsl:template   match="age">   
+                年龄：<xsl:value-of   select="text()"/>   
+              </xsl:template>   
+          它就会一一进行匹配
+          参考:http://www.cnblogs.com/it_mac/archive/2010/06/27/1766151.html
+            定义了用于匹配“cd”的模板，然后定义了“title”和“artist”的显示格式。
+            接着，我加了一个<xsl:apply-templates/>。此时，由于匹配的节点是“cd”，而“title”和“artist”，还有后面的“tracks”都是“cd”的子节点，所以解析器为每个节点寻找匹配的模板。
+            由于没有定义与“title”和“artist”匹配的模板，所以“title”和“artist”的内容又以文本的形式输出了一次
+            如果匹配“title”和“artist”的模板有定义，则又会按照定义的模板重新输出一次
+        f.xslt在客户端
+            js加载xml和xsl进行转换
+        g.xskt在服务端
+            php/asp等服务器端脚本加载xml和xsl进行转换(dom)
+20180830
+    1.XPath
+        a.项目item=> 结点与基本值 
+          结点关系 dom
+        b.选取结点
+          nodename  /  //  .  .. @
+        c.谓词 [...条件表达式或者索引]
+        d.选取未知节点 * @* node()
+        e.| 合并若干路径
+        f.轴 Axes 
+        g.除法 div 与 and 或 or
+    2.XQuery
+        a.FLWOR 是 "For, Let, Where, Order by, Return" 的只取首字母缩写
+        doc("books.xml")/bookstore/book[price>30]/title
+        =>for $x in doc("books.xml")/bookstore/book
+            where $x/price>30
+            order by $x/title
+            return $x/title
+        b.取结点数据data($x)
+        c.XQuery 对大小写敏感
+          XQuery 的元素、属性以及变量必须是合法的 XML 名称。
+          XQuery 字符串值可使用单引号或双引号。
+          XQuery 变量由 “$” 并跟随一个名称来进行定义，举例，$bookstore
+          XQuery 注释被 (: 和 :) 分割，例如，(: XQuery 注释 :)
+        d.for $x in doc("books.xml")/bookstore/book
+            return	if ($x/@category="CHILDREN")
+                then <child>{data($x/title)}</child>
+                else <adult>{data($x/title)}</adult>
+            请注意 "If-Then-Else" 的语法：if 表达式后的圆括号是必需的。else 也是必需的，不过只写 “else ()” 也可以
+        e.在 XQuery 中，有两种方法来比较值。
+            通用比较：=, !=, <, <=, >, >=
+            值的比较：eq、ne、lt、le、gt、ge
+            $bookstore//book/@q > 10
+            如果 q 属性的值大于 10，上面的表达式的返回值为 true。
+            $bookstore//book/@q gt 10
+            如果仅返回一个 q，且它的值大于 10，那么表达式返回 true。如果不止一个 q 被返回，则会发生错误
+    3.XQuery高级
+        a.XQuery 表达式返回 title 元素的方式和它们在输入文档中被描述的方式的相同的
+        <html>
+            <body>
+                <h1>Bookstore</h1>
+                <ul>
+                    {
+                        for $x in doc("books.xml")/bookstore/book
+                        order by $x/title
+                        return <li>{data($x/title)}. Category: {data($x/@category)}</li>
+                    }
+                </ul>
+                
+                <ul>
+                    {
+                        for $x in doc("books.xml")/bookstore/book
+                        order by $x/title
+                        return <li class="{data($x/@category)}">{data($x/title)}</li>
+                    }
+                </ul>
+            </body>
+        </html>
+        b.for 语句 for  to:$x in (1 to 5) at:for $x at $i in doc("books.xml")/bookstore/book/title in:for $x in (10,20), $y in (100,200)
+          let 语句可完成变量分配，并可避免多次重复相同的表达式。let 语句不会导致迭代 let $x := (1 to 5) return <test>{$x}</test> => <test>1 2 3 4 5</test>
+          where/order by/return
+        c.函数 XQuery 含有超过 100 个内建的函数。这些函数可用于字符串值、数值、日期以及时间比较、节点和 QName 操作、序列操作、逻辑值等等。您也可在 XQuery 中定义自己的函数  
+                http://www.w3school.com.cn/xpath/xpath_functions.asp
+          XQuery 函数命名空间的 URI：http://www.w3.org/2005/02/xpath-functions
+            函数命名空间的默认前缀是 fn:。
+            提示：函数经常被通过 fn: 前缀进行调用，例如 fn:string()。不过，由于 fn: 是命名空间的默认前缀，所以函数名称不必在被调用时使用前缀。
+          用户定义函数:
+            declare function 前缀:函数名($参数 AS 数据类型) 
+              AS 返回的数据类型
+            {
+
+            (: ...函数代码... :)
+
+            };
+            例子:
+            declare function local:minPrice(
+              $price as xs:decimal?,
+              $discount as xs:decimal?)
+              AS xs:decimal?
+            {
+            let $disc := ($price * $discount) div 100
+            return ($price - $disc)
+            };
+
+            (: 下面是调用上面的函数的例子 :)
+
+            <minPrice>{local:minPrice($book/price, $book/discount)}</minPrice>
+    4.xpath和xquery差不多,xquery对xpath做了扩展
+20180831
+    1.xlink与xpointer
+        XLink 定义在 XML 文档中创建超级链接的标准方法。
+        XPointer 允许这些超级链接指向 XML 文档中的更多具体部分（片断）
+        a.语法
+          xlink:为了访问 XLink 的属性和特性，我们必须在文档的顶端声明 XLink 命名空间。XLink 的命名空间是："http://www.w3.org/1999/xlink"。
+                <homepage xlink:type="simple" xlink:href="http://www.w3school.com.cn">Visit W3School</homepage>
+                xlink:type 和 xlink:href 属性定义了来自 XLink 命名空间的 type 和 href 属性 xlink:type="simple" 可创建一个简单的两端链接=>多端
+          xpointer:在 HTML 中，我们可创建一个既指向某个 HTML 页面又指向 HTML 页面内某个书签的超级链接（使用#）
+                   假如超级链接指向某个 XML 文档，我们可以在 xlink:href 属性中把 XPointer 部分添加到 URL 后面，这样就可以导航（通过 XPath 表达式）到文档中某个具体的位置了
+                   href="http://www.example.com/cdlist.xml#id('rock').child(5,item)"
+        b.例子
+            表达式：#xpointer(id("Rottweiler")) 可引用目标文档中 id 值为 "Rottweiler" 的元素。
+            因此，xlink:href 属性会类似这样：xlink:href="http://dog.com/dogbreeds.xml#xpointer(id('Rottweiler'))"
+            不过，当使用 id 链接到某个元素时，XPointer 允许简写形式。您可以直接使用 id 的值，就像这样：
+                xlink:href="http://dog.com/dogbreeds.xml#Rottweiler"
+        c.属性 i. xlink:actuate
+                                onLoad
+                                onRequest
+                                other
+                                none
+                        定义何时读取和显示被链接的资源。
+               ii. xlink:href  URL  要链接的 URL。
+               iii. xlink:show
+                                embed
+                                new
+                                replace
+                                other
+                                none
+                        在何处打开链接。Replace 是默认值。
+               iiii. xlink:type
+                                simple
+                                extended
+                                locator
+                                arc
+                                resource
+                                title
+                                none
+                                链接的类型。
+    2.XSL-FO 用于格式化供输出的 XML 数据 Extensible Stylesheet Language Formatting Objects
+        a.document
+            <?xml version="1.0" encoding="ISO-8859-1"?>
+
+            <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+
+            <fo:layout-master-set>
+              <fo:simple-page-master master-name="A4">
+                <!-- Page template goes here -->
+              </fo:simple-page-master>
+            </fo:layout-master-set>
+
+            <fo:page-sequence master-reference="A4">
+              <!-- Page content goes here -->
+            </fo:page-sequence>
+
+            </fo:root>
+        b.  Pages（页面）
+                Regions（区）
+                    region-body (页面的主体)
+                    region-before (页面的页眉)
+                    region-after (页面的页脚)
+                    region-start (左侧栏)
+                    region-end (右侧栏)
+                        Block areas（块区域）
+                            Line areas（行区域）
+                                Inline areas（行内区域）
+        c.output
+            XSL-FO 输出通常被嵌套在 <fo:block> 元素中，<fo:block> 嵌套于 <fo:flow> 元素中，<fo:flow> 嵌套于 <fo:page-sequence> 元素中
+            <?xml version="1.0" encoding="ISO-8859-1"?>               |--------------------|
+            <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">    |hello w3cschool     |
+                <fo:layout-master-set>                                |                    |
+                  <fo:simple-page-master master-name="A4">            |                    |
+                  </fo:simple-page-master>                            |                    |
+                </fo:layout-master-set>                               |                    |
+                <fo:page-sequence master-reference="A4">      ===> A4 |                    |
+                  <fo:flow flow-name="xsl-region-body">               |                    |
+                    <fo:block>Hello W3School</fo:block>               |                    |
+                  </fo:flow>                                          |                    |
+                </fo:page-sequence>                                   |                    |
+            </fo:root>                                                |--------------------|
+        d.流 页面 块 列表 表格 => 页面布局 盒子模型
+          就是控制xml像html那样输出内容
+          <fo:block
+                font-size="14pt" font-family="verdana" color="red"
+                space-before="5mm" space-after="5mm">
+            W3School
+          </fo:block>
+
+          <fo:block
+                  text-indent="5mm"
+                  font-family="verdana" font-size="12pt"
+                  space-before="5mm" space-after="5mm">
+              At W3School you will find all the Web-building tutorials you
+              need, from basic HTML and XHTML to advanced XML, XSL, Multimedia
+              and WAP.
+          </fo:block>
+          
+          等价于
+          
+          从文档移除 XSL-FO 信息：
+            <header>
+            W3School
+            </header>
+
+            <paragraph>
+            At W3School you will find all the Web-building tutorials you
+            need, from basic HTML and XHTML to advanced XML, XSL, Multimedia
+            and WAP.
+            </paragraph>
+          添加 XSLT 转换：
+            <xsl:template match="header">
+            <fo:block
+                font-size="14pt" font-family="verdana" color="red"
+                space-before="5mm" space-after="5mm">
+                <xsl:apply-templates/>
+            </fo:block>
+            </xsl:template>
+
+            <xsl:template match="paragraph">
+            <fo:block
+                text-indent="5mm"
+                font-family="verdana" font-size="12pt"
+                space-before="5mm" space-after="5mm">
+                <xsl:apply-templates/>
+            </fo:block>
+            </xsl:template>
