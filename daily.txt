@@ -716,3 +716,6 @@
                 <xsl:apply-templates/>
             </fo:block>
             </xsl:template>
+    3.git 查看配置信息
+        git config user.name
+        git config user.email
