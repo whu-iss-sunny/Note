@@ -411,4 +411,123 @@
         Linq to DataSet base on ado.net
     2.LINQ技术内幕 14章 创建更好的实体以及映射继承与集合
         可空类型 Type?/Nullable<T> <=> [Column(CanBeNull = true)]
-        
+20181012
+    1.LINQ技术内幕 14章 创建更好的实体以及映射继承与集合
+        a. LINQ  to SQL 如何管理继承->单表映射(属性并集,性能好)
+        [Database(Name = "Inheritance")]
+        public class Inheritance : DataContext
+        {
+            private static readonly string connectionString = "";
+
+            public Inheritance()
+                : base(connectionString)
+            {
+                this.Log = Console.Out;
+            }
+
+        }
+
+        [Table(Name = "Person")]
+        [InheritanceMapping(Code = "P", Type = typeof(Person), IsDefault = true)]
+        [InheritanceMapping(Code = "A", Type = typeof(Patient))]
+        [InheritanceMapping(Code = "V", Type = typeof(VendorContact))]
+        public class Person
+        {
+            [Column(IsPrimaryKey = true)]
+            public int PersonID { get; set; }
+
+            [Column(IsDiscriminator = true)] =============================>鉴别器
+            public char KindKey { get; set; }
+
+            [Column()]
+            public string FirstName { get; set; }
+
+            [Column()]
+            public string LastName { get; set; }
+
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                /*...*/
+                return sb.ToString();
+            }
+        }
+        public class Patient : Person
+        {
+            [Column()]
+            public char Gender { get; set; }
+            [Column()]
+            public int Age { get; set; }
+            [Column(CanBeNull = true)]
+            public DateTime? DateOfLastVisit { get; set; }
+        }
+        public class VendorContact : Person
+        {
+            [Column()]
+            public string Title { get; set; }
+            [Column()]
+            public int CompanyID { get; set; }
+        }
+     
+        b.LINQ to SQL 管理关联 EntitySet<T>类型
+20181015
+    1.LINQ技术内幕 14章 创建更好的实体以及映射继承与集合 结束
+        b.LINQ to SQL 管理关联 EntitySet<T>类型
+            ...
+                private EntitySet<Order> orders;
+                [Association(Storage="orders",OtherKey="CustomerID")]
+                public EntitySet<Order> Orders
+                {
+                    get {return orders;}
+                    set {orders.Assign(value);}
+                }
+            ...
+            [Table(Name="Orders")]
+            public class Order
+            {
+                ...
+            }
+20181023
+    1.冲突域与广播域 以及 hub switch router  https://blog.csdn.net/gui951753/article/details/79402528
+        冲突域:连接在同一导线上的所有工作站的集合，或者说是同一物理网段上所有节点的集合或以太网上竞争同一带宽的节点集合。这个域代表了冲突在其中发生并传播的区域
+        广播域:接收同样广播消息的节点的集合
+        由于广播域被认为是OSI中的第二层概念，所以象Hub，交换机等第一，第二层设备连接的节点被认为都是在同一个广播域。而路由器，第三层交换机则可以划分广播域，即可以连接不同的广播域
+        各层设备
+        将网络互相连接起来要使用一些中间设备（或中间系统），OSI的术语称之为中继（relay）系统。根据中继系统所在的层次，可以有以下五种中继系统： 
+            1.物理层（即常说的第一层、层L1）中继系统，即转发器（repeater）或集线器（hub）。 
+            2.数据链路层（即第二层，层L2），即交换机(switch)或网桥（bridge）。 
+            3.网络层（第三层，层L3）中继系统，即路由器（router）(or 三层交换机)。 
+            4.网桥和路由器的混合物桥路器（brouter）兼有网桥和路由器的功能。 
+            5.在网络层以上的中继系统，即网关（gateway）
+        集线器hub:
+            集线器（Hub）是指将多条以太网双绞线或光纤集合连接在同一段物理介质下的设备。集线器是运作在OSI模型中的物理层。它可以视作多端口的中继器，若它侦测到碰撞，它会提交阻塞信号
+            集线器最大的特点就是采用共享型模式，就是指在有一个端口在向另一个端口发送数据时，其他端口就处于“等待”状态
+        交换机switch
+            为什么要使用交换机： 
+                我们使用hub连接局域网的时候，如果局域网内的主机高达上千台，那么会变得冲突域就会很大，很容易造成网络的堵塞。
+                所以就有人设想能不能找个设备来阻断这个大的冲突域，将其划分为各个小的冲突域。这样就能优化网络性能了
+            交换机要转发这样的数据包,简单来说，也就是使用交换机切割了冲突域，没有切割广播域
+            交换机分为：二层交换机，三层交换机或是更高层的交换机。三层交换机同样可以有路由的功能
+        路由器route
+            工作在OSI第三层(网络层)上、并且有连接不同类型网络的能力并能够选择数据传送路径的网络设备
+            路由器工作在网络层，可以识别网络层的地址-IP地址，有能力过滤第3层的广播消息。
+            实际上，除非做特殊配置，否则路由器从不转发广播类型的数据包。因此，路由器的每个端口所连接的网络都独自构成一个广播域
+            路由器的每个端口所连接的网络都独自构成一个广播域。所以我们可以知道路由器切分了冲突域和广播域
+        冲突域和广播域的计算
+            路由器:每一个连接是一个广播域,也是一个冲突域
+            交换器:每一个连接是一个冲突域
+            集线器:并部分
+            ps:路由器和交换器之间也是冲突域
+20181031
+    1.Visual Studio 中为文件添加链接（快捷方式、引用）
+      在一个解决方案中一般来说包括了多个项目，可能有一具项目的某文件会被其它几个项目使用，为了保持其文件的统一性，更好的管理及同步，采用将文件添加为链接更为有效
+      https://www.cnblogs.com/blackcore/archive/2010/10/18/1854108.html
+    2.Visual Studio .NET开发中的x86/x64/AnyCPU
+      https://blog.csdn.net/lordwish/article/details/52312015
+      http://www.timegowhere.com/post/about_vs_targetplatform.html
+    3.java web 权限控制+拦截器
+      研究了一下自己系统后台管理的权限控制
+      基本上是 user-role-module-action 每个界面元素隶属于一个module并且有一个actionid表示其动作类型
+    4.C/C++ 64位和32位互相调用
+      外接com服务 https://blog.csdn.net/nie2314550441/article/details/49867735
+      WM_COPYDATA + 共享内存 https://blog.csdn.net/jiyanglin/article/details/53548124
