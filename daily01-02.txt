@@ -1,0 +1,285 @@
+20190104
+1.服务器CPU居高不下--解决问题历程
+https://cloud.tencent.com/developer/article/1368305
+
+20190109
+1.bilibili vc++失效视频 从C++起步到MFC实战VC++软件工程师高端培训(服务器端开发方向)50G 全套332课
+2.cast vs convert
+  https://www.cnblogs.com/liuchuanxu/p/4488087.html
+  cast性能在转换date类型完爆convert，convert灵活性、类型适用性更广，更强大，所以性能损耗大；cast能满足使用的情况下，不用convert；程序能执行的情况下，避免在sql中使用内置函数
+  https://www.jb51.net/article/30911.htm
+  执行过之后，会发现，两者的执行计划完全相同，无论是对 CPU 的消耗，还是对 IO的消耗，没有任何性能差别
+
+20190110
+1.Sql Server中批量更新某一已经有值的字段为Null(实例)
+    a.单元格中按Ctrl+0键即可输入
+    b.update aaa set name = null
+    c.输入字符串'NULL'(注意大写)
+2.动态sql
+    动态SQL的应用场景：
+        1:普通SQL语句可以用Exec执行，但没有意义，反倒性能低下。
+        2:字段名，表名，数据库名之类作为变量时，必须用动态SQL
+    执行动态SQL有两种方法
+        1.使用exec命令，语法：exec sql
+        2.使用系统存储过程 语法：exec excutesql  参数1,参数2,参数3
+            sp_executesql 支持替换 Transact-SQL 字符串中指定的任何参数值，但 EXECUTE 语句不支持。因此，由 sp_executesql 生成的 Transact-SQL 字符串比那些由 EXECUTE 语句生成的字符串更加相似。
+            SQL Server 查询优化器可能将 sp_executesql 的 Transact-SQL 语句与以前所执行的语句的执行计划相匹配，从而节省编译新的执行计划的开销
+    在function 中不能使用exec和sp_executesql,但是存储过程中可以使用
+20190114
+1.[select *]讨论
+  a. select * 需要一定的开销（查询数据字典）解析列但是这个开销几乎可以忽略不计
+  b. 而客户端应用程序可能通过列的原始位置，而不是名称来引用査询结果出的各列（这确实真不是一种好习惯）。
+     如果表的架构定义有了任何变化（例如，增加或删除了某些列，重新调整了列的顺序，等等），这样就可能导致客户端应用程序运行失败，甚至产生无法注意到的逻辑错误。
+     通过在査询语句中明确指定需要的列，那么只要 某个列在表中存在，就总可以在结果中得到正确的列。
+     如果査询引用的列在表中已经被 删除，结果就得到一个执行错误，这样就能够对代码进行相应的修改。
+  C. 表结构修改扩展，预留字段等不方便处理，想下如果你的查询里将来加上了VARCHAR(MAX)会发生什么
+  d. 结果集大，给数据消费者传数据的低效。
+     当你SELECT *后常常你会从数据库查询出比你应用的功能实际需要过多的列，这还可能导致多余数据从数据到服务端到客户端，从而导致机器负担的增加，同样地网络传输也会增加负担。
+     特别当数据表增加了新列，但是功能实现那根本又不需要。
+  e. 绑定问题。当你SELECT *之后，有可能查询到来自两张表但是名称一样的列。
+     这样可能会引起数据绑定端或者功能点崩溃，想想返回来有两列数据都是ID，谁TM知道用哪一列？
+     SELECT *还可能搅乱视图（部分数据库、版本）——当底层数据表结构改变，视图又没有新建，视图的数据可能会返回无意义的数据（名称乱不好维护？）。
+     最惨的，你能折腾好以你命名的列，但新来的挖坑人要加入列的时候就不知道他应该如何命名列名才不会与你已经埋好的列名冲突了。
+  f. 妨碍优化器选择更优的执行计划
+     SqlServer基础--Select *与Select 指定列的区别 https://yq.aliyun.com/articles/231799
+     select * from table
+        有聚集索引：聚集索引扫描
+        没有聚集索引 :表扫描
+     select 所有的列名 from talbe
+        有聚集索引：聚集索引扫描
+        没有聚集索引 :表扫描
+     select 索引中的列名  from talbe
+        指定索引的扫描
+  g. select * 一定不走索引是否正确     https://www.cnblogs.com/lyhabc/archive/2013/08/30/3290745.html
+      走索引指的是：SQL语句的执行计划用到了1、聚集索引查找  2、索引查找  ，并且查询语句中需要有where子句
+      其实走不走索引，关键取决于where后面包括还是不包括
+      创建聚集索引的时候的第一个字段
+      创建非聚集索引的时候的第一个字段
+      跟select *没有关系的，select * 最大的影响就是额外的IO开销
+      像“键查找” ，“RID查找”这些运算符就是额外的开销
+      键查找：到聚集索引里找其他字段的值
+      RID查找：到堆表里找其他字段的值
+  ps.[sql server] 如何阻止SELECT * 语句
+     在你的表定义上增加一个产生除零错误的的计算列。这个方法超简单，但却真正有效。 (mysql)DevelopersPain AS (1 / 0)
+2.索引相关
+    a.聚集索引 非聚集索引
+    b.聚集索引扫描 非聚集索引扫描 表扫描
+    c.聚集索引查找 非聚集索引查找 （键查找  RID查找 这些运算符就是额外的开销）
+20190115
+1.SQL Server 动态行转列（参数化表名、分组列、行转列字段、字段值）
+  a.动态sql
+  b.pvt运算符
+    DECLARE @sqlCmd VARCHAR(1024),@colList VARCHAR(1024)
+     SELECT @colList = ISNULL(@colList + ',','') + '[' + CAST([id] AS varchar(20)) + ']' FROM [pas_price_sys] WHERE deleted = 0
+     --PRINT @colList
+       SET @sqlCmd = ' SELECT *
+                         FROM [v_product_sys_price] 
+                       PIVOT 
+                         (SUM([Price]) FOR [PriceSysID] IN ('+ @colList +')) AS pvt 
+                       ORDER BY pvt.ProductID,pvt.ProductName'
+    --PRINT (@sqlCmd)
+    EXEC (@sqlCmd)
+  
+2.根据执行计划优化性能
+  https://blog.csdn.net/DBA_Huangzj/article/details/8687910
+3.SQL SERVER中什么情况会导致索引查找变成索引扫描
+  https://www.cnblogs.com/kerrycode/p/4806236.html
+4.索引与SARG
+  http://www.cnblogs.com/chillsrc/archive/2012/10/31/2745675.html
+5.正确使用索引
+  http://www.cnblogs.com/lihuali/p/5899255.html?spm=a2c4e.11153940.blogcont231810.12.7a224dcbDCjUBV
+  http://www.cnblogs.com/chillsrc/archive/2012/10/31/2745675.html
+   符合SARG格式的数据肯定会使用到相应的索引呢？先给出答案，不是
+   例如：Select * from WBK_PDE_LIST_ORG where cop_g_no='11000' ，假设在cop_g_no上建立了非聚集索引，那么当查询语句得出的结果数量小于某个数量阀值时，例如查询结果的数量小于600条时，会使用到非聚集索引，但当查询结果数量大于600条时，却可能不会使用非聚集索引，可能会使用聚集索引或全表扫描
+  https://www.cnblogs.com/shanshanlaichi/p/6568097.html
+    主键就是聚集索引
+    这种想法笔者认为是极端错误的，是对聚集索引的一种浪费。虽然SQL SERVER默认是在主键上建立聚集索引的。
+    通常，我们会在每个表中都建立一个ID列，以区分每条数据，并且这个ID列是自动增大的，步长一般为1。
+    我们的这个办公自动化的实例中的列Gid就是如此。
+    此时，如果我们将这个列设为主键，SQL SERVER会将此列默认为聚集索引。这样做有好处，就是可以让您的数据在数据库中按照ID进行物理排序，但笔者认为这样做意义不大。
+    显而易见，聚集索引的优势是很明显的，而每个表中只能有一个聚集索引的规则，这使得聚集索引变得更加珍贵。
+    从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。
+    在实际应用中，因为 ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪费。
+    其次，让每个ID号都不同的字段作为聚集索引也不符合“大数目的不同值情况下不应建立聚合索引”规则；
+    当然，这种情况只是针对用户经常修改记录内容，特别是索引项的时候会负作用，但对于查询速度并没有影响。
+20190117
+1.使用AWE让.Net 应用程序突破2G的内存访问限制 https://www.cnblogs.com/eaglet/archive/2008/11/06/1328061.html
+2.内存映射 
+    它有三个主要用途: 
+    系统加载EXE和DLL文件 
+    操作系统就是用它来加载exe和dll文件建立进程,运行exe。这样可以节省页文件和启动时间。 
+    访问大数据文件 
+    如果文件太大,比如超过了进程用户区2G,用fopen是不能对文件进行操作的。这时,可用内存映射文件。对于大数据文件可以不必对文件执行I/O操作,不必对所有文件内容进行缓存。 
+    进程共享机制 
+    内存映射文件是多个进程共享数据的一种较高性能的有效方式,它也是操作系统进程通信机制的底层实现方法。RPC、COM、OLE、DDE、窗口消息、剪贴板、管道、Socket等都是使用内存映射文件实现的
+3.Windows内存体系 https://blog.csdn.net/china_jeffery/article/details/79610915
+4.C++11 右值引用&& 与 精确传递 
+  https://blog.csdn.net/u013005924/article/details/52223931
+  https://blog.csdn.net/china_jeffery/article/details/78520237
+  http://www.cnblogs.com/tingshuo/archive/2013/01/21/2870035.html
+    What is The Rule of Three? https://stackoverflow.com/questions/4172722/what-is-the-rule-of-three
+5.C++中栈和堆上建立对象的区别
+https://www.cnblogs.com/xiaoxiaoqiang001/p/5557704.html
+20190118
+1.拷贝构造函数 https://www.cnblogs.com/alantu2018/p/8459250.html
+    通过对对象复制的分析，我们发现对象的复制大多在进行“值传递”时发生，这里有一个小技巧可以防止按值传递——声明一个私有拷贝构造函数。
+    甚至不必去定义这个拷贝构造函数，这样因为拷贝构造函数是私有的，如果用户试图按值传递或函数返回该类对象，将得到一个编译错误，从而可以避免按值传递或返回对象。
+    拷贝构造函数的几个细节
+    1.为什么拷贝构造函数必须是引用传递，不能是值传递？
+     简单的回答是为了防止递归引用。
+     具体一些可以这么讲：当一个对象需要以值方式传递时，编译器会生成代码调用它的拷贝构造函数以生成一个复本。
+     如果类A的拷贝构造函数是以值方式传递一个类A对象作为参数的话，当需要调用类A的拷贝构造函数时，需要以值方式传进一个A的对象作为实参；
+     而以值方式传递需要调用类A的拷贝构造函数；结果就是调用类A的拷贝构造函数导 致又一次调用类A的拷贝构造函数，这就是一个无限递归。
+    2. 拷贝构造函数的作用。     
+     作用就是用来复制对象的，在使用这个对象的实例来初始化这个对象的一个新的实例。
+    3.什么情况下必须定义拷贝构造函数？
+     当类的对象用于函数值传递时（值参数，返回类对象），拷贝构造函数会被调用。如果对象复制并非简单的值拷贝，那就必须定义拷贝构造函数
+2.拷贝（复制）构造函数与=运算符重载（赋值构造函数）
+    String a(“hello”);      //构造
+　　String b(“world”);      //构造
+　　String c = a; // 调用了拷贝构造函数，最好写成 c(a);
+　　c = b; // 调用了赋值函数
+　　a.本例中第三个语句的风格较差，宜改写成String c(a) 以区别于第四个语句
+    b.用户在使用语句ObjB = ObjA的时候，或许ObjB的pStr已经指向了动态申请的空间。
+    如果直接简单将其指向的地址覆盖，就会导致内存泄露，所以需要对=赋值操作符进行重载，在重载函数中判断pStr如果已经指向了动态申请的空间，就先将其释放。
+    c.=赋值操作符重载比拷贝构造函数做得要多，它除了完成拷贝构造函数所完成的拷贝动态申请的内存的数据之外，还释放了原本自己申请的内存空间。
+    所以原文最后给出的拷贝构造函数的实现可以使用=赋值操作符的重载来完成
+20190122
+1.SqlServer命名规范
+参考各种命名规范，我们统一使用命名规范如下：
+命名过程中如有现存的缩写，则使用该缩写，如无，一律不得缩写，例：ISBN
+数据库：用一个或三个以下英文单词组成，单词首字母大写，如：DepartmentManage；
+表名：使用名词性质的单词全拼表示，各单词首字母大写， 使用复数形式，如：Books
+      如果该表用于表明另外两表中字段间的关系，用单数(即表明实体间的关系的表用单数命名),单词中间无“and of in”之类的介词
+      如：BookAuthor
+        ==============================================================================================
+        1. 表中的字段一般使用名词性质的单词全拼表示，采用一个或三个以下英文单词组成，单词首字母大写，如：UserName;
+        2. 表主键名称为：表名+ID，如Document表的主键名为：DocumentID
+        3. 外键名称位：主表名+对应列名，如：DepartmentsID，说明如下：
+            在表Departments中，其字段有：ID, DepartmentName
+            在表UserInfo中，其字段有：UserId,UserName,DepartmentsID    DepartmentsID为外键
+        4. 表中自动增长的列一律命名为：ID；
+        5. 如果字段为bool型，则使用"IsShow","IsValid","HasPassed","HasExamined","IgnoreCase"这种形式表示
+        6. 如果字段位DateTime型，切且默认值是取系统时间，一律命名位：CheckDate
+        7. Status为表中状态的列名，默认值为0，在表中删除操作将会改变Status的值而不真实删除该记录；
+        8. 存储过程命名：sp_表名_方法,如：sp_News_Add,sp_News_Update;
+        9. 视图命名：vi_表名，如：vi_News;
+        10. 表、存储过程、视图等对象的所有都为dbo，不要使用数据库用户名，这样会影响数据库用户的更改
+20190124
+1.sqlserver插入字符串超过长度不会自动截断
+    SET ANSI_WARNINGS OFF 即使截断也不报错，仍然成功提交 //p_dboption 'db_name', 'ansi_warnings', 'FALSE'
+    SET ANSI_WARNINGS ON
+    建议只在执行某个sql批处理语句之前用set，在处理完成后，设置会恢复到默认值，否则错误就很难觉察了
+20190125
+1.sql collate https://www.cnblogs.com/sthinker/p/6025153.html   
+collate是一个子句，可应用于数据库定义或列定义以定义排序规则，或应用于字符串表达式以应用排序规则投影。
+2.表值函数
+  表值函数可以调用其它的函数
+  相当于带参数的视图
+  内联表值函数与多语句表值函数，内联表值函数参与整个执行计划生成与优化，多语句表值函数对于查询分析器封闭（sqlserver假设返回一行数据）所以在返回多行数据时可能引发效率问题
+3.apply
+   cross apply && outer apply
+   至于 cross apply 与 outer apply 的区别就好像left join 与 join 的区别。如果 apply 不生成行，outer apply 也会返回该行，而 cross apply 则不会输出该行
+   
+   APPLY 有两种形式： CROSS APPLY 和 OUTER APPLY。CROSS APPLY 仅返回外部表中通过表值函数生成结果集的行。OUTER APPLY 既返回生成结果集的行，也返回不生成结果集的行，其中表值函数生成的列中的值为 NULL。
+   select * from table1 join MyFunction(1) on 1=1
+   MyFunction 的参数是一个常量，可以返回一个表。
+   但有时候我们希望以 table1 的字段作为参数，传进函数去计算，像：
+   select * from table1 join MyFunction(id) on 1=1
+   这样是会出错的。这个时候我们就可以用 apply 来实现了。例如：
+   select * from table1 cross apply MyFunction(id) on 1=1
+
+简单的说，apply 允许我们将前面结果集每一行的数据作为参数，传递到后面的表达式，后面的表达式可以是一个表值函数，或者select结果集。
+20190128
+1.sql union 与 union all
+union all效率比union高，union需要重排去重
+2.union all 和 group by 的顺序问题 https://blog.csdn.net/sarahcla/article/details/10372895
+    a.先Union All， 再Group By
+        2275
+        362
+        并行度高，但最耗CPU资源
+    b.分别Group By，再Union All，再Group By
+        1622
+        416
+        并行度中等，最节省CPU资源（貌似是折中的选择）
+    c.先Group By，再Union
+        1811
+        507
+        并行度最低，消耗CPU资源中等
+20190211
+1.sql查询语句的处理步骤 http://www.cnblogs.com/knowledgesea/p/4177830.html
+    --查询组合字段
+    (5)select (5-2) distinct(5-3) top(<top_specification>)(5-1)<select_list>
+    --连表
+    (1)from (1-J)<left_table><join_type> join <right_table> on <on_predicate>
+            (1-A)<left_table><apply_type> apply <right_table_expression> as <alias>
+            (1-P)<left_table> pivot (<pivot_specification>) as <alias>
+            (1-U)<left_table> unpivot (<unpivot_specification>) as <alias>
+    --查询条件
+    (2)where <where_pridicate>
+    --分组
+    (3)group by <group_by_specification>
+    --分组条件
+    (4)having<having_predicate>
+    --排序
+    (6)order by<order_by_list>
+2.SqlServer性能检测和优化工具 http://www.cnblogs.com/knowledgesea/p/3683505.html
+    sql server profiler
+    数据库引擎优化顾问功能  https://www.cnblogs.com/hsj2010/archive/2010/07/15/1777823.html
+3.执行计划与优化
+    https://www.cnblogs.com/knowledgesea/p/5005163.html
+    扫描计数：索引或表扫描次数
+    逻辑读取：数据缓存中读取的页数
+    物理读取：从磁盘中读取的页数
+    预读：查询过程中，从磁盘放入缓存的页数
+    lob逻辑读取：从数据缓存中读取，image，text，ntext或大型数据的页数
+    lob物理读取：从磁盘中读取，image，text，ntext或大型数据的页数
+    lob预读：查询过程中，从磁盘放入缓存的image，text，ntext或大型数据的页数
+    如果物理读取次数和预读次说比较多，可以使用索引进行优化
+    http://www.cnblogs.com/knowledgesea/p/3686105.html
+20190212
+1.SQL Server Join 方式 https://www.cnblogs.com/fish-li/archive/2011/06/06/2073626.html
+    【Nested Loops join】，如果一个联接输入很小，而另一个联接输入很大而且已在其联接列上创建了索引， 则索引 Nested Loops 连接是最快的联接操作
+    【Merge Join】，如果两个联接输入并不小但已在二者联接列上排序（例如，如果它们是通过扫描已排序的索引获得的），则合并联接是最快的联接操作。
+     如果两个联接输入都很大，而且这两个输入的大小差不多，则预先排序的合并联接提供的性能与哈希联接相近。但是，如果这两个输入的大小相差很大，则哈希联接操作通常快得多。
+    【Hash Join】，哈希联接可以有效处理未排序的大型非索引输入。
+2.C#分布式事务解决方案-TransactionScope
+3.sql server 服务
+Sql server analysis services  数据挖掘 https://www.cnblogs.com/OpenCoder/p/5054343.html
+Sql server reporting services 报表服务 
+20190219
+
+1.SQL With As 用法
+    WITH AS短语，也叫做子查询部分（subquery factoring），可以定义一个SQL片断，该SQL片断会被整个SQL语句用到。可以使SQL语句的可读性更高，也可以在UNION ALL的不同部分，作为提供数据的部分。
+    对于UNION ALL，使用WITH AS定义了一个UNION ALL语句，当该片断被调用2次以上，优化器会自动将该WITH AS短语所获取的数据放入一个Temp表中。而提示meterialize则是强制将WITH AS短语的数据放入一个全局临时表中。很多查询通过该方式都可以提高速度
+20190221
+1.SQL Server 表分区实战系列（文章索引）http://www.cnblogs.com/gaizai/archive/2011/07/01/2095539.html#_labelIntroduction
+20190222
+1.数据库Sharding的基本思想和切分策略
+    https://blog.csdn.net/bluishglc/article/details/6161475/
+2.SQL Server 2005 中的分区表和索引
+    https://docs.microsoft.com/zh-cn/previous-versions/sql/sql-server-2005/ms345146(v=sql.90)
+20190226
+1.行列转换 pivot转换，动态sql转换，静态sql转换
+https://www.cnblogs.com/aspnethot/articles/1762665.html
+https://www.cnblogs.com/no27/p/6398130.html
+SELECT 姓名,
+ max(CASE 课程 WHEN '语文' THEN 分数 ELSE 0 end)语文,
+ max(CASE 课程 WHEN '数学' THEN 分数 ELSE 0 end)数学,
+ max(CASE 课程 WHEN '物理' THEN 分数 ELSE 0 end)物理
+FROM tb
+GROUP BY 姓名
+2.SQLServer : EXEC和sp_executesql的区别
+https://www.cnblogs.com/JustYong/p/6082971.html
+3.SQLServer 字符串简单拆分 
+https://www.cnblogs.com/mingjing/p/7765435.html PARSENAME用法
+最简单的办法就是调用sql server中自带函数PARSENAME来进行拆分，但是注意：最多只能拆分成4个字段
+20190227
+1.分区对齐问题
+  索引分区问题
+2.SQLSERVER中的ALL、PERCENT、CUBE关键字、ROLLUP关键字和GROUPING函数
+    https://www.cnblogs.com/lyhabc/archive/2013/08/25/3280634.html
+20190228
+1.带你玩转Visual Studio——Property Manager的配制
+https://blog.csdn.net/luoweifu/article/details/49836809
+https://docs.microsoft.com/en-us/cpp/ide/working-with-project-properties?view=vs-2017
