@@ -141,7 +141,7 @@
                 并行执行
         g.迭代器异步模式 
             1)https://www.cnblogs.com/manupstairs/p/3588637.html
-              http://tomasp.net/blog/csharp-async.aspx/ Asynchronous Programming in C# using Iterators
+              Asynchronous Programming in C# using Iterators http://tomasp.net/blog/csharp-async.aspx/ 
             2)https://www.oschina.net/translate/await-tasks-in-csharp4-using-iterators
 20180507-20180508
     1.async/await
