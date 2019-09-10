@@ -1,22 +1,22 @@
-20190506
-1.UDP µ¥²¥¡¢¹ã²¥ºÍ¶à²¥£¨×é²¥£©
+ï»¿20190506
+1.UDP å•æ’­ã€å¹¿æ’­å’Œå¤šæ’­ï¼ˆç»„æ’­ï¼‰
     https://www.cnblogs.com/jingliming/p/4477264.html
-    C# UDP ×é²¥
+    C# UDP ç»„æ’­
     https://blog.csdn.net/qq_32493189/article/details/77855759
 20190513
 1.http://www.dxper.net/forum.php
-    ¹ÂÄ®±±º£µÀ
+    å­¤æ¼ åŒ—æµ·é“
     jw61243421
 20190516
-1..net Ð­±ä out TÓëÄæ±ä in T https://www.cnblogs.com/CLR010/p/3274310.html
-  ÖµÀàÐÍ²»Ö§³ÖÓëÐ­±äÓëÄæ±ä
-  µ±Ç°½öÖ§³Ö½Ó¿ÚºÍÎ¯ÍÐµÄÄæ±äÓëÐ­±ä £¬²»Ö§³ÖÀàºÍ·½·¨¡£
-  Êý×éÌìÈ»Ö§³ÖÐ­±ä
+1..net åå˜ out Tä¸Žé€†å˜ in T https://www.cnblogs.com/CLR010/p/3274310.html
+  å€¼ç±»åž‹ä¸æ”¯æŒä¸Žåå˜ä¸Žé€†å˜
+  å½“å‰ä»…æ”¯æŒæŽ¥å£å’Œå§”æ‰˜çš„é€†å˜ä¸Žåå˜ ï¼Œä¸æ”¯æŒç±»å’Œæ–¹æ³•ã€‚
+  æ•°ç»„å¤©ç„¶æ”¯æŒåå˜
     string[] strings = new string[] { "string" };
     object[] objects = strings;
-  in¹Ø¼ü×Ö×÷Îª·ºÐÍÐÞÊÎ·ûµÄ»°£¬ÄÇÃ´ÄÇ¸ö·ºÐÍ²ÎÊý¾ÍÖ»ÄÜÓÃ×÷·½·¨µÄÊäÈë²ÎÊý£¬»òÕßÖ»Ð´ÊôÐÔµÄ²ÎÊý£¬²»ÄÜ×÷Îª·½·¨·µ»ØÖµµÈ£¬×ÜÖ®¾ÍÊÇÖ»ÄÜÊÇ¡°Èë¡±£¬²»ÄÜ³ö¡£
-  out¹Ø¼ü×Ö·´Ö®¡£
-  Äæ±äºÍÐ­±äµÄ±¾ÖÊÆäÊµ¾ÍÊÇoo¶àÌ¬ÒÔ¼°²ÎÊý´«µÝÁ÷ÏòÓë·µ»ØÖµ´«µÝÁ÷ÏòµÄÏà·´ÐÔ
+  inå…³é”®å­—ä½œä¸ºæ³›åž‹ä¿®é¥°ç¬¦çš„è¯ï¼Œé‚£ä¹ˆé‚£ä¸ªæ³›åž‹å‚æ•°å°±åªèƒ½ç”¨ä½œæ–¹æ³•çš„è¾“å…¥å‚æ•°ï¼Œæˆ–è€…åªå†™å±žæ€§çš„å‚æ•°ï¼Œä¸èƒ½ä½œä¸ºæ–¹æ³•è¿”å›žå€¼ç­‰ï¼Œæ€»ä¹‹å°±æ˜¯åªèƒ½æ˜¯â€œå…¥â€ï¼Œä¸èƒ½å‡ºã€‚
+  outå…³é”®å­—åä¹‹ã€‚
+  é€†å˜å’Œåå˜çš„æœ¬è´¨å…¶å®žå°±æ˜¯ooå¤šæ€ä»¥åŠå‚æ•°ä¼ é€’æµå‘ä¸Žè¿”å›žå€¼ä¼ é€’æµå‘çš„ç›¸åæ€§
     interface IFoo<in T>
     {
      
@@ -24,9 +24,9 @@
      
     interface IBar<in T>
     {
-        void Test(IFoo<T> foo); //¶ÔÂð£¿
+        void Test(IFoo<T> foo); //å¯¹å—ï¼Ÿ
     }
-    ÄãÄÜ¿´³öÉÏÊö´úÂëÓÐÊ²Ã´ÎÊÌâÂð£¿ÎÒÉùÃ÷ÁËin T£¬È»ºó½«ËûÓÃÓÚ·½·¨µÄ²ÎÊýÁË£¬Ò»ÇÐÕý³£¡£µ«³öºõÄãÒâÁÏµÄÊÇ£¬Õâ¶Î´úÂëÊÇÎÞ·¨±àÒëÍ¨¹ýµÄ£¡·´¶øÊÇÕâÑùµÄ´úÂëÍ¨¹ýÁË±àÒë
+    ä½ èƒ½çœ‹å‡ºä¸Šè¿°ä»£ç æœ‰ä»€ä¹ˆé—®é¢˜å—ï¼Ÿæˆ‘å£°æ˜Žäº†in Tï¼Œç„¶åŽå°†ä»–ç”¨äºŽæ–¹æ³•çš„å‚æ•°äº†ï¼Œä¸€åˆ‡æ­£å¸¸ã€‚ä½†å‡ºä¹Žä½ æ„æ–™çš„æ˜¯ï¼Œè¿™æ®µä»£ç æ˜¯æ— æ³•ç¼–è¯‘é€šè¿‡çš„ï¼åè€Œæ˜¯è¿™æ ·çš„ä»£ç é€šè¿‡äº†ç¼–è¯‘
     interface IFoo<in T>
     {
      
@@ -36,32 +36,32 @@
     {
         void Test(IFoo<T> foo); 
     }    
-    Ê²Ã´£¿Ã÷Ã÷ÊÇout²ÎÊý£¬ÎÒÃÇÈ´Òª½«ÆäÓÃÓÚ·½·¨µÄ²ÎÊý²ÅºÏ·¨£¿³õ¿´ÆðÀ´µÄÈ·»áÓÐÒ»Ð©¾ªÆæ¡£ÎÒÃÇÐèÒª·ÑÒ»Ð©ÖÜÕÛÀ´Àí½âÕâ¸öÎÊÌâ
-    ÏÖÔÚÎÒÃÇ¿¼ÂÇIBar<string>£¬ËüÓ¦¸ÃÄÜ¹»Ð­±ä³ÉIBar<object>£¬ÒòÎªstringÊÇobjectµÄ×ÓÀà¡£
-    Òò´ËIBar.Test(IFoo<string>)Ò²¾ÍÐ­±ä³ÉÁËIBar.Test(IFoo<object>)¡£
-    µ±ÎÒÃÇµ÷ÓÃÕâ¸öÐ­±äºó·½·¨Ê±£¬½«»á´«ÈëÒ»¸öIFoo<object>×÷Îª²ÎÊý¡£
-    ÏëÒ»Ïë£¬Õâ¸ö·½·¨ÊÇ´ÓIBar.Test(IFoo<string>)Ð­±äÀ´µÄ£¬ËùÒÔ²ÎÊýIFoo<object>±ØÐëÄÜ¹»±ä³ÉIFoo<string>²ÅÄÜÂú×ãÔ­º¯ÊýµÄÐèÒª¡£
-    ÕâÀï¶ÔIFoo<object>µÄÒªÇóÊÇËüÄÜ¹»·´±ä³ÉIFoo<string>£¡¶ø²»ÊÇÐ­±ä¡£
-    Ò²¾ÍÊÇËµ£¬Èç¹ûÒ»¸ö½Ó¿ÚÐèÒª¶ÔTÐ­±ä£¬ÄÇÃ´Õâ¸ö½Ó¿ÚËùÓÐ·½·¨µÄ²ÎÊýÀàÐÍ±ØÐëÖ§³Ö¶ÔTµÄ·´±ä¡£
-    Í¬ÀíÎÒÃÇÒ²¿ÉÒÔ¿´³ö£¬Èç¹û½Ó¿ÚÒªÖ§³Ö¶ÔT·´±ä£¬ÄÇÃ´½Ó¿ÚÖÐ·½·¨µÄ²ÎÊýÀàÐÍ¶¼±ØÐëÖ§³Ö¶ÔTÐ­±ä²ÅÐÐ¡£
-    Õâ¾ÍÊÇ·½·¨²ÎÊýµÄÐ­±ä-·´±ä»¥»»Ô­Ôò¡£
-    ËùÒÔ£¬ÎÒÃÇ²¢²»ÄÜ¼òµ¥µØËµout²ÎÊýÖ»ÄÜÓÃÓÚ·µ»ØÖµ£¬ËüÈ·ÊµÖ»ÄÜÖ±½ÓÓÃÓÚÉùÃ÷·µ»ØÖµÀàÐÍ£¬µ«ÊÇÖ»ÒªÒ»¸öÖ§³Ö·´±äµÄÀàÐÍÐ­Öú£¬outÀàÐÍ²ÎÊý¾ÍÒ²¿ÉÒÔÓÃÓÚ²ÎÊýÀàÐÍ£¡
-    »»¾ä»°Ëµ£¬in²ÎÊý³ýÁËÖ±½ÓÉùÃ÷·½·¨²ÎÊýÖ®Íâ£¬Ò²½öÄÜ½èÖúÖ§³ÖÐ­±äµÄÀàÐÍ²ÅÄÜÓÃÓÚ·½·¨²ÎÊý£¬½öÖ§³Ö¶ÔT·´±äµÄÀàÐÍ×÷Îª·½·¨²ÎÊýÒ²ÊÇ²»ÔÊÐíµÄ¡£
+    ä»€ä¹ˆï¼Ÿæ˜Žæ˜Žæ˜¯outå‚æ•°ï¼Œæˆ‘ä»¬å´è¦å°†å…¶ç”¨äºŽæ–¹æ³•çš„å‚æ•°æ‰åˆæ³•ï¼Ÿåˆçœ‹èµ·æ¥çš„ç¡®ä¼šæœ‰ä¸€äº›æƒŠå¥‡ã€‚æˆ‘ä»¬éœ€è¦è´¹ä¸€äº›å‘¨æŠ˜æ¥ç†è§£è¿™ä¸ªé—®é¢˜
+    çŽ°åœ¨æˆ‘ä»¬è€ƒè™‘IBar<string>ï¼Œå®ƒåº”è¯¥èƒ½å¤Ÿåå˜æˆIBar<object>ï¼Œå› ä¸ºstringæ˜¯objectçš„å­ç±»ã€‚
+    å› æ­¤IBar.Test(IFoo<string>)ä¹Ÿå°±åå˜æˆäº†IBar.Test(IFoo<object>)ã€‚
+    å½“æˆ‘ä»¬è°ƒç”¨è¿™ä¸ªåå˜åŽæ–¹æ³•æ—¶ï¼Œå°†ä¼šä¼ å…¥ä¸€ä¸ªIFoo<object>ä½œä¸ºå‚æ•°ã€‚
+    æƒ³ä¸€æƒ³ï¼Œè¿™ä¸ªæ–¹æ³•æ˜¯ä»ŽIBar.Test(IFoo<string>)åå˜æ¥çš„ï¼Œæ‰€ä»¥å‚æ•°IFoo<object>å¿…é¡»èƒ½å¤Ÿå˜æˆIFoo<string>æ‰èƒ½æ»¡è¶³åŽŸå‡½æ•°çš„éœ€è¦ã€‚
+    è¿™é‡Œå¯¹IFoo<object>çš„è¦æ±‚æ˜¯å®ƒèƒ½å¤Ÿåå˜æˆIFoo<string>ï¼è€Œä¸æ˜¯åå˜ã€‚
+    ä¹Ÿå°±æ˜¯è¯´ï¼Œå¦‚æžœä¸€ä¸ªæŽ¥å£éœ€è¦å¯¹Tåå˜ï¼Œé‚£ä¹ˆè¿™ä¸ªæŽ¥å£æ‰€æœ‰æ–¹æ³•çš„å‚æ•°ç±»åž‹å¿…é¡»æ”¯æŒå¯¹Tçš„åå˜ã€‚
+    åŒç†æˆ‘ä»¬ä¹Ÿå¯ä»¥çœ‹å‡ºï¼Œå¦‚æžœæŽ¥å£è¦æ”¯æŒå¯¹Tåå˜ï¼Œé‚£ä¹ˆæŽ¥å£ä¸­æ–¹æ³•çš„å‚æ•°ç±»åž‹éƒ½å¿…é¡»æ”¯æŒå¯¹Tåå˜æ‰è¡Œã€‚
+    è¿™å°±æ˜¯æ–¹æ³•å‚æ•°çš„åå˜-åå˜äº’æ¢åŽŸåˆ™ã€‚
+    æ‰€ä»¥ï¼Œæˆ‘ä»¬å¹¶ä¸èƒ½ç®€å•åœ°è¯´outå‚æ•°åªèƒ½ç”¨äºŽè¿”å›žå€¼ï¼Œå®ƒç¡®å®žåªèƒ½ç›´æŽ¥ç”¨äºŽå£°æ˜Žè¿”å›žå€¼ç±»åž‹ï¼Œä½†æ˜¯åªè¦ä¸€ä¸ªæ”¯æŒåå˜çš„ç±»åž‹ååŠ©ï¼Œoutç±»åž‹å‚æ•°å°±ä¹Ÿå¯ä»¥ç”¨äºŽå‚æ•°ç±»åž‹ï¼
+    æ¢å¥è¯è¯´ï¼Œinå‚æ•°é™¤äº†ç›´æŽ¥å£°æ˜Žæ–¹æ³•å‚æ•°ä¹‹å¤–ï¼Œä¹Ÿä»…èƒ½å€ŸåŠ©æ”¯æŒåå˜çš„ç±»åž‹æ‰èƒ½ç”¨äºŽæ–¹æ³•å‚æ•°ï¼Œä»…æ”¯æŒå¯¹Tåå˜çš„ç±»åž‹ä½œä¸ºæ–¹æ³•å‚æ•°ä¹Ÿæ˜¯ä¸å…è®¸çš„ã€‚
     
 20190630
 1.https://www.cnblogs.com/flx-2018-9-28/p/9816809.html
-    INSERT INTO SELECTÓï¾ä
-    Óï¾äÐÎÊ½Îª£ºInsert into Table2(field1,field2,...) select value1,value2,... from Table1
-    »òÕß£ºInsert into Table2 select  *  from Table1
-    ×¢Òâ£º
-    £¨1£©ÒªÇóÄ¿±ê±íTable2±ØÐë´æÔÚ£¬²¢ÇÒ×Ö¶Îfield,field2...Ò²±ØÐë´æÔÚ
-    £¨2£©×¢ÒâTable2µÄÖ÷¼üÔ¼Êø£¬Èç¹ûTable2ÓÐÖ÷¼ü¶øÇÒ²»Îª¿Õ£¬Ôò field1£¬ field2...ÖÐ±ØÐë°üÀ¨Ö÷¼ü
-    £¨3£©×¢ÒâÓï·¨£¬²»Òª¼Óvalues£¬ºÍ²åÈëÒ»ÌõÊý¾ÝµÄsql»ìÁË
-    SELECT INTO FROMÓï¾ä
-    Óï¾äÐÎÊ½Îª£ºSELECT vale1, value2 into Table2 from Table1
-    ÒªÇóÄ¿±ê±íTable2²»´æÔÚ£¬ÒòÎªÔÚ²åÈëÊ±»á×Ô¶¯´´½¨±íTable2£¬²¢½«Table1ÖÐÖ¸¶¨×Ö¶ÎÊý¾Ý¸´ÖÆµ½Table2ÖÐ¡£
+    INSERT INTO SELECTè¯­å¥
+    è¯­å¥å½¢å¼ä¸ºï¼šInsert into Table2(field1,field2,...) select value1,value2,... from Table1
+    æˆ–è€…ï¼šInsert into Table2 select  *  from Table1
+    æ³¨æ„ï¼š
+    ï¼ˆ1ï¼‰è¦æ±‚ç›®æ ‡è¡¨Table2å¿…é¡»å­˜åœ¨ï¼Œå¹¶ä¸”å­—æ®µfield,field2...ä¹Ÿå¿…é¡»å­˜åœ¨
+    ï¼ˆ2ï¼‰æ³¨æ„Table2çš„ä¸»é”®çº¦æŸï¼Œå¦‚æžœTable2æœ‰ä¸»é”®è€Œä¸”ä¸ä¸ºç©ºï¼Œåˆ™ field1ï¼Œ field2...ä¸­å¿…é¡»åŒ…æ‹¬ä¸»é”®
+    ï¼ˆ3ï¼‰æ³¨æ„è¯­æ³•ï¼Œä¸è¦åŠ valuesï¼Œå’Œæ’å…¥ä¸€æ¡æ•°æ®çš„sqlæ··äº†
+    SELECT INTO FROMè¯­å¥
+    è¯­å¥å½¢å¼ä¸ºï¼šSELECT vale1, value2 into Table2 from Table1
+    è¦æ±‚ç›®æ ‡è¡¨Table2ä¸å­˜åœ¨ï¼Œå› ä¸ºåœ¨æ’å…¥æ—¶ä¼šè‡ªåŠ¨åˆ›å»ºè¡¨Table2ï¼Œå¹¶å°†Table1ä¸­æŒ‡å®šå­—æ®µæ•°æ®å¤åˆ¶åˆ°Table2ä¸­ã€‚
     
-2.SQL update select½áºÏÓï¾äÏê½â¼°Ó¦ÓÃ
+2.SQL update selectç»“åˆè¯­å¥è¯¦è§£åŠåº”ç”¨
     UPDATE table1 alias
     SET (column_name,column_name ) = (
     SELECT (column_name, column_name)
@@ -69,7 +69,7 @@
     WHERE column_name = alias.column_name)
     WHERE column_name = VALUE
     
-    Àý×Ó UPDATE b 
+    ä¾‹å­ UPDATE b 
             SET b.ClientName = a.name 
            FROM a,b    
           WHERE a.id = b.id

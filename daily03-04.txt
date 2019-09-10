@@ -1,168 +1,168 @@
-20190304
-    1.Linq±à³Ì¼¼ÊõÄÚÄ» 15ÕÂ Í¨¹ýLinq²éÑ¯¹ØÁªÊý¾Ý¿â±í
-    Linq To DataSet ×óÍâÁ¬½Ó into...from...in +£¨DefaultIfEmpty£¨DataTable.NewRow£©£©+ ¿É¿ÕÀàÐÍ
+ï»¿20190304
+    1.Linqç¼–ç¨‹æŠ€æœ¯å†…å¹• 15ç«  é€šè¿‡LinqæŸ¥è¯¢å…³è”æ•°æ®åº“è¡¨
+    Linq To DataSet å·¦å¤–è¿žæŽ¥ into...from...in +ï¼ˆDefaultIfEmptyï¼ˆDataTable.NewRowï¼‰ï¼‰+ å¯ç©ºç±»åž‹
 20190306
-1.sqlserver ½¨±í½Å±¾Ñ¡Ïî
+1.sqlserver å»ºè¡¨è„šæœ¬é€‰é¡¹
     pad_index=off,statistics_norecompute=off,ignore_dup_key=off,all_row_locks=on,allow_page_locks=on
       pad_index
-        Ö¸¶¨Ìî³äË÷ÒýµÄÄÚ²¿½ÚµãµÄÐÐÊý£¬ÖÁÉÙÓ¦´óÓÚµÈÓÚÁ½ÐÐ¡£PAD_INDEX Ñ¡ÏîÖ»ÓÐÔÚFILLFACTOR Ñ¡ÏîÖ¸¶¨ºó²ÅÆð×÷ÓÃ¡£
-        ÒòÎªPAD_INDEX Ê¹ÓÃÓëFILLFACTOR ÏàÍ¬µÄ°Ù·Ö±È¡£
-        È±Ê¡Ê±£¬SQL Server È·±£Ã¿¸öË÷ÒýÒ³ÖÁÉÙÓÐÄÜÈÝÄÉÒ»Ìõ×î´óË÷ÒýÐÐÊý¾ÝµÄ¿ÕÏÐ¿Õ¼ä¡£
-        Èç¹ûFILLFACTOR Ö¸¶¨µÄ°Ù·Ö±È²»¹»ÈÝÄÉÒ»ÐÐÊý¾ÝSQL Server »á×Ô¶¯ÄÚ²¿¸ü¸Ä°Ù·Ö±È¡£
+        æŒ‡å®šå¡«å……ç´¢å¼•çš„å†…éƒ¨èŠ‚ç‚¹çš„è¡Œæ•°ï¼Œè‡³å°‘åº”å¤§äºŽç­‰äºŽä¸¤è¡Œã€‚PAD_INDEX é€‰é¡¹åªæœ‰åœ¨FILLFACTOR é€‰é¡¹æŒ‡å®šåŽæ‰èµ·ä½œç”¨ã€‚
+        å› ä¸ºPAD_INDEX ä½¿ç”¨ä¸ŽFILLFACTOR ç›¸åŒçš„ç™¾åˆ†æ¯”ã€‚
+        ç¼ºçœæ—¶ï¼ŒSQL Server ç¡®ä¿æ¯ä¸ªç´¢å¼•é¡µè‡³å°‘æœ‰èƒ½å®¹çº³ä¸€æ¡æœ€å¤§ç´¢å¼•è¡Œæ•°æ®çš„ç©ºé—²ç©ºé—´ã€‚
+        å¦‚æžœFILLFACTOR æŒ‡å®šçš„ç™¾åˆ†æ¯”ä¸å¤Ÿå®¹çº³ä¸€è¡Œæ•°æ®SQL Server ä¼šè‡ªåŠ¨å†…éƒ¨æ›´æ”¹ç™¾åˆ†æ¯”ã€‚
       statistics_norecompute
-        Ö¸¶¨·Ö²¼Í³¼Æ²»×Ô¶¯¸üÐÂ¡£ÐèÒªÊÖ¶¯Ö´ÐÐ²»´øNORECOMPUTE ×Ó¾äµÄUPDATESTATISTICS ÃüÁî¡£
+        æŒ‡å®šåˆ†å¸ƒç»Ÿè®¡ä¸è‡ªåŠ¨æ›´æ–°ã€‚éœ€è¦æ‰‹åŠ¨æ‰§è¡Œä¸å¸¦NORECOMPUTE å­å¥çš„UPDATESTATISTICS å‘½ä»¤ã€‚
       ignore_dup_key
-        ´ËÑ¡Ïî¿ØÖÆÁËµ±Íù°üº¬ÓÚÒ»¸öÎ©Ò»Ô¼ÊøÖÐµÄÁÐÖÐ²åÈëÖØ¸´Êý¾ÝÊ±SQL Server Ëù×÷µÄ·´Ó¦¡£
-        µ±Ñ¡Ôñ´ËÑ¡ÏîÊ±£¬SQL Server ·µ»ØÒ»¸ö´íÎóÐÅÏ¢£¬Ìø¹ý´ËÐÐÊý¾ÝµÄ²åÈë£¬¼ÌÐøÖ´ÐÐÏÂÃæµÄ²åÈëÊý¾ÝµÄ²Ù×÷£ºµ±Ã»Ñ¡Ôñ´ËÑ¡ÏîÊ±£¬SQL Server ²»½ö»á·µ»ØÒ»¸ö´íÎóÐÅÏ¢£¬»¹»á»Ø¹ö£¨Rolls Back£©Õû¸öINSERT Óï¾ä
+        æ­¤é€‰é¡¹æŽ§åˆ¶äº†å½“å¾€åŒ…å«äºŽä¸€ä¸ªæƒŸä¸€çº¦æŸä¸­çš„åˆ—ä¸­æ’å…¥é‡å¤æ•°æ®æ—¶SQL Server æ‰€ä½œçš„ååº”ã€‚
+        å½“é€‰æ‹©æ­¤é€‰é¡¹æ—¶ï¼ŒSQL Server è¿”å›žä¸€ä¸ªé”™è¯¯ä¿¡æ¯ï¼Œè·³è¿‡æ­¤è¡Œæ•°æ®çš„æ’å…¥ï¼Œç»§ç»­æ‰§è¡Œä¸‹é¢çš„æ’å…¥æ•°æ®çš„æ“ä½œï¼šå½“æ²¡é€‰æ‹©æ­¤é€‰é¡¹æ—¶ï¼ŒSQL Server ä¸ä»…ä¼šè¿”å›žä¸€ä¸ªé”™è¯¯ä¿¡æ¯ï¼Œè¿˜ä¼šå›žæ»šï¼ˆRolls Backï¼‰æ•´ä¸ªINSERT è¯­å¥
       all_row_locks
-        ÊÇ·ñÔÊÐíÐÐËø
+        æ˜¯å¦å…è®¸è¡Œé”
       allow_page_locks
-        ÊÇ·ñÔÊÐíÒ³ÃæËø
-2.SQLServerÈÕÆÚÏà¹Ø
+        æ˜¯å¦å…è®¸é¡µé¢é”
+2.SQLServeræ—¥æœŸç›¸å…³
     a.smalldatetime vs datetime
-    smalldatetimeµÄÓÐÐ§Ê±¼ä·¶Î§1900/1/1~2079/6/6
-    datetimeµÄÓÐÐ§Ê±¼ä·¶Î§1753/1/1~9999/12/31
-    ËùÒÔÎÒÅÐ¶ÏÈç¹û¸ÃÖµ²»ÓÃµ½Ì«Ô¶µÄÈÕÆÚ·¶Î§£¬
-    ¾Í»áÊ¹ÓÃsmalldatetime
-    ¸ü¹Ø¼üµÄ²î±ð£¬ÄÇ¾ÍÊÇsmalldatetimeÖ»¾«×¼µ½·Ö£¬¶ødatetimeÔò¿É¾«×¼µ½3.33ºÁÃë¡£
-    b.DATEADD (datepart , number , date )  number¿ÉÒÔÎª¸ºÊý SELECT DATEADD(DAY,-1,'2019-01-01 12:34:56.789') => 2018-12-31 12:34:56.789 
+    smalldatetimeçš„æœ‰æ•ˆæ—¶é—´èŒƒå›´1900/1/1~2079/6/6
+    datetimeçš„æœ‰æ•ˆæ—¶é—´èŒƒå›´1753/1/1~9999/12/31
+    æ‰€ä»¥æˆ‘åˆ¤æ–­å¦‚æžœè¯¥å€¼ä¸ç”¨åˆ°å¤ªè¿œçš„æ—¥æœŸèŒƒå›´ï¼Œ
+    å°±ä¼šä½¿ç”¨smalldatetime
+    æ›´å…³é”®çš„å·®åˆ«ï¼Œé‚£å°±æ˜¯smalldatetimeåªç²¾å‡†åˆ°åˆ†ï¼Œè€Œdatetimeåˆ™å¯ç²¾å‡†åˆ°3.33æ¯«ç§’ã€‚
+    b.DATEADD (datepart , number , date )  numberå¯ä»¥ä¸ºè´Ÿæ•° SELECT DATEADD(DAY,-1,'2019-01-01 12:34:56.789') => 2018-12-31 12:34:56.789 
     c.DATEDIFF (datepart , startdate , enddate ) 
     d.DATEPART ( datepart , date )  YYYYMMDD(int) =>  DATEPART(YEAR, GETDATE()) * 10000 + DATEPART(MONTH, GETDATE()) * 100 + DATEPART(DAY, GETDATE())
-3.SQLServerÈÎÎñ¼Æ»®
-    ±ØÐë¿ªÆôAgent·þÎñ
-4.SQLServer·ÖÒ³
-    a.row_number ×Ó²éÑ¯
-    b.SQL Server 2012¼°2012ÒÔÉÏ°æ±¾µÄOFFSET-FETCHÉ¸Ñ¡
+3.SQLServerä»»åŠ¡è®¡åˆ’
+    å¿…é¡»å¼€å¯AgentæœåŠ¡
+4.SQLServeråˆ†é¡µ
+    a.row_number å­æŸ¥è¯¢
+    b.SQL Server 2012åŠ2012ä»¥ä¸Šç‰ˆæœ¬çš„OFFSET-FETCHç­›é€‰
 20190308
-    1.decimal ºÍ numeric Çø±ð https://blog.csdn.net/kk185800961/article/details/78853515
-    decimal ÍêÈ«ºÍÉùÃ÷µÄÒ»Ñù¾«È·£»numeric  ÖÁÉÙºÍÉùÃ÷µÄÒ»Ñù¾«È·¡£ÔÚ sql server ÖÐÁ½ÕßÊ¹ÓÃÍêÈ«ºÍÉùÃ÷µÄÒ»Ñù¾«È·¡£
-    µ«ÊÇÃ»ÓÐÀý×Ó£¬ºÜÄÑÃ÷°×¡£ÊÂÊµÉÏ£¬²»½ösql server ÓÐÕâÁ½¸öÀàÐÍ£¬ÆäËûÂú×ã sql ±ê×¼µÄÊý¾Ý¿â¶¼ÓÐ¡£
-    2.sqlserver Ð¡ÊýÀàÐÍ https://www.cnblogs.com/ljhdo/p/4910699.html
-    ÔÚSQL ServerÖÐ£¬Êµ¼ÊÉÏÐ¡ÊýÊýÖµÖ»ÓÐÁ½ÖÖÊý¾ÝÀàÐÍ£ºfloat ºÍ decimal£¬·Ö±ðÊÇ½üËÆÊýÖµºÍ¾«È·ÊýÖµ¡£ÆäËûÐ¡ÊýÀàÐÍ£¬¶¼¿ÉÒÔÊ¹ÓÃfloatºÍdecimalÀ´Ìæ´ú£¬
-    ÀýÈç£¬Ë«¾«¶È£¨double precision£©Êý¾ÝÀàÐÍµÈ¼ÛÓÚ float(53)£¬realµÈ¼ÛÓÚfloat(24)£¬
-    numericÊÇ decimalµÄÍ¬Òå´Ê£¬
-    Ó¦¸Ã±ÜÃâÔÚ³ÌÐòÖÐÖ±½ÓÊ¹ÓÃ double precision¡¢realºÍnumeric£¬¶øÊÇÓÃ float(24) ¡¢float(53)ºÍdecimal ´úÌæ¡£   
-    float(n)	´Ó -1.79E + 308 µ½ 1.79E + 308 µÄ¸¡¶¯¾«¶ÈÊý×ÖÊý¾Ý¡£ ²ÎÊý n Ö¸Ê¾¸Ã×Ö¶Î±£´æ 4 ×Ö½Ú»¹ÊÇ 8 ×Ö½Ú¡£float(24) ±£´æ 4 ×Ö½Ú£¬¶ø float(53) ±£´æ 8 ×Ö½Ú¡£n µÄÄ¬ÈÏÖµÊÇ 53¡£
+    1.decimal å’Œ numeric åŒºåˆ« https://blog.csdn.net/kk185800961/article/details/78853515
+    decimal å®Œå…¨å’Œå£°æ˜Žçš„ä¸€æ ·ç²¾ç¡®ï¼›numeric  è‡³å°‘å’Œå£°æ˜Žçš„ä¸€æ ·ç²¾ç¡®ã€‚åœ¨ sql server ä¸­ä¸¤è€…ä½¿ç”¨å®Œå…¨å’Œå£°æ˜Žçš„ä¸€æ ·ç²¾ç¡®ã€‚
+    ä½†æ˜¯æ²¡æœ‰ä¾‹å­ï¼Œå¾ˆéš¾æ˜Žç™½ã€‚äº‹å®žä¸Šï¼Œä¸ä»…sql server æœ‰è¿™ä¸¤ä¸ªç±»åž‹ï¼Œå…¶ä»–æ»¡è¶³ sql æ ‡å‡†çš„æ•°æ®åº“éƒ½æœ‰ã€‚
+    2.sqlserver å°æ•°ç±»åž‹ https://www.cnblogs.com/ljhdo/p/4910699.html
+    åœ¨SQL Serverä¸­ï¼Œå®žé™…ä¸Šå°æ•°æ•°å€¼åªæœ‰ä¸¤ç§æ•°æ®ç±»åž‹ï¼šfloat å’Œ decimalï¼Œåˆ†åˆ«æ˜¯è¿‘ä¼¼æ•°å€¼å’Œç²¾ç¡®æ•°å€¼ã€‚å…¶ä»–å°æ•°ç±»åž‹ï¼Œéƒ½å¯ä»¥ä½¿ç”¨floatå’Œdecimalæ¥æ›¿ä»£ï¼Œ
+    ä¾‹å¦‚ï¼ŒåŒç²¾åº¦ï¼ˆdouble precisionï¼‰æ•°æ®ç±»åž‹ç­‰ä»·äºŽ float(53)ï¼Œrealç­‰ä»·äºŽfloat(24)ï¼Œ
+    numericæ˜¯ decimalçš„åŒä¹‰è¯ï¼Œ
+    åº”è¯¥é¿å…åœ¨ç¨‹åºä¸­ç›´æŽ¥ä½¿ç”¨ double precisionã€realå’Œnumericï¼Œè€Œæ˜¯ç”¨ float(24) ã€float(53)å’Œdecimal ä»£æ›¿ã€‚   
+    float(n)	ä»Ž -1.79E + 308 åˆ° 1.79E + 308 çš„æµ®åŠ¨ç²¾åº¦æ•°å­—æ•°æ®ã€‚ å‚æ•° n æŒ‡ç¤ºè¯¥å­—æ®µä¿å­˜ 4 å­—èŠ‚è¿˜æ˜¯ 8 å­—èŠ‚ã€‚float(24) ä¿å­˜ 4 å­—èŠ‚ï¼Œè€Œ float(53) ä¿å­˜ 8 å­—èŠ‚ã€‚n çš„é»˜è®¤å€¼æ˜¯ 53ã€‚
 20190313
-    1.sqlserver ¶àÓï¾ä±íÖµº¯Êý ÔÚleft joinÖÐµÄÎÊÌâ£¨ÓÃ×Ó²éÑ¯½â¾ö£©
+    1.sqlserver å¤šè¯­å¥è¡¨å€¼å‡½æ•° åœ¨left joinä¸­çš„é—®é¢˜ï¼ˆç”¨å­æŸ¥è¯¢è§£å†³ï¼‰
 20190325
-1.left joinµÄÀ§»ó£ºÒ»µ©¼ÓÉÏwhereÌõ¼þ£¬ÔòÏÔÊ¾µÄ½á¹ûµÈÓÚinner join 
+1.left joinçš„å›°æƒ‘ï¼šä¸€æ—¦åŠ ä¸Šwhereæ¡ä»¶ï¼Œåˆ™æ˜¾ç¤ºçš„ç»“æžœç­‰äºŽinner join 
     https://www.cnblogs.com/huahua035/p/5718469.html
     https://blog.csdn.net/wqc19920906/article/details/79785424
     https://www.cnblogs.com/lgx5/p/6239498.html
-    ¶ÔÓÚleft join£º×ó±í×Ö¶ÎµÄÉ¾Ñ¡²»ÄÜ·ÅÔÚonºóÃæ ÒòÎª×óÁ¬½ÓÔÚwhereÖ®Ç°Ò»¶¨»á·µ»Ø×ó±íËùÓÐÐÐ
-                   ÓÒ±í×Ö¶ÎµÄÉ¾Ñ¡²»ÄÜ·ÅÔÚwhereºóÃæ ÒòÎª»á°ÑÎªnullµÄÖµ¹ýÂËµô£¨¸ù¾ÝÐèÇó¶ø¶¨£©
+    å¯¹äºŽleft joinï¼šå·¦è¡¨å­—æ®µçš„åˆ é€‰ä¸èƒ½æ”¾åœ¨onåŽé¢ å› ä¸ºå·¦è¿žæŽ¥åœ¨whereä¹‹å‰ä¸€å®šä¼šè¿”å›žå·¦è¡¨æ‰€æœ‰è¡Œ
+                   å³è¡¨å­—æ®µçš„åˆ é€‰ä¸èƒ½æ”¾åœ¨whereåŽé¢ å› ä¸ºä¼šæŠŠä¸ºnullçš„å€¼è¿‡æ»¤æŽ‰ï¼ˆæ ¹æ®éœ€æ±‚è€Œå®šï¼‰
 20190408
-1.sql·Ö×éÈ»ºó×éÄÚ×Ö·û´®Æ´½Ó
-    my sql => group_concat( [distinct] ÒªÁ¬½ÓµÄ×Ö¶Î [order by ÅÅÐò×Ö¶Î asc/desc ] [separator ¡®·Ö¸ô·û¡¯] )  
+1.sqlåˆ†ç»„ç„¶åŽç»„å†…å­—ç¬¦ä¸²æ‹¼æŽ¥
+    my sql => group_concat( [distinct] è¦è¿žæŽ¥çš„å­—æ®µ [order by æŽ’åºå­—æ®µ asc/desc ] [separator â€˜åˆ†éš”ç¬¦â€™] )  
     sql server => STUFF + FOR XML PATH('')
-2.SQL SERVER STUFFº¯Êý
-    stuffº¯ÊýÓÃÓÚÉ¾³ýÖ¸¶¨³¤¶ÈµÄ×Ö·û£¬²¢¿ÉÒÔÔÚÖÆ¶¨µÄÆðµã´¦²åÈëÁíÒ»×é×Ö·û
-¡¡¡¡select STUFF('abcdefg',1,0,'1234')       --½á¹ûÎª'1234abcdefg'
-¡¡¡¡select STUFF('abcdefg',1,1,'1234')       --½á¹ûÎª'1234bcdefg'
-¡¡¡¡select STUFF('abcdefg',2,1,'1234')       --½á¹ûÎª'a1234cdefg'
-¡¡¡¡select STUFF('abcdefg',2,2,'1234')       --½á¹ûÎª'a1234defg'
+2.SQL SERVER STUFFå‡½æ•°
+    stuffå‡½æ•°ç”¨äºŽåˆ é™¤æŒ‡å®šé•¿åº¦çš„å­—ç¬¦ï¼Œå¹¶å¯ä»¥åœ¨åˆ¶å®šçš„èµ·ç‚¹å¤„æ’å…¥å¦ä¸€ç»„å­—ç¬¦
+ã€€ã€€select STUFF('abcdefg',1,0,'1234')       --ç»“æžœä¸º'1234abcdefg'
+ã€€ã€€select STUFF('abcdefg',1,1,'1234')       --ç»“æžœä¸º'1234bcdefg'
+ã€€ã€€select STUFF('abcdefg',2,1,'1234')       --ç»“æžœä¸º'a1234cdefg'
+ã€€ã€€select STUFF('abcdefg',2,2,'1234')       --ç»“æžœä¸º'a1234defg'
 3.SQL SERVER FOR XML PATH('')     https://www.cnblogs.com/liuchenxing/p/9253897.html
-4.Ó¦ÓÃÌåÐ­ÒéÏòºó¼æÈÝ
-    a.unionÌ×struct
-    b.Ä£°æÔª±à³Ì
+4.åº”ç”¨ä½“åè®®å‘åŽå…¼å®¹
+    a.unionå¥—struct
+    b.æ¨¡ç‰ˆå…ƒç¼–ç¨‹
     c.protobuf
 20190415
-1.lambda±í´ïÊ½µ÷ÓÃÍâ²¿±äÁ¿µÄÎÊÌâ
+1.lambdaè¡¨è¾¾å¼è°ƒç”¨å¤–éƒ¨å˜é‡çš„é—®é¢˜
     for(int index = 0; index < 10; index++)
     {
         ThreadPool.QueueUserWorkItem(new WaitCallback((state) =>
         {
-            Console.WriteLine(index); //Êä³ö ²¢²»ÊÇ 0£¬1£¬2£¬3£¬4£¬5£¬6£¬7£¬8£¬9¶þÊÇ²»¹æÔòµÄ
+            Console.WriteLine(index); //è¾“å‡º å¹¶ä¸æ˜¯ 0ï¼Œ1ï¼Œ2ï¼Œ3ï¼Œ4ï¼Œ5ï¼Œ6ï¼Œ7ï¼Œ8ï¼Œ9äºŒæ˜¯ä¸è§„åˆ™çš„
         }));
     }
-2.C#foreachÓï¾äµÄ±Õ°ü
+2.C#foreachè¯­å¥çš„é—­åŒ…
     https://blog.csdn.net/u010639500/article/details/82385959
-        ±àÒëÆ÷½«±Õ°üÒýÓÃµÄ¾Ö²¿±äÁ¿×ª»»ÎªÄäÃûÀàÐÍµÄ×Ö¶Î£¬µ¼ÖÂÁË¾Ö²¿±äÁ¿·ÖÅäÔÚ¶ÑÖÐ¡£
-        ±Õ°üÔÚC#2.0 µÄÊ±ºòÒýÈëÁË±Õ°üÓï·¨£¬Ñ¡Ôñ½«Ñ­»·±äÁ¿·ÅÔÚÑ­»·ÌåÍâÃæ£¬for ºÍforeach ÔÚÕâ·½Ãæ´¦Àí¶¼ÊÇÒ»ÖÂµÄ¡£
-        µ«Ëæ×ÅÈËÃÇÔÚÊ¹ÓÃ¹ý³ÌÖÐµÄÖÖÖÖ²»ÊÊ£¬Î¢Èí×ö³öÁË¡±Ò»µã¡°ÈÃ²½£¬ÔÚC#5 ÖÐ¶Ô¡±foreach¡°×öÁËµ÷Õû£¬µ«¶Ô¡±for¡°Ã»ÓÐ×ö¸Ä¶¯
-        C#5.0»áÔÚwhileÑ­»·µÄ´úÂëÖÐ´´½¨Ò»¸ö²»Í¬µÄ¾Ö²¿Ñ­»·±äÁ¿¡£
-3.gitlabÊ¹ÓÃhttp·½Ê½Ìá½»´úÂë²»ÊäÈëÃÜÂë 
+        ç¼–è¯‘å™¨å°†é—­åŒ…å¼•ç”¨çš„å±€éƒ¨å˜é‡è½¬æ¢ä¸ºåŒ¿åç±»åž‹çš„å­—æ®µï¼Œå¯¼è‡´äº†å±€éƒ¨å˜é‡åˆ†é…åœ¨å †ä¸­ã€‚
+        é—­åŒ…åœ¨C#2.0 çš„æ—¶å€™å¼•å…¥äº†é—­åŒ…è¯­æ³•ï¼Œé€‰æ‹©å°†å¾ªçŽ¯å˜é‡æ”¾åœ¨å¾ªçŽ¯ä½“å¤–é¢ï¼Œfor å’Œforeach åœ¨è¿™æ–¹é¢å¤„ç†éƒ½æ˜¯ä¸€è‡´çš„ã€‚
+        ä½†éšç€äººä»¬åœ¨ä½¿ç”¨è¿‡ç¨‹ä¸­çš„ç§ç§ä¸é€‚ï¼Œå¾®è½¯åšå‡ºäº†â€ä¸€ç‚¹â€œè®©æ­¥ï¼Œåœ¨C#5 ä¸­å¯¹â€foreachâ€œåšäº†è°ƒæ•´ï¼Œä½†å¯¹â€forâ€œæ²¡æœ‰åšæ”¹åŠ¨
+        C#5.0ä¼šåœ¨whileå¾ªçŽ¯çš„ä»£ç ä¸­åˆ›å»ºä¸€ä¸ªä¸åŒçš„å±€éƒ¨å¾ªçŽ¯å˜é‡ã€‚
+3.gitlabä½¿ç”¨httpæ–¹å¼æäº¤ä»£ç ä¸è¾“å…¥å¯†ç  
     https://blog.csdn.net/zhuifeng_tjy163163/article/details/80649367
-4.Git ºöÂÔ±àÒëºóÎÄ¼þ
+4.Git å¿½ç•¥ç¼–è¯‘åŽæ–‡ä»¶
     https://blog.csdn.net/u011583927/article/details/80875281
-5.C#º¯ÊýÊ½±à³Ì
-    a.º¯ÊýµÄÒýÓÃÍ¸Ã÷ÐÔ 
-      ÔÚÊýÑ§º¯ÊýÖÐ y=f(x)y=f(x)£¬Ò»¸öÊäÈëÖµÓÐ¹Ì¶¨µÄÊä³öÖµ¡£
-      ÀýÈç£¬ÎÞÂÛ¼ÆËã¶àÉÙ´Î£¬sin¦Ð sin?¦Ð µÄ½á¹û×ÜÊÇ 0¡£
-      ³ÌÐòÉè¼ÆÖÐµÄº¯ÊýÈ´²»¾ß±¸ÕâÖÖÎÈ¶¨µÄÌØÐÔ£¬ÒòÎªº¯ÊýµÄÖ´ÐÐ²»½öÒÀÀµÓÚÊäÈëÖµ£¬¶øÇÒ»áÊÜµ½È«¾Ö±äÁ¿£¬ÊäÈëÎÄ¼þ£¬ÀàµÄ³ÉÔ±±äÁ¿µÈÖî¶àÒòËØµÄÓ°Ïì
-      º¯ÊýµÄ·µ»ØÖµÖ»ÒÀÀµÓÚÆäÊäÈëÖµ£¬ÕâÖÖÌØÐÔ¾Í³ÆÎªÒýÓÃÍ¸Ã÷ÐÔ£¨referential transparency£©
-    b.¸ß½×º¯Êý
-      ²ÎÊý»òÕß·µ»ØÖµÊÇÆäËüº¯ÊýµÄº¯Êý½Ð×ö¸ß½×º¯Êý
+5.C#å‡½æ•°å¼ç¼–ç¨‹
+    a.å‡½æ•°çš„å¼•ç”¨é€æ˜Žæ€§ 
+      åœ¨æ•°å­¦å‡½æ•°ä¸­ y=f(x)y=f(x)ï¼Œä¸€ä¸ªè¾“å…¥å€¼æœ‰å›ºå®šçš„è¾“å‡ºå€¼ã€‚
+      ä¾‹å¦‚ï¼Œæ— è®ºè®¡ç®—å¤šå°‘æ¬¡ï¼ŒsinÏ€ sin?Ï€ çš„ç»“æžœæ€»æ˜¯ 0ã€‚
+      ç¨‹åºè®¾è®¡ä¸­çš„å‡½æ•°å´ä¸å…·å¤‡è¿™ç§ç¨³å®šçš„ç‰¹æ€§ï¼Œå› ä¸ºå‡½æ•°çš„æ‰§è¡Œä¸ä»…ä¾èµ–äºŽè¾“å…¥å€¼ï¼Œè€Œä¸”ä¼šå—åˆ°å…¨å±€å˜é‡ï¼Œè¾“å…¥æ–‡ä»¶ï¼Œç±»çš„æˆå‘˜å˜é‡ç­‰è¯¸å¤šå› ç´ çš„å½±å“
+      å‡½æ•°çš„è¿”å›žå€¼åªä¾èµ–äºŽå…¶è¾“å…¥å€¼ï¼Œè¿™ç§ç‰¹æ€§å°±ç§°ä¸ºå¼•ç”¨é€æ˜Žæ€§ï¼ˆreferential transparencyï¼‰
+    b.é«˜é˜¶å‡½æ•°
+      å‚æ•°æˆ–è€…è¿”å›žå€¼æ˜¯å…¶å®ƒå‡½æ•°çš„å‡½æ•°å«åšé«˜é˜¶å‡½æ•°
 20190419
-1.C#À©Õ¹·½·¨ ÀàÐÍ²ÎÊý¿ÉÒÔÊÇ»ùÀàÐÍ ½Ó¿Ú »òÕß·ºÐÍ
-2.git pullÏÂÀ´µÄ +-ºÍ×ó±ßµÄÊý×Ö·Ö±ð´ú±íÊ²Ã´ÒâË¼ https://segmentfault.com/q/1010000016341640/a-1020000016362929
-  ´ú±íÔö¼Ó£¬-´ú±íÉ¾³ý, + - Ç°ÃæµÄÊý×ÖÊÇ×Ü¹²±ä¸üµÄÐÐÊý. µ«Ò»¸ö+»òÕß-´ú±í¼¸ÐÐÊÇ²»¹Ì¶¨µÄ. git »á»ùÓÚµ±Ç°µÄ¿ÉÓÃÏÔÊ¾·¶Î§À´¼ÆËã³ö¾ßÌåµÄ·ûºÅ¸öÊý, Ëû²»ÄÜ±£Ö¤Ã¿¸ö·ûºÅ´ú±íµÄÊýÁ¿¹Ì¶¨, µ«È´¿ÉÒÔ±£Ö¤+-·ûºÅµÄ±ÈÀýÕýÈ·.
-  ±ÈÈç 4 +- ËµÃ÷×Ü¹²±ä¸üÁË4ÐÐ, Ò»¸öÁ½¸ö·ûºÅ, +Õ¼50%, -Õ¼50%. ËùÒÔ¿ÉÒÔµÃÖªÔö¼ÓÁË2ÐÐ,É¾³ýÁË2ÐÐ.
-  Í¬Àí 25 ++++- +ºÅÕ¼ÁË80%, ×Ü¹²Ôö¼Ó 25 * 0.8 = 20 ÐÐ, £­ºÅÕ¼20%, ×Ü¹²É¾³ýÁË 25 * 0.2 = 5 ÐÐ.
-3.C# º¯ÊýÊ½±à³Ì => .net 4.0 vs2010 ÆõÔ¼ => PureAttribute (´¿º¯Êý£¬¸±×÷ÓÃ£¬ÒýÓÃÍ¸Ã÷)
-4.sqlserverµ÷ÓÃC#.dll https://blog.51cto.com/ultrasql/1593982
+1.C#æ‰©å±•æ–¹æ³• ç±»åž‹å‚æ•°å¯ä»¥æ˜¯åŸºç±»åž‹ æŽ¥å£ æˆ–è€…æ³›åž‹
+2.git pullä¸‹æ¥çš„ +-å’Œå·¦è¾¹çš„æ•°å­—åˆ†åˆ«ä»£è¡¨ä»€ä¹ˆæ„æ€ https://segmentfault.com/q/1010000016341640/a-1020000016362929
+  ä»£è¡¨å¢žåŠ ï¼Œ-ä»£è¡¨åˆ é™¤, + - å‰é¢çš„æ•°å­—æ˜¯æ€»å…±å˜æ›´çš„è¡Œæ•°. ä½†ä¸€ä¸ª+æˆ–è€…-ä»£è¡¨å‡ è¡Œæ˜¯ä¸å›ºå®šçš„. git ä¼šåŸºäºŽå½“å‰çš„å¯ç”¨æ˜¾ç¤ºèŒƒå›´æ¥è®¡ç®—å‡ºå…·ä½“çš„ç¬¦å·ä¸ªæ•°, ä»–ä¸èƒ½ä¿è¯æ¯ä¸ªç¬¦å·ä»£è¡¨çš„æ•°é‡å›ºå®š, ä½†å´å¯ä»¥ä¿è¯+-ç¬¦å·çš„æ¯”ä¾‹æ­£ç¡®.
+  æ¯”å¦‚ 4 +- è¯´æ˜Žæ€»å…±å˜æ›´äº†4è¡Œ, ä¸€ä¸ªä¸¤ä¸ªç¬¦å·, +å 50%, -å 50%. æ‰€ä»¥å¯ä»¥å¾—çŸ¥å¢žåŠ äº†2è¡Œ,åˆ é™¤äº†2è¡Œ.
+  åŒç† 25 ++++- +å·å äº†80%, æ€»å…±å¢žåŠ  25 * 0.8 = 20 è¡Œ, ï¼å·å 20%, æ€»å…±åˆ é™¤äº† 25 * 0.2 = 5 è¡Œ.
+3.C# å‡½æ•°å¼ç¼–ç¨‹ => .net 4.0 vs2010 å¥‘çº¦ => PureAttribute (çº¯å‡½æ•°ï¼Œå‰¯ä½œç”¨ï¼Œå¼•ç”¨é€æ˜Ž)
+4.sqlserverè°ƒç”¨C#.dll https://blog.51cto.com/ultrasql/1593982
 20190421
-1.sql server profile Ê¹ÓÃÏ¸½Ú
+1.sql server profile ä½¿ç”¨ç»†èŠ‚
   https://blog.csdn.net/jdoouddm7i/article/details/62037938
-  SQL Server Profiler->ÁÐÉ¸Ñ¡[DataBaseName DataBaseID]
-2.Sql serverÍ³¼Æ²éÑ¯Óï¾äÏûºÄÊ±¼ä 
+  SQL Server Profiler->åˆ—ç­›é€‰[DataBaseName DataBaseID]
+2.Sql serverç»Ÿè®¡æŸ¥è¯¢è¯­å¥æ¶ˆè€—æ—¶é—´ 
     https://www.cnblogs.com/wangfuyou/p/5670889.html
     set statistics time on
     go
      xxxx
     go
     set statistics time off
-3.¹¤×÷¼ÇÂ¼
+3.å·¥ä½œè®°å½•
     a.SELECT * FROM [dbo].[v_agent_ances_simple]  --where AgentID = AgentAncesID = 30114
     b.SELECT t1.id, t1.tree_path, t2.id, t2.tree_path
       FROM [dbo].[pas_agent] t1 INNER JOIN [dbo].[pas_agent] t2 ON t2.tree_path like t1.tree_path + '%'
      --WHERE t1.deleted = 0 AND t2.deleted = 0 AND t1.id = 30114
-    ÉÏÊöÁ½¸ö²éÑ¯×÷ÓÃ²î²»¶à£¬Ò»¸öÓÃÁËlike Ò»¸öÃ»ÓÃlike ÔÚÃ»ÓÐwhereµÄÊ±ºò aµÄÐ§ÂÊÔ¶¸ßÓÚb ¼ÓÁËwhereÖ®ºóbµÄ¸ßÓÚa 
-    a²ÅÓÃÁË×Ö·û´®²ð·Öº¯Êý¶øb²ÅÓÃµÄlik%·½·¨ÅÐ¶Ï×Ö·û´®£¬Ö÷¹ÛÉÏ±È½ÏÅÅ³âbÃ»Ïëµ½×îÖÕbÈ´³ÉÁËÐ§ÂÊ¸ßµÄÒ»ÖÖ£¬Êý¾Ý¿â»¹ÊÇÒª¾ßÌåÎÊÌâ¾ßÌå·ÖÎöÍòÊÂ²»¾ø¶Ô
+    ä¸Šè¿°ä¸¤ä¸ªæŸ¥è¯¢ä½œç”¨å·®ä¸å¤šï¼Œä¸€ä¸ªç”¨äº†like ä¸€ä¸ªæ²¡ç”¨like åœ¨æ²¡æœ‰whereçš„æ—¶å€™ açš„æ•ˆçŽ‡è¿œé«˜äºŽb åŠ äº†whereä¹‹åŽbçš„é«˜äºŽa 
+    aæ‰ç”¨äº†å­—ç¬¦ä¸²æ‹†åˆ†å‡½æ•°è€Œbæ‰ç”¨çš„lik%æ–¹æ³•åˆ¤æ–­å­—ç¬¦ä¸²ï¼Œä¸»è§‚ä¸Šæ¯”è¾ƒæŽ’æ–¥bæ²¡æƒ³åˆ°æœ€ç»ˆbå´æˆäº†æ•ˆçŽ‡é«˜çš„ä¸€ç§ï¼Œæ•°æ®åº“è¿˜æ˜¯è¦å…·ä½“é—®é¢˜å…·ä½“åˆ†æžä¸‡äº‹ä¸ç»å¯¹
 20190422
-1.µÝ¹éÉ¾³ýÄ³ÖÖÎÄ¼þ del /?
-     names         Ö¸¶¨Ò»¸ö»ò¶à¸öÎÄ¼þ»òÕßÄ¿Â¼ÁÐ±í¡£
-                   Í¨Åä·û¿ÉÓÃÀ´É¾³ý¶à¸öÎÄ¼þ¡£
-                   Èç¹ûÖ¸¶¨ÁËÒ»¸öÄ¿Â¼£¬¸ÃÄ¿Â¼ÖÐµÄËù
-                   ÓÐÎÄ¼þ¶¼»á±»É¾³ý¡£
+1.é€’å½’åˆ é™¤æŸç§æ–‡ä»¶ del /?
+     names         æŒ‡å®šä¸€ä¸ªæˆ–å¤šä¸ªæ–‡ä»¶æˆ–è€…ç›®å½•åˆ—è¡¨ã€‚
+                   é€šé…ç¬¦å¯ç”¨æ¥åˆ é™¤å¤šä¸ªæ–‡ä»¶ã€‚
+                   å¦‚æžœæŒ‡å®šäº†ä¸€ä¸ªç›®å½•ï¼Œè¯¥ç›®å½•ä¸­çš„æ‰€
+                   æœ‰æ–‡ä»¶éƒ½ä¼šè¢«åˆ é™¤ã€‚
 
-     /P            É¾³ýÃ¿Ò»¸öÎÄ¼þÖ®Ç°ÌáÊ¾È·ÈÏ¡£
-     /F            Ç¿ÖÆÉ¾³ýÖ»¶ÁÎÄ¼þ¡£
-     /S            É¾³ýËùÓÐ×ÓÄ¿Â¼ÖÐµÄÖ¸¶¨µÄÎÄ¼þ¡£
-     /Q            °²¾²Ä£Ê½¡£É¾³ýÈ«¾ÖÍ¨Åä·ûÊ±£¬²»ÒªÇóÈ·ÈÏ
-     /A            ¸ù¾ÝÊôÐÔÑ¡ÔñÒªÉ¾³ýµÄÎÄ¼þ
+     /P            åˆ é™¤æ¯ä¸€ä¸ªæ–‡ä»¶ä¹‹å‰æç¤ºç¡®è®¤ã€‚
+     /F            å¼ºåˆ¶åˆ é™¤åªè¯»æ–‡ä»¶ã€‚
+     /S            åˆ é™¤æ‰€æœ‰å­ç›®å½•ä¸­çš„æŒ‡å®šçš„æ–‡ä»¶ã€‚
+     /Q            å®‰é™æ¨¡å¼ã€‚åˆ é™¤å…¨å±€é€šé…ç¬¦æ—¶ï¼Œä¸è¦æ±‚ç¡®è®¤
+     /A            æ ¹æ®å±žæ€§é€‰æ‹©è¦åˆ é™¤çš„æ–‡ä»¶
 20190423
 1.druid 
-    Ö´ÐÐÊ±¼ä·Ö²¼[ - - - - - - - - ] ·Ö±ð´ú±í8¸öºÄÊ±Çø¼äµÄ´ÎÊý 
-    1ºÁÃë´ÎÊý¡¢1-10ºÁÃë´ÎÊý¡¢10-100ºÁÃë´ÎÊý¡¢100-1000ºÁÃë´ÎÊý¡¢1-10Ãë´ÎÊý¡¢10-100Ãë´ÎÊý¡¢100-1000Ãë´ÎÊý¡¢´óÓÚ1000Ãë´ÎÊý
+    æ‰§è¡Œæ—¶é—´åˆ†å¸ƒ[ - - - - - - - - ] åˆ†åˆ«ä»£è¡¨8ä¸ªè€—æ—¶åŒºé—´çš„æ¬¡æ•° 
+    1æ¯«ç§’æ¬¡æ•°ã€1-10æ¯«ç§’æ¬¡æ•°ã€10-100æ¯«ç§’æ¬¡æ•°ã€100-1000æ¯«ç§’æ¬¡æ•°ã€1-10ç§’æ¬¡æ•°ã€10-100ç§’æ¬¡æ•°ã€100-1000ç§’æ¬¡æ•°ã€å¤§äºŽ1000ç§’æ¬¡æ•°
 20190425
-1.sql²éÑ¯ÓÅ»¯
+1.sqlæŸ¥è¯¢ä¼˜åŒ–
     https://www.cnblogs.com/firstdream/p/5446946.html
     https://www.cnblogs.com/huangxincheng/p/4217551.html
 20190426
 1.sql exsits
     https://www.cnblogs.com/xuanhai/p/5810918.html
-    EXISTSÓÃÓÚ¼ì²é×Ó²éÑ¯ÊÇ·ñÖÁÉÙ»á·µ»ØÒ»ÐÐÊý¾Ý£¬¸Ã×Ó²éÑ¯Êµ¼ÊÉÏ²¢²»·µ»ØÈÎºÎÊý¾Ý£¬¶øÊÇ·µ»ØÖµTrue»òFalse
-    EXISTS Ö¸¶¨Ò»¸ö×Ó²éÑ¯£¬¼ì²â ÐÐ µÄ´æÔÚ¡£
-2.any some all ¹Ø¼ü×Ö
+    EXISTSç”¨äºŽæ£€æŸ¥å­æŸ¥è¯¢æ˜¯å¦è‡³å°‘ä¼šè¿”å›žä¸€è¡Œæ•°æ®ï¼Œè¯¥å­æŸ¥è¯¢å®žé™…ä¸Šå¹¶ä¸è¿”å›žä»»ä½•æ•°æ®ï¼Œè€Œæ˜¯è¿”å›žå€¼Trueæˆ–False
+    EXISTS æŒ‡å®šä¸€ä¸ªå­æŸ¥è¯¢ï¼Œæ£€æµ‹ è¡Œ çš„å­˜åœ¨ã€‚
+2.any some all å…³é”®å­—
   https://bbs.csdn.net/topics/370223425
-  =any£¨subquery£© <=> in (subquery)
+  =anyï¼ˆsubqueryï¼‰ <=> in (subquery)
   https://wenku.baidu.com/view/1fad410a79563c1ec5da7112.html
-3.exsits in join Ð§ÂÊ±È½Ï Ò»°ãexsits±È½Ï¸ß
-4.asp.net webpage => ÐÂ½¨ÍøÕ¾ Asp.Net ÍøÕ¾(Razor v2/3)
-   wp²¼¾Ö Content Blocks£¨ÄÚÈÝ¿é£©@RenderPage()
-          Layout Page£¨²¼¾ÖÒ³£©@RenderBody()
-   wp·ÀÖ¹ÎÄ¼þ±»ä¯ÀÀ ÔÚ ASP.NET ÖÐ£¬ÎÄ¼þµÄÃû³ÆÒÔÏÂ»®Ïß¿ªÍ·£¬¿ÉÒÔ·ÀÖ¹ÕâÐ©ÎÄ¼þÔÚÍøÉÏ±»ä¯ÀÀ¡£
-                    Èç¹ûÄú²»ÏëÈÃÄúµÄÄÚÈÝ¿é»òÕß²¼¾ÖÒ³±»ÄúµÄÓÃ»§¿´µ½£¬¿ÉÒÔÖØÃüÃûÕâÐ©ÎÄ¼þ£º
+3.exsits in join æ•ˆçŽ‡æ¯”è¾ƒ ä¸€èˆ¬exsitsæ¯”è¾ƒé«˜
+4.asp.net webpage => æ–°å»ºç½‘ç«™ Asp.Net ç½‘ç«™(Razor v2/3)
+   wpå¸ƒå±€ Content Blocksï¼ˆå†…å®¹å—ï¼‰@RenderPage()
+          Layout Pageï¼ˆå¸ƒå±€é¡µï¼‰@RenderBody()
+   wpé˜²æ­¢æ–‡ä»¶è¢«æµè§ˆ åœ¨ ASP.NET ä¸­ï¼Œæ–‡ä»¶çš„åç§°ä»¥ä¸‹åˆ’çº¿å¼€å¤´ï¼Œå¯ä»¥é˜²æ­¢è¿™äº›æ–‡ä»¶åœ¨ç½‘ä¸Šè¢«æµè§ˆã€‚
+                    å¦‚æžœæ‚¨ä¸æƒ³è®©æ‚¨çš„å†…å®¹å—æˆ–è€…å¸ƒå±€é¡µè¢«æ‚¨çš„ç”¨æˆ·çœ‹åˆ°ï¼Œå¯ä»¥é‡å‘½åè¿™äº›æ–‡ä»¶ï¼š
                     _header.cshtm
                     _footer.cshtml
                     _Layout.cshtml
-                    Òþ²ØÃô¸ÐÐÅÏ¢£¨Êý¾Ý¿âÃÜÂë¡¢µç×ÓÓÊ¼þÃÜÂëµÈµÈ£©×îÍ¨ÓÃµÄ·½·¨ÊÇ½«ÕâÐ©ÐÅÏ¢±£´æÔÚÒ»¸öÃûÎª"_AppStart"µÄµ¥¶ÀµÄÎÄ¼þÖÐ
-   È«¾Ö _AppStart _PageStart
-   ±íµ¥ IsPost Request["input-name"]
-   Page¶ÔÏó
-   ÎÄ¼þ 
+                    éšè—æ•æ„Ÿä¿¡æ¯ï¼ˆæ•°æ®åº“å¯†ç ã€ç”µå­é‚®ä»¶å¯†ç ç­‰ç­‰ï¼‰æœ€é€šç”¨çš„æ–¹æ³•æ˜¯å°†è¿™äº›ä¿¡æ¯ä¿å­˜åœ¨ä¸€ä¸ªåä¸º"_AppStart"çš„å•ç‹¬çš„æ–‡ä»¶ä¸­
+   å…¨å±€ _AppStart _PageStart
+   è¡¨å• IsPost Request["input-name"]
+   Pageå¯¹è±¡
+   æ–‡ä»¶ 
         Persons.txt
             George,Lucas
             Steven,Spielberg
@@ -172,29 +172,29 @@
             var dataFile = Server.MapPath("~/App_Data/Persons.txt");
             Array userData = File.ReadAllLines(dataFile);
         }
-    °ïÖúÆ÷ http://www.runoob.com/aspnet/webpages-ref-helpers.html
-        WebGrid °ïÖúÆ÷
-        Chart °ïÖúÆ÷
-        WebMail °ïÖúÆ÷
-        WebImage °ïÖúÆ÷
-        µÚÈý·½°ïÖúÆ÷
-            Í¨¹ý Razor£¬Äú¿ÉÒÔÀûÓÃÄÚ½¨µÄ»òÕßµÚÈý·½µÄ°ïÖúÆ÷À´¼ò»¯µç×ÓÓÊ¼þ¡¢Êý¾Ý¿â¡¢¶àÃ½Ìå¡¢Éç½»ÍøÂçÒÔ¼°ºÜ¶àÆäËûÎÊÌâ£¨Èçµ¼º½ºÍµÄÍøÂç°²È«£©µÄÊ¹ÓÃ¡£
+    å¸®åŠ©å™¨ http://www.runoob.com/aspnet/webpages-ref-helpers.html
+        WebGrid å¸®åŠ©å™¨
+        Chart å¸®åŠ©å™¨
+        WebMail å¸®åŠ©å™¨
+        WebImage å¸®åŠ©å™¨
+        ç¬¬ä¸‰æ–¹å¸®åŠ©å™¨
+            é€šè¿‡ Razorï¼Œæ‚¨å¯ä»¥åˆ©ç”¨å†…å»ºçš„æˆ–è€…ç¬¬ä¸‰æ–¹çš„å¸®åŠ©å™¨æ¥ç®€åŒ–ç”µå­é‚®ä»¶ã€æ•°æ®åº“ã€å¤šåª’ä½“ã€ç¤¾äº¤ç½‘ç»œä»¥åŠå¾ˆå¤šå…¶ä»–é—®é¢˜ï¼ˆå¦‚å¯¼èˆªå’Œçš„ç½‘ç»œå®‰å…¨ï¼‰çš„ä½¿ç”¨ã€‚
 20190428
-1. .net XmlÐòÁÐ»¯ xmlserializer 
+1. .net Xmlåºåˆ—åŒ– xmlserializer 
     https://www.cnblogs.com/mad/p/xmlserializer_filenotfoundexception.html   
-2.¹ØÓÚASP.NET WebFormÓëASP.NET MVCµÄ±È½Ï
+2.å…³äºŽASP.NET WebFormä¸ŽASP.NET MVCçš„æ¯”è¾ƒ
     https://www.cnblogs.com/hgmyz/p/6960903.html
-3.web form ÊÂ¼þ
-    Page_Load ÊÂ¼þ Page.IsPostBack ÊôÐÔ      
-        Page_Load ×ÓÀý³Ì»áÔÚÒ³ÃæÃ¿´Î¼ÓÔØÊ±ÔËÐÐ¡£Èç¹ûÄú½öÏ£ÍûÔÚÒ³ÃæµÚÒ»´Î¼ÓÔØÊ±Ö´ÐÐ Page_Load ×ÓÀý³ÌÖÐµÄ´úÂë£¬Äú¿ÉÒÔÊ¹ÓÃ Page.IsPostBack ÊôÐÔ¡£
-        Èç¹û Page.IsPostBack ÊôÐÔÎª false£¬ÔòÒ³ÃæµÚÒ»´Î±»ÔØÈë£¬Èç¹ûÎª true£¬ÔòÒ³Ãæ´«»Ø·þÎñÆ÷
+3.web form äº‹ä»¶
+    Page_Load äº‹ä»¶ Page.IsPostBack å±žæ€§      
+        Page_Load å­ä¾‹ç¨‹ä¼šåœ¨é¡µé¢æ¯æ¬¡åŠ è½½æ—¶è¿è¡Œã€‚å¦‚æžœæ‚¨ä»…å¸Œæœ›åœ¨é¡µé¢ç¬¬ä¸€æ¬¡åŠ è½½æ—¶æ‰§è¡Œ Page_Load å­ä¾‹ç¨‹ä¸­çš„ä»£ç ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨ Page.IsPostBack å±žæ€§ã€‚
+        å¦‚æžœ Page.IsPostBack å±žæ€§ä¸º falseï¼Œåˆ™é¡µé¢ç¬¬ä¸€æ¬¡è¢«è½½å…¥ï¼Œå¦‚æžœä¸º trueï¼Œåˆ™é¡µé¢ä¼ å›žæœåŠ¡å™¨
 4.sql server query running slow from java
     https://stackoverflow.com/questions/961078/sql-server-query-running-slow-from-java
 20190429
-1. web from ·þÎñÆ÷¿Ø¼þ
-    ËùÓÐ·þÎñÆ÷¿Ø¼þ±ØÐë³öÏÖÔÚ <form> ±êÇ©ÄÚ£¬Í¬Ê± <form> ±êÇ©±ØÐë°üº¬ runat="server" ÊôÐÔ
-    ¸Ã±íµ¥×ÜÊÇÏò×ÔÉíÒ³Ãæ½øÐÐÌá½»¡£Èç¹ûÄú¹æ¶¨ÁËÒ»¸ö action ÊôÐÔ£¬Ëü»á±»ºöÂÔ¡£Èç¹ûÄúÊ¡ÂÔÁË method ÊôÐÔ£¬Ëü½«±»Ä¬ÈÏµØÉèÖÃÎª method="post"¡£
-    Í¬Ê±£¬Èç¹ûÄúÃ»ÓÐ¹æ¶¨ name ºÍ id ÊôÐÔ£¬ËüÃÇÔòÓÉ ASP.NET ×Ô¶¯·ÖÅä
-    Ò»¸ö .aspx ½öÄÜ°üº¬Ò»¸ö <form runat="server"> ¿Ø¼þ
-2. web from ¶ÔÏóViewState
+1. web from æœåŠ¡å™¨æŽ§ä»¶
+    æ‰€æœ‰æœåŠ¡å™¨æŽ§ä»¶å¿…é¡»å‡ºçŽ°åœ¨ <form> æ ‡ç­¾å†…ï¼ŒåŒæ—¶ <form> æ ‡ç­¾å¿…é¡»åŒ…å« runat="server" å±žæ€§
+    è¯¥è¡¨å•æ€»æ˜¯å‘è‡ªèº«é¡µé¢è¿›è¡Œæäº¤ã€‚å¦‚æžœæ‚¨è§„å®šäº†ä¸€ä¸ª action å±žæ€§ï¼Œå®ƒä¼šè¢«å¿½ç•¥ã€‚å¦‚æžœæ‚¨çœç•¥äº† method å±žæ€§ï¼Œå®ƒå°†è¢«é»˜è®¤åœ°è®¾ç½®ä¸º method="post"ã€‚
+    åŒæ—¶ï¼Œå¦‚æžœæ‚¨æ²¡æœ‰è§„å®š name å’Œ id å±žæ€§ï¼Œå®ƒä»¬åˆ™ç”± ASP.NET è‡ªåŠ¨åˆ†é…
+    ä¸€ä¸ª .aspx ä»…èƒ½åŒ…å«ä¸€ä¸ª <form runat="server"> æŽ§ä»¶
+2. web from å¯¹è±¡ViewState
     https://www.cnblogs.com/wwan/archive/2010/11/18/1880357.html
