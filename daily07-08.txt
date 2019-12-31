@@ -66,7 +66,7 @@
         2011年發行ASP.NET MVC 3.0版+EF4，需要.Net4.0支持，VS2011
         2012年發行ASP.NET MVC 4.0版+EF5，需要.Net4.0支持，VS2012
         2013年發行ASP.NET MVC 5.0版+EF6，需要.Net4.5支持，VS2013
-        2015年發行ASP.NET MVC 6.0版+EF7，需要.Net5.0支持，VS201
+        2015年發行ASP.NET MVC 6.0版+EF7，需要.Net5.0支持，VS2015
         ASP.NET 5.0　　　　　　将改名为　　ASP.NET Core 1.0
         ASP.NET MVC 6　　　　  将改名为　　ASP.NET MVC Core 1.0
         Entity Framework 7.0   将改名为　　Entity Framework Core 1.0
