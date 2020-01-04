@@ -1,721 +1,236 @@
-20180702
-    1.C# List<T>·ÖÎö
-        List<Point> list = new List<Point>()
-        {
-            new Point(){ X = 1,Y = 1},
-            new Point(){ X = 2,Y = 2},
-            new Point(){ X = 3,Y = 3}
-        };
-        Point p = list[1];
-        p = new Point() { X = 0, Y = 0};//²¢²»¸Ä±älist[1];
-    2. Linq±à³Ì¼¼ÊõÄÚÄ» µÚÆßÕÂ
-        into ×Ó¾ä  into×Ó¾äÌá¹©ÁËÒ»¸öÁÙÊ±±êÊ¶·û£¬Ëü´æ´¢ÁËinto×Ó¾äÇ°ÃæµÄ²éÑ¯ÄÚÈİ£¬Ê¹ËüºóÃæµÄ×Ó¾ä¿ÉÒÔ·½±ãµÄÊ¹ÓÃ£¬¶ÔÆä½øĞĞÔÙ´Î²éÑ¯£¬Í¶Ó°µÈ²Ù×÷
-        ÀıÈç:°´ÕÕÃû×ÖµÄÇ°Á½¸ö×Ö½øĞĞ·Ö×é£¬ÔÙÓÃ·Ö×éKey½øĞĞÅÅĞò
-        var query = from customer in clist
-                        group customer by customer.Name.Substring(0, 2) into gpcustomer
-                        orderby gpcustomer.Key descending
-                        select gpcustomer;
-20180704-20180705
-    1.ThreadPool.QueueUserWorkItem
-        ¼ì²é·ç¿ØÏµÍ³BUG·¢ÏÖ,µ±Í¬Ò»Ê±¿Ì´óÁ¿ÈÎÎñ±»QueueUserWorkItemµ÷¶ÈÊ±,ÈÎÎñ¿ÉÄÜ²»»áÁ¢¼´Ö´ĞĞ,²¢ÇÒÑÓÊ±²»¿É¿Ø
-        ÆğÏÈÈÏÎªÊÇÏß³Ì³Ø¿ÉÓÃÏß³ÌÌ«ÉÙÁË,µ«ÊÇÍ¨¹ıGetAvailableThreads²é¿´¿ÉÓÃÏß³ÌÊı·¢ÏÖ¿ÉÓÃ»¹ÓĞºÜ¶à
-        ¸Ä³ÉTask.Factory.StartNewµ÷¶ÈÈÎÎñ²¢ÇÒÖ¸¶¨²ÎÊıTaskCreationOptions.LongRunning,±£Ö¤Æô¶¯¾¡¿ÉÄÜ¶àµÄÏß³ÌÈ¥Ö´ĞĞÈÎÎñ
-        Ä¬ÈÏÇé¿öÏÂ¶à¸öÈÎÎñ¿ÉÄÜµ÷¶Èµ½Í³Ò»Ïß³ÌÉÏÒıÆğµÈ´ı
-        ²Î¿¼:https://bbs.csdn.net/topics/380165316
-             http://www.cnblogs.com/Charltsing/p/taskpoolthread.html
-             http://www.mamicode.com/info-detail-1780424.html
-        ÓĞÒ»¸ö¹îÒìµÄÎÊÌâ,Ò²ÊÇÔÚ²éÕâ¸öÎÊÌâÊ±·¢ÏÖµÄ¾ÍÊÇ:¾ÍÔÚÏß³Ì(or ¶¨Ê±Æ÷?)ÊıÁ¿½Ï¶àÊ± System.Timers.TimerÊµ¼Ê¼ä¸ôÊ±¼ä¿ÉÄÜ±ÈÉè¶¨µÄÒª³¤Ò»Ğ©
-    2.cpuÀûÓÃÂÊ¸ß
-        http://blog.sina.com.cn/s/blog_5ea024430100yp2i.html
-        https://blog.csdn.net/smartartisan/article/details/72956314
-        http://www.cnblogs.com/onlytiancai/archive/2009/06/24/heightcpu_diag.html
-        using Microsoft.Samples.Debugging.MdbgEngine = > AttachToProcess
-20180706
-    1.Linq±à³Ì¼¼ÊõÄÚÄ» µÚÆßÕÂ ½áÊø
-        1) let×Ó¾ä ÁÙÊ±½á¹û¿ÉÒÔÔÚÕû¸ö²éÑ¯ÆäËüµØ·½Ê¹ÓÃ
-        2) Ôö¼Ó¶Ô½Ó¿ÚÍ¶Ó°µÄÖ§³Ö
-        var max1 = (from fileName in files
-                        let info = new FileInfo(fileName)
-                        select
-                            new
-                            {
-                                fileName = info.Name,
-                                Size = info.Length
-                            }
-                        ).Max(s => s.Size);
-        =>
-        var max1 = (from fileName in files
-                        let info = new FileInfo(fileName)
-                        select
-                            new
-                            {
-                                fileName = info.Name,
-                                Size = info.Length,
-                                CompareTo = GetCompare(info.Length)
-                            }
-                        ).Max();
-        private static void Func<T, int> GetCompare<T>(T y) where T:ICompare
-        {
-            return k => y.CompareTo(k);
-        }
-    2.Linq±à³Ì¼¼ÊõÄÚÄ» µÚ°ËÕÂ ½áÊø
-    3.Linq±à³Ì¼¼ÊõÄÚÄ» µÚ¾ÅÕÂ ½áÊø
-20180708
-    1.¿Í»§·şÎñÆ÷cpuÀûÓÃÂÊ100% ÈÎÎñ¹ÜÀíÆ÷ÎŞ·¨´ò¿ª ->Í¨¹ı×ÊÔ´¼àÊÓÆ÷·¢ÏÖ ½ø³Ìminergate.exe°Ñcpu³ÔÍêÁË
-        https://blog.csdn.net/u014542626/article/details/52606277
-        
-20180712-20180713
-    1.Linq±à³Ì¼¼ÊõÄÚÄ» µÚÊ®ÕÂ
-        1) select À©Õ¹·½·¨ÓĞÒ»¸öÒşº¬µÄË÷Òı±äÌå (shuffler ['??fl?] n => Ï´ÅÆÕß; ×öÊÂÂş²»¾­ĞÄÕß; Ò·²½¶øĞĞÕß; ÂÖµ½Ï´ÅÆµÄÈË;)
-        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector);
-        
-        int[] cards = new int[52];
-        Random rand = new Random();
+ï»¿20190702
+1.linq to sql äº‹åŠ¡
+ æ ¸å¿ƒå¯¹è±¡ TransactionScope
+201900704
+1.int* &p,int *p åˆ°åº•æœ‰ä»€ä¹ˆåŒºåˆ«
+    int *pæ˜¯å®šä¹‰ä¸€ä¸ªæŒ‡é’ˆ
+    int *&pæ˜¯å®šä¹‰ä¸€ä¸ªæŒ‡é’ˆçš„å¼•ç”¨
 
-        var shuffler = cards.Select((num, index) => new
-        {
-            Key = index,
-            Random = rand.Next()
-        });
-
-        /*
-        int index = 0;
-        var shuffler = from card in cards
-                       select new
-                       {
-                           Key = index++,
-                           Random = rand.Next()
-                       };
-        */
-        2)  GDI+ÓëDC(Éè±¸ÉÏÏÂÎÄ)
-        //GDI+ÓÃµÄÊÇÍĞ¹Ü¾ä±ú => Éè±¸ÉÏÏÂÎÄ(DC)µÄ·Ç»º´æÍĞ¹Ü°æ±¾
-        //Éè±¸ÉÏÏÂÎÄÊµ¼Ê¾ÍÊÇGDI+ÖĞ¹úµÄÍ¼ĞÎ¶ÔÏó
-        //ÔçÆğWin API·½·¨Ö»ÄÜÊ¹ÓÃÔ­Ê¼µÄ·ÇÍĞ¹ÜDC
-        //PaintFace ÑİÊ¾ÁËÈçºÎ´ÓGraphics»ñÈ¡DC ²¢ÇÒÔÚfinally¿éÖĞÖ´ĞĞÇåÀí¹¤×÷
-        private static void PaintFace(Graphics g, Card card, int x, int y, int dx, int dy)
-        {
-            IntPtr hdc = g.GetHdc();
-            try 
-            {
-
-            }
-            catch (Exception ex) 
-            {
-
-            }
-            finally 
-            {
-                g.ReleaseHdc(hdc);
-            }
-        }
-20180717
-    1.²âÊÔ·şÎñÆ÷ ÄÚ´æÕ¼ÓÃÂÊ¾Ó¸ß²»ÏÂºóÀ´·¢ÏÖÊÇÓ²ÅÌ·ÖÇø±»Õ´ÂúÁË => ´ÅÅÌÇåÀíºóOK
-    2.svn:ÖØÃüÃûÎÄ¼şÖ®ºó,²»ÔÊĞíÌá½»
-      https://www.cnblogs.com/a198720/p/4481167.html
-20180723
-    1.HttpsÇëÇó¡ª¡ª»ù´¡Á¬½ÓÒÑ¾­¹Ø±Õ ·¢ËÍÊ±·¢Éú´íÎó
-        https://www.cnblogs.com/farb/p/HttpRequestProblem.html
-    2. .NETÁ¬½ÓÊıµÄÉèÖÃ System.Net.ServicePointManager.DefaultConnectionLimit Ä¬ÈÏÎª2
-        https://www.cnblogs.com/Lawson/archive/2012/07/08/2581484.html
-        https://www.cnblogs.com/yaosj/p/6705203.html
-    3.https keepalive
-        http://www.nowamagic.net/academy/detail/23350305
-        https://blog.csdn.net/woshiwu/article/details/7273396
-    4.web´úÀí (´úÀíÓë·´Ïò´úÀí)
-        https://blog.csdn.net/dolphin98629/article/details/54599850
-20180724
-    1.Centos7ÏÂÊ¹ÓÃSquid¿ìËÙ´î½¨´øÈÏÖ¤µÄHTTP´úÀí·şÎñÆ÷
-        https://blog.csdn.net/mingzznet/article/details/52921218
-        https://www.cnblogs.com/liaoyuanyang/p/6780983.html
-    2..Net Framework ÖĞÉèÖÃWeb Proxy µÄ·½·¨ => Ö»Ö§³Öhttp´úÀí
-        https://blog.csdn.net/mapdigit/article/details/7606503
-        https://msdn.microsoft.com/zh-cn/library/system.net.networkcredential.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
-    3.C# ÊµÏÖSocket5´úÀíĞ­ÒéÍ¨Ñ¶
-        http://www.cnblogs.com/zhujiechang/archive/2008/10/21/1316308.html
-    4.Ó¢ÓïµØÖ·Ğ´·¨ http://www.langfly.com/a/20160528/164718.shtml
-        Room 702,Unit 3,Building 9,XuDong Road,HongShan District
-        Room 208,Building 17,No.49 Jiefang Park Road,Jiangan District
-20180725
-    1.centos7 °²×°squid Æô¶¯±¨´í https://blog.csdn.net/liumiaocn/article/details/80586879
-    2.°áÍß¹¤ ss½Ì³Ì
-        °áÍß¹¤Ã»ÓĞÒ»¼üSS¹¦ÄÜÁËÔõÃ´°ì£¿×îĞÂ°áÍß¹¤SS½Ì³Ì£¡
-        http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed19fa950d100b92314204dd743ca0814820c9d50ec0241d1a1638b4a6653f515e8e806b6675f41f4beb863673340227b598ca8a48dfb894282c8c22317716864618d31ca4cd4c31847dd00ce6b869e5ad873184afa2c4ae2244bc27120a8be7f85c1714bb2eb1033192b1e84b022c61adec40728f596059ef3441c65088eb251f73&p=8b2a97189d9601e540bd9b7d0a50&newp=882a9642828450e518bfc7710f0e92695d0fc20e3dd1da01298ffe0cc4241a1a1a3aecbf20281305d4c77f6d05ae4d5beaf036783d0034f1f689df08d2ecce7e7bcf367e304e&user=baidu&fm=sc&query=%B0%E1%CD%DF%B9%A4+ss+%C1%AC%B2%BB%C9%CF&qid=8fae74b300021dd3&p1=8
-        https://www.yigeni.com/build-a-wall-ss-server/
-        ¿Í»§¶ËÅäÖÃ
-        https://blog.csdn.net/horrible123/article/details/52452324
-20180731
-    1.ĞŞ¸Ähost ¿ÆÑ§ÉÏÍø
-        https://www.jianshu.com/p/c96dc32eca35
-    2.linux teeÃüÁîÓÃÓÚ½«Êı¾İÖØ¶¨Ïòµ½ÎÄ¼ş£¬ÁíÒ»·½Ãæ»¹¿ÉÒÔÌá¹©Ò»·İÖØ¶¨ÏòÊı¾İµÄ¸±±¾×÷ÎªºóĞøÃüÁîµÄstdin¡£¼òµ¥µÄËµ¾ÍÊÇ°ÑÊı¾İÖØ¶¨Ïòµ½¸ø¶¨ÎÄ¼şºÍÆÁÄ»ÉÏ
-    3.ÖØ¶¨ÏòÊä³ö https://blog.csdn.net/register_man/article/details/78653195
-20180801
-    1.C#WinForm³ÌĞòÏÔÊ¾¿ØÖÆÌ¨´°¿ÚConsole
-        [DllImport("kernel32.dll")]
-        public static extern Boolean AllocConsole();
-        [DllImport("kernel32.dll")]
-        public static extern Boolean FreeConsole(); 
-    2.Great Firewall  GFW https://baike.baidu.com/item/Great%20Firewall/4843556?fromtitle=GFW&fromid=18582731&fr=aladdin
-20180802
-    1.½ñÌì·¢ÏÖ¸öÎÊÌâ ÔÚ³ÌĞòÖĞÊ¹ÓÃ System.Timers.Timer ÔÚ´úÂëÀïÃæ°ÑIntervalÉèÖÃ³ÉÁËdouble.MaxValueÈ»ºóÓÖÉèÖÃ³É 1000 * 10 ½á¹û·¢ÏÖ¶¨Ê±Æ÷ÎŞÏìÓ¦
-      ºóÀ´·¢ÏÖSystem.Timers.TimerµÄInterval×î´óÖµÎªint.MaxValue
-20180806
-    1.Linq±à³Ì¼¼ÊõÄÚÄ» µÚÊ®ÕÂ ½áÊø
-        SelectMany ´øÓĞ¶à¸öfromºÍ¶à¸öwhere
-        SelectMany ÊÇÒ»¸öÀ©Õ¹·½·¨ÆäLINQ¹Ø¼ü×ÖÊÇselect
-        SelectMany Ê¹ÓÃË÷Òı 
-            class Program
-            {
-                public class Customer
-                {
-                    public int ID { get; set; }
-                    public string CompanyName { get; set; }
-                }
-
-                public class Order
-                {
-                    public int ID { get; set; }
-                    public int CustomerID { get; set; }
-                    public string ItemDescription { get; set; }
-                }
-
-                static void Main(string[] args)
-                {
-                    List<Customer> customers = new List<Customer>
-                    {
-                        new Customer{ID = 1,CompanyName = "Tom's Toffees"},
-                        new Customer{ID = 2, CompanyName = "Karl's Coffess"}
-                    };
-
-                    List<Order> orders = new List<Order>
-                    {
-                        new Order{ID = 1,CustomerID = 1,ItemDescription = "G"},
-                        new Order{ID = 2,CustomerID = 1,ItemDescription = "M"},
-                        new Order{ID = 3,CustomerID = 2,ItemDescription = "F"},
-                        new Order{ID = 4,CustomerID = 2,ItemDescription = "C"}
-                    };
-
-                    var orderInfo = customers.SelectMany(
-                        (customer, index) => from order in orders
-                                             where order.CustomerID == customer.ID
-                                             select new
-                                             {
-                                                 Key = index + 1,
-                                                 Customer = customer.CompanyName,
-                                                 Item = order.ItemDescription
-                                             }
-
-                    );
-
-                    Array.ForEach(orderInfo.ToArray(),
-                                  o => Console.WriteLine("Key:{0},Name:{1},Item:{2}",
-                                            o.Key, o.Customer, o.Item));
-
-                    Console.ReadLine();
-                }
-            }
-20180807
-    1.windows³ÌĞòµ÷ÊÔ
-        1).windowsÏÂdumpÎÄ¼şÉú³ÉÓë·ÖÎö https://blog.csdn.net/icandoit_2014/article/details/78739962
-            1.1ÈÎÎñ¹ÜÀíÆ÷
-                ÔÚ³ÌĞò±ÀÀ£ºó£¬ÏÈ²»¹Ø±Õ³ÌĞò£¬ÔÚÈÎÎñ¹ÜÀíÆ÷ÖĞÕÒµ½¸Ã³ÌĞò¶ÔÓ¦µÄ½ø³Ì¡£ÓÒ¼ü¡ª>´´½¨×ª´¢ÎÄ¼ş¡£
-                ´ËÊ±»áÔÚÄ¬ÈÏµÄÄ¿Â¼ÏÂ´´½¨³öÒ»¸ödumpÎÄ¼ş¡£
-                ¿ÉÒÔ¿´³ö£¬´ËÖÖ·½·¨Ö»ÊÊÓÃÓÚ³ÌĞò±ÀÀ£µ«Ã»ÓĞÁ¢¼´×ÔĞĞÍË³öµÄÇé¿ö¡£ÌÈÈô³ÌĞò¹ÊÕÏºó×ÔĞĞÍË³ö£¬Ôò´Ë·½·¨¾ÍÄÑÒÔÓ¦ÓÃ¡£
-                ²»¹ı£¬ÎÒÃÇ¿ÉÒÔÔÚ×¢²á±íÖĞÌí¼ÓÈçÏÂĞÅÏ¢ÒÑÈ·±£ÏµÍ³ÔÚ³ÌĞò±ÀÀ£ºó×ÔĞĞ±£´æÒ»¸ödumpÎÄ¼ş£º
-                ÔÚ×¢²á±íÖĞÕÒµ½ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\WindowsError Reporting\LocalDumps
-                ÆäÖĞDumpType´ú±íµÄº¬ÒåÊÇ£º
-                0 = Create a custom dump  
-                1 = Mini dump  
-                2 = Full dump  
-                Èç´ËÒ»À´£¬Ò»µ©³ÌĞò±ÀÀ££¬ÏµÍ³»áÔÚC:\CrashDumpÏÂÉú³ÉÒ»¸ödumpÎÄ¼ş¡£
-            1.2WinDbg×¥È¡
-                ³ÌĞòÔËĞĞ±ÀÀ£ºó£¬ÏÈ²»¹Ø±Õ³ÌĞò£¬½«WinDbg¸½¼Óµ½¸Ä½ø³ÌÉÏ.
-                Ö´ĞĞÃüÁî£º.dump ¨Cma Test.dmp  £¬Ôò»á²úÉúÒ»¸öTest.dmpµÄ×ª´¢ÎÄ¼ş¡£
-            1.3³ÌĞòÖĞ¼ÓÈë´æ´¢DumpµÄ´úÂë
-                Í¨¹ıSetUnhandledExceptionFilterÉèÖÃ²¶»ñdumpµÄÈë¿Ú£¬È»ºóÍ¨¹ıMiniDumpWriteDumpÉú³ÉdumpÎÄ¼ş¡£
-            1.4µ÷ÊÔ ´ò¿ªdumpÎÄ¼ş
-                vsµ÷ÊÔ °ÑÕâ¸öDMPÎÄ¼ş¿½µ½¿ª·¢»úÆ÷ÉÏ£¬ÓÃVS´ò¿ª£º »á³öÏÖÏÂÃæµÄ½çÃæ£¬ÒªÏëÖªµÀ·¢Éú´íÎóÊ±ºòµÄµ÷ÓÃÕ»£¬ĞèÒªÉèÖÃsymbolµÄÂ·¾¶£¬µã»÷¡±Set Symbol Paths¡°£º
-                windbgµ÷ÊÔ
-        2).ÏµÍ³À¶ÆÁdump ÈçºÎ·ÖÎö WindowsDump£ºDump ÆğÔ´Óë³õÊ¼ÉèÖÃ https://www.cnblogs.com/tcicy/p/8076382.html
-        3).WindowsÏÂ»ñÈ¡DumpÎÄ¼şÒÔ¼°½ø³ÌÏÂ¸÷Ïß³Ìµ÷ÓÃÕ»µÄ·½·¨×Ü½á  https://blog.csdn.net/iihero/article/details/17184903
-        4).How to debug Windows services https://support.microsoft.com/en-us/help/824344/how-to-debug-windows-services
-20180808
-    1.Linq±à³Ì¼¼ÊõÄÚÄ» µÚÊ®Ò»ÕÂ
-20180813
-    1.sql server ±í×Ö¶Î»ù±¾ĞÅÏ¢
-        SELECT
-             ±íÃû       = Case When A.colorder=1 Then D.name Else '' End,
-             --±íËµÃ÷     = Case When A.colorder=1 Then isnull(F.value,'') Else '' End,
-             ×Ö¶ÎĞòºÅ   = A.colorder,
-             ×Ö¶ÎÃû     = A.name,
-             --×Ö¶ÎËµÃ÷   = isnull(G.[value],''),
-             ±êÊ¶       = Case When COLUMNPROPERTY( A.id,A.name,'IsIdentity')=1 Then '¡Ì'Else '' End,
-             Ö÷¼ü       = Case When exists(SELECT 1 FROM sysobjects Where xtype='PK' and parent_obj=A.id and name in (
-                              SELECT name FROM sysindexes WHERE indid in( SELECT indid FROM sysindexkeys WHERE id = A.id AND colid=A.colid))) then '¡Ì' else '' end,
-            --¾Û¼¯Ë÷Òı    = EXEC Sp_helpindex table_name,
-             ÀàĞÍ       =  B.name,
-             Õ¼ÓÃ×Ö½ÚÊı = A.Length,
-             ³¤¶È       = COLUMNPROPERTY(A.id,A.name,'PRECISION'),
-             Ğ¡ÊıÎ»Êı   = isnull(COLUMNPROPERTY(A.id,A.name,'Scale'),0),
-             ÔÊĞí¿Õ     = Case When A.isnullable=1 Then '¡Ì'Else '' End,
-             Ä¬ÈÏÖµ     = isnull(E.Text,'')
-         FROM
-             syscolumns A
-         Left Join
-             systypes B
-         On
-             A.xusertype=B.xusertype
-         Inner Join
-             sysobjects D
-         On
-             A.id=D.id  and D.xtype='U' and  D.name<>'dtproperties'
-         Left Join
-             syscomments E
-         on
-             A.cdefault=E.id
-         Left Join
-         sys.extended_properties  G
-         on
-             A.id=G.major_id and A.colid=G.minor_id
-         Left Join
-         
-         sys.extended_properties F
-         On
-             D.id=F.major_id and F.minor_id=0
-             --where d.name='OrderInfo'    --Èç¹ûÖ»²éÑ¯Ö¸¶¨±í,¼ÓÉÏ´ËÌõ¼ş
-         Order By
-             A.id,A.colorder
-        ---------------------------------------------------------------------------------------------------------------------------------------
-        select t2.name as TableName,t1.colorder as ColIndex,t1.ColName,t1.TypeName,t1.[Length],t1.IsIdentify,t1.IsNullable,t1.IsPrimaryKey
-         from (select col.id,
-                      col.colorder,
-                      col.name as ColName,
-                      typ.name as TypeName,
-                      COLUMNPROPERTY(col.id,col.name,'PRECISION') as [Length],
-                      COLUMNPROPERTY(col.id,col.name,'IsIdentity') as IsIdentify, 
-                      col.isnullable as IsNullable,
-                      case when exists(SELECT 1 
-                                         FROM sysobjects 
-                                        Where xtype='PK' 
-                                          and parent_obj=col.id 
-                                          and name in (SELECT name 
-                                                         FROM sysindexes 
-                                                        WHERE indid in(SELECT indid 
-                                                                         FROM sysindexkeys 
-                                                                        WHERE id = col.id AND colid=col.colid))) 
-                           then 1 else '' 
-                      end as IsPrimaryKey
-                from  syscolumns col,systypes typ  
-               where col.xusertype=typ.xusertype) t1,
-             (select name,id 
-                from sysobjects  
-               where xtype = 'U' and name<>'dtproperties') t2
-          where t1.id = t2.id
-          order by t2.name,t1.colorder
-    2.ÀûÓÃ.NETÉú³ÉÊı¾İ¿â±íµÄ´´½¨½Å±¾£¬ÀàËÆSqlServer±àĞ´±íµÄCREATEÓï¾ä
-      https://blog.csdn.net/chinahuyong/article/details/9469661
-      C# »ñÈ¡Êı¾İ¿âÖĞÄ³¸öÄ³¸ö±íµÄ´´½¨½Å±¾
-      https://blog.csdn.net/hutao1101175783/article/details/21477431
-      C# ²Ù×÷SQLServer SMOÖĞÓöµ½µÄ¼¸¸öÎÊÌâ
-      https://blog.csdn.net/guokeeryi_/article/details/44117147
-    3.SMO SQL Server Management Objects 
-    https://docs.microsoft.com/en-us/sql/relational-databases/server-management-objects-smo/create-program/connecting-to-an-instance-of-sql-server?view=sql-server-2017
-    https://www.mssqltips.com/sqlservertip/1826/getting-started-with-sql-server-management-objects-smo/
-20180814
-    1.ÍøÒ³×¥È¡
-        1)python·½·¨ https://blog.csdn.net/oscer2016/article/details/70209144
-         ×¥È¡·½·¨	    ĞÔÄÜ	     Ê¹ÓÃÄÑ¶È	     °²×°ÄÑ¶È
-        ÕıÔò±í´ïÊ½	     ¿ì	            À§ÄÑ	     ¼òµ¥(ÄÚÖÃÄ£¿é)
-        Beautiful Soup	 Âı	            ¼òµ¥	     ¼òµ¥(´¿Python)
-        Lxml	         ¿ì	            ¼òµ¥	     Ïà¶ÔÀ§ÄÑ
-        2)C# 
-        Ê¹ÓÃWebClient £¨ÒıÓÃ×Ô£ºhttp://fbljava.blog.163.com/blog/static/265211742008712105145244/£©
-        Ê¹ÓÃWebBrowser £¨ÒıÓÃ×Ô£ºhttp://topic.csdn.net/u/20091225/14/4ea221cd-4c1e-4931-a6db-1fd4ee7398ef.html£©
-        Ê¹ÓÃHttpWebRequest/HttpWebResponse £¨ÒıÓÃ×Ô£ºhttp://hi.baidu.com/onlyafar/blog/item/7ac4c6bf92d4810019d81f98.html£©
-        3)pythonÅÀ³æ½Ì³Ì
-        https://www.cnblogs.com/xin-xin/p/4297852.html
-    2.Linq±à³Ì¼¼ÊõÄÚÄ» µÚÊ®Ò»ÕÂ
-    3.Asp.net ºóÌ¨Ö´ĞĞÈÎÎñ
-        Ïê½â.NETÒì²½ https://www.cnblogs.com/wisdomqq/archive/2012/03/26/2412349.html
-        Ïê½â ASP.NETÒì²½ https://www.cnblogs.com/wisdomqq/archive/2012/03/29/2417723.html
-        ASP.NETÖĞ½øĞĞÏûÏ¢´¦Àí(MSMQ) http://www.cnblogs.com/beniao/archive/2008/06/26/1229934.html
-20180815
-    1.C# Ïß³ÌÊÖ²á µÚÎåÕÂ ¶àÏß³ÌÓ¦ÓÃ³ÌĞò Ò»¸ö¶àÏß³ÌÎ¢ÈíÏûÏ¢¶ÓÁĞ(MSMQ)¼àÌıÆ÷ https://www.cnblogs.com/danielWise/archive/2012/04/15/2450221.html
-        mq1 = new MessageQueue(@".\private$\myfirstq3");
-        mq1.ReceiveCompleted += new ReceiveCompletedEventHandler(MessageReceived);
-        mq1.BeginReceive(new TimeSpan(0,0,2));
-20180822
-    1.µ÷ÊÔhttpÇëÇó/·µ»Ø(get,post) requestheader/requestbody  responseheader/responsebody 
-    2.socks5´úÀí×ªhttp´úÀí 
-        https://www.cnblogs.com/straycats/p/8452354.html
-        https://www.cnblogs.com/liuxuzzz/p/5324749.html
-        http´úÀí¸üÍ¨ÓÃ.net httpwebrequestÖ±½ÓÖ§³Ö socks5²»ĞĞ
-    3.C#Ê¹ÓÃSocks5´úÀí
-        http://blog.sina.com.cn/s/blog_5ff1ba480100iwow.html
-20180823
-    1.µ÷ÊÔConcurrentDictionaryµÄKeysToListĞ§ÂÊ Íò´Î¼¸Ê®ms
-20180825
-    1.ÃÎÏë¸ÄÔì¼Ò -> ÂæĞÂÊ©çü
-      Éú»î¸ÄÔì¼Ò ¸ÄÃû×Ö ÃÀºÃÉú»î¼Ò ->°×¿ËÁ¦
-20180827
-    1.vs  c++ÏîÄ¿ÊôĞÔ ×Ö·û¼¯
-    ÏîÄ¿ÉèÖÃÀïµÄUNICODEÖ¸µÄÊÇËùÓĞAPIºÍMFCÏà¹ØÊ¹ÓÃUNICODE°æ±¾£¬Ò²¾ÍÊÇºó×º´øWµÄ°æ±¾
-    Èç¹ûÒªÖ¸¶¨Ê¹ÓÃUNICODE×Ö·û´®£¬wchar_t a[] = L"ÎÒ";ÕâÌõÓï¾äºÍÏîÄ¿ÉèÖÃÀïµÄUNICODEÒ»µã¹ØÏµ¶¼Ã»ÓĞ
-    2.ÓÃchar[]´æÒ»¸öÖĞÎÄ×Ö£¬Ã¿¸öÔªËØµÄÎª¸ºÊıÊÇÔõÃ´µÃ³öÀ´µÄ£¿
-    https://bbs.csdn.net/topics/390814154
-    3.Ê®½øÖÆ¸ºÊı×ª»»Îª¶ş½øÖÆ¡¢°Ë½øÖÆ¡¢Ê®Áù½øÖÆµÄÖªÊ¶·ÖÏí
-    https://www.cnblogs.com/wxb20/p/6033458.html
-    4.½ñÌìÑĞ¾¿×Ö·û±àÂëµÄÊ±ºò·¢ÏÖÒ»¸öÓĞÈ¤µÄÎÊÌâ //gb2312
-    int _tmain(int argc, _TCHAR* argv[])
+    æŒ‡é’ˆå½“å‚æ•°æ—¶ï¼Œåªèƒ½æ”¹åæŒ‡é’ˆæŒ‡å‘çš„å†…å®¹ï¼Œä¸èƒ½æ”¹å˜æŒ‡é’ˆæœ¬èº«ä½ ã€‚
+    æŒ‡é’ˆçš„å¼•ç”¨å½“å‚æ•°æ˜¯ï¼Œæ—¢å¯ä»¥æ”¹å˜æŒ‡é’ˆæŒ‡å‘çš„å†…å®¹ï¼Œåˆå¯ä»¥ä¿®æ”¹æŒ‡é’ˆæœ¬èº«ã€‚
+2.åç¨‹çš„åŸç†
+        åç¨‹ï¼Œåˆç§°å¾®çº¿ç¨‹ï¼Œçº¤ç¨‹ã€‚è‹±æ–‡åCoroutineã€‚
+        åç¨‹çš„æ¦‚å¿µå¾ˆæ—©å°±æå‡ºæ¥äº†ï¼Œä½†ç›´åˆ°æœ€è¿‘å‡ å¹´æ‰åœ¨æŸäº›è¯­è¨€ï¼ˆå¦‚Luaï¼‰ä¸­å¾—åˆ°å¹¿æ³›åº”ç”¨ã€‚
+        å­ç¨‹åºï¼Œæˆ–è€…ç§°ä¸ºå‡½æ•°ï¼Œåœ¨æ‰€æœ‰è¯­è¨€ä¸­éƒ½æ˜¯å±‚çº§è°ƒç”¨ï¼Œæ¯”å¦‚Aè°ƒç”¨Bï¼ŒBåœ¨æ‰§è¡Œè¿‡ç¨‹ä¸­åˆè°ƒç”¨äº†Cï¼ŒCæ‰§è¡Œå®Œæ¯•è¿”å›ï¼ŒBæ‰§è¡Œå®Œæ¯•è¿”å›ï¼Œæœ€åæ˜¯Aæ‰§è¡Œå®Œæ¯•ã€‚
+        æ‰€ä»¥å­ç¨‹åºè°ƒç”¨æ˜¯é€šè¿‡æ ˆå®ç°çš„ï¼Œä¸€ä¸ªçº¿ç¨‹å°±æ˜¯æ‰§è¡Œä¸€ä¸ªå­ç¨‹åºã€‚
+        å­ç¨‹åºè°ƒç”¨æ€»æ˜¯ä¸€ä¸ªå…¥å£ï¼Œä¸€æ¬¡è¿”å›ï¼Œè°ƒç”¨é¡ºåºæ˜¯æ˜ç¡®çš„ã€‚è€Œåç¨‹çš„è°ƒç”¨å’Œå­ç¨‹åºä¸åŒã€‚
+        åç¨‹çœ‹ä¸Šå»ä¹Ÿæ˜¯å­ç¨‹åºï¼Œä½†æ‰§è¡Œè¿‡ç¨‹ä¸­ï¼Œåœ¨å­ç¨‹åºå†…éƒ¨å¯ä¸­æ–­ï¼Œç„¶åè½¬è€Œæ‰§è¡Œåˆ«çš„å­ç¨‹åºï¼Œåœ¨é€‚å½“çš„æ—¶å€™å†è¿”å›æ¥æ¥ç€æ‰§è¡Œã€‚
+        æ³¨æ„ï¼Œåœ¨ä¸€ä¸ªå­ç¨‹åºä¸­ä¸­æ–­ï¼Œå»æ‰§è¡Œå…¶ä»–å­ç¨‹åºï¼Œä¸æ˜¯å‡½æ•°è°ƒç”¨ï¼Œæœ‰ç‚¹ç±»ä¼¼CPUçš„ä¸­æ–­ã€‚æ¯”å¦‚å­ç¨‹åºAã€Bï¼š
+        def A():
+            print('1')
+            print('2')
+            print('3')
+        def B():
+            print('x')
+            print('y')
+            print('z')
+        å‡è®¾ç”±åç¨‹æ‰§è¡Œï¼Œåœ¨æ‰§è¡ŒAçš„è¿‡ç¨‹ä¸­ï¼Œå¯ä»¥éšæ—¶ä¸­æ–­ï¼Œå»æ‰§è¡ŒBï¼ŒBä¹Ÿå¯èƒ½åœ¨æ‰§è¡Œè¿‡ç¨‹ä¸­ä¸­æ–­å†å»æ‰§è¡ŒAï¼Œç»“æœå¯èƒ½æ˜¯ï¼š
+        1
+        2
+        x
+        y
+        3
+        z
+        ä½†æ˜¯åœ¨Aä¸­æ˜¯æ²¡æœ‰è°ƒç”¨Bçš„ï¼Œæ‰€ä»¥åç¨‹çš„è°ƒç”¨æ¯”å‡½æ•°è°ƒç”¨ç†è§£èµ·æ¥è¦éš¾ä¸€äº›ã€‚
+        çœ‹èµ·æ¥Aã€Bçš„æ‰§è¡Œæœ‰ç‚¹åƒå¤šçº¿ç¨‹ï¼Œä½†åç¨‹çš„ç‰¹ç‚¹åœ¨äºæ˜¯ä¸€ä¸ªçº¿ç¨‹æ‰§è¡Œï¼Œé‚£å’Œå¤šçº¿ç¨‹æ¯”ï¼Œåç¨‹æœ‰ä½•ä¼˜åŠ¿ï¼Ÿ
+        æœ€å¤§çš„ä¼˜åŠ¿å°±æ˜¯åç¨‹æé«˜çš„æ‰§è¡Œæ•ˆç‡ã€‚å› ä¸ºå­ç¨‹åºåˆ‡æ¢ä¸æ˜¯çº¿ç¨‹åˆ‡æ¢ï¼Œè€Œæ˜¯ç”±ç¨‹åºè‡ªèº«æ§åˆ¶ï¼Œå› æ­¤ï¼Œæ²¡æœ‰çº¿ç¨‹åˆ‡æ¢çš„å¼€é”€ï¼Œå’Œå¤šçº¿ç¨‹æ¯”ï¼Œçº¿ç¨‹æ•°é‡è¶Šå¤šï¼Œåç¨‹çš„æ€§èƒ½ä¼˜åŠ¿å°±è¶Šæ˜æ˜¾ã€‚
+        ç¬¬äºŒå¤§ä¼˜åŠ¿å°±æ˜¯ä¸éœ€è¦å¤šçº¿ç¨‹çš„é”æœºåˆ¶ï¼Œå› ä¸ºåªæœ‰ä¸€ä¸ªçº¿ç¨‹ï¼Œä¹Ÿä¸å­˜åœ¨åŒæ—¶å†™å˜é‡å†²çªï¼Œåœ¨åç¨‹ä¸­æ§åˆ¶å…±äº«èµ„æºä¸åŠ é”ï¼Œåªéœ€è¦åˆ¤æ–­çŠ¶æ€å°±å¥½äº†ï¼Œæ‰€ä»¥æ‰§è¡Œæ•ˆç‡æ¯”å¤šçº¿ç¨‹é«˜å¾ˆå¤šã€‚
+        å› ä¸ºåç¨‹æ˜¯ä¸€ä¸ªçº¿ç¨‹æ‰§è¡Œï¼Œé‚£æ€ä¹ˆåˆ©ç”¨å¤šæ ¸CPUå‘¢ï¼Ÿæœ€ç®€å•çš„æ–¹æ³•æ˜¯å¤šè¿›ç¨‹+åç¨‹ï¼Œæ—¢å……åˆ†åˆ©ç”¨å¤šæ ¸ï¼Œåˆå……åˆ†å‘æŒ¥åç¨‹çš„é«˜æ•ˆç‡ï¼Œå¯è·å¾—æé«˜çš„æ€§èƒ½ã€‚
+3..net ä¸­çš„åç¨‹ï¼ˆååŒæ–¹æ³•ï¼‰=> yield => IEnumerator => è¿­ä»£å™¨æ¨¡å¼
+    https://www.cnblogs.com/rhwleo/p/6853667.html
+    https://www.cnblogs.com/rhwleo/p/6853767.html
+    https://www.cnblogs.com/rhwleo/p/6853830.html
+    => çº¿ç¨‹å¾ªç¯æ‰§è¡Œé˜Ÿåˆ—çš„é—®é¢˜
+        å½“æ²¡æœ‰è¯·æ±‚è¿›æ¥æ—¶ï¼Œçº¿ç¨‹ä»ç„¶ä¼šè½®è¯¢æ‰§è¡Œï¼Œè¿™æ ·é€ æˆäº†CPUèµ„æºçš„æµªè´¹
+        å› æ­¤ï¼Œéœ€è¦è¿›ä¸€æ­¥æ”¹è¿›ï¼Œå®ç°ä»…å½“æœ‰è¯·æ±‚è¿›å…¥æ—¶ï¼Œæ‰å¯åŠ¨çº¿ç¨‹ï¼Œè‹¥è¯·æ±‚è¿›å…¥æ—¶çº¿ç¨‹å·²ç»å¯åŠ¨åˆ™ç›´æ¥æŠŠè¯·æ±‚æ·»åŠ åˆ°é˜Ÿåˆ—ï¼ŒåŒæ—¶ä¿è¯åªæœ‰ä¸€ä¸ªçº¿ç¨‹å¯åŠ¨
+4.linq å¹¶å‘å†²çª
+    å¼‚å¸¸=>æ˜ å°„å±æ€§ColumnAttributte=>UpdateCheckå‚æ•°[Always][Never][WhenChanged]
+    SubmitChangesæ–¹æ³•ConflicModeå‚æ•°[FailOnFirstConflict][ContinueOnConflict]=>ChangeConflictException
+20190705
+1.Cè¯­è¨€å˜é•¿æ•°ç»„ä¹‹å‰–æ
+    c89æ ‡å‡†ä¸æ”¯æŒå˜é•¿æ•°ç»„ï¼Œå•è‰²gccçš„ç¼–è¯‘å™¨å› ä¸ºæœ‰GNU Cæ‰©å±•ï¼Œå³ä½¿ä½ ç”¨gcc -std=c89 test.c æ¥å®éªŒä¹Ÿçœ‹ä¸åˆ°æ•ˆæœï¼Œç…§æ ·ç¼–è¯‘é€šè¿‡ã€‚æˆ‘åœ¨ç½‘ä¸ŠæŸ¥åˆ°ç”¨gcc -pedantic test.c å¯ä»¥çœ‹åˆ°æ•ˆæœï¼Œå·²ç»éªŒè¯ã€‚
+    Cè¯­è¨€å˜é•¿æ•°ç»„ä¹‹å‰–æ http://www.cppblog.com/Walker/articles/80805.html
+20190709
+1.sqlè¯­å¥åœ¨æ•°æ®åº“å·¥å…·ä¸­è¿è¡Œå¾ˆå¿«,ä½†åœ¨Hibernateæ¡†æ¶ä¸­è¿è¡Œå¾ˆæ…¢(è€Œä¸”åŒä¸€ä¸ªæŸ¥è¯¢,æŒ‰ä¸åŒå­—æ®µæ’åº,æœ‰ç‚¹æ…¢æœ‰çš„å¿«,éšæœºå‡ºç°,åŸºæœ¬æ— è§„å¾‹,é‡å¯webæœåŠ¡æœ‰ä¸€å®šç¼“è§£)
+  è§£å†³:æŠŠæŸ¥è¯¢ä¸­çš„è§†å›¾è¿è¡¨å»æ‰å,å¡é¡¿ç°è±¡æ¶ˆå¤±
+  åˆ†æ:ä»æ•°æ®åº“å±‚é¢,è§†å›¾æœ¬èº«å°±ä¼šå’Œå¤–éƒ¨æŸ¥è¯¢ä¸€å¹¶è¢«è§£ææ‰§è¡Œ,æ‰€ä»¥æœ¬ä¸Šè§†å›¾å’ŒæŸ¥è¯¢æ²¡æœ‰åŒºåˆ«,æ€€ç–‘å¯èƒ½æ˜¯Hibernateæ¡†æ¶å¤„ç†å¤šè¡¨è¿æ¥æŸ¥è¯¢æ—¶åº•å±‚å¯¹sqlserverè§†å›¾å…¼å®¹æ€§æœ‰é—®é¢˜
+20190712
+1.Entity Framework
+    åŸºç¡€ https://www.cnblogs.com/xuf22/articles/5513283.html
+    è¯¦è§£ https://blog.csdn.net/uffvhj/article/details/83791429
+    ç³»åˆ—æ•™ç¨‹ https://www.cnblogs.com/wyy1234/p/9650759.html
+2. asp ef ç‰ˆæœ¬æ¢³ç† 
+    https://www.cnblogs.com/liangxiaofeng/p/5840754.html
+        2009å¹´ç™¼è¡ŒASP.NET MVC 1.0ç‰ˆ
+        2010å¹´ç™¼è¡ŒASP.NET MVC 2.0ç‰ˆï¼ŒVS2010
+        2011å¹´ç™¼è¡ŒASP.NET MVC 3.0ç‰ˆ+EF4ï¼Œéœ€è¦.Net4.0æ”¯æŒï¼ŒVS2011
+        2012å¹´ç™¼è¡ŒASP.NET MVC 4.0ç‰ˆ+EF5ï¼Œéœ€è¦.Net4.0æ”¯æŒï¼ŒVS2012
+        2013å¹´ç™¼è¡ŒASP.NET MVC 5.0ç‰ˆ+EF6ï¼Œéœ€è¦.Net4.5æ”¯æŒï¼ŒVS2013
+        2015å¹´ç™¼è¡ŒASP.NET MVC 6.0ç‰ˆ+EF7ï¼Œéœ€è¦.Net5.0æ”¯æŒï¼ŒVS2015
+        ASP.NET 5.0ã€€ã€€ã€€ã€€ã€€ã€€å°†æ”¹åä¸ºã€€ã€€ASP.NET Core 1.0
+        ASP.NET MVC 6ã€€ã€€ã€€ã€€  å°†æ”¹åä¸ºã€€ã€€ASP.NET MVC Core 1.0
+        Entity Framework 7.0   å°†æ”¹åä¸ºã€€ã€€Entity Framework Core 1.0
+     
+    EFç‰ˆæœ¬æ¦‚è§ˆ
+        https://blog.csdn.net/WuLex/article/details/80498950
+     
+    https://www.cnblogs.com/n-pei/p/4274907.html[ååˆ†é’Ÿè½»æ¾è®©ä½ è®¤è¯†Entity Framework 7 ]
+        EF7ä¸æ˜¯åœ¨EF6ä¸Šæ›´æ–°ï¼Œè€Œæ˜¯å®Œå…¨é‡å†™äº†ã€‚å®ƒå®Œå…¨æ”¯æŒ.NET Core runtime 
+20190719
+1.ç§’æ€å¤šçº¿ç¨‹ https://blog.csdn.net/morewindows/article/details/7392749
+20190722
+1. C/C++ --- å…¨å±€å˜é‡åˆå§‹åŒ–æ€»ç»“ https://blog.csdn.net/zhufenglonglove/article/details/52401939
+   æ ¹æ® C++ æ ‡å‡†ï¼Œå…¨å±€å˜é‡çš„åˆå§‹åŒ–è¦åœ¨ main å‡½æ•°æ‰§è¡Œå‰å®Œæˆï¼Œå¸¸è¯†æ— ç–‘ï¼Œä½†æ˜¯è¿™ä¸ªè¯´æ³•æœ‰ç‚¹å«ç³Šï¼Œmain å‡½æ•°æ‰§è¡Œå‰åˆ°åº•å…·ä½“æ˜¯ä»€ä¹ˆæ—¶å€™å‘¢ï¼Ÿæ˜¯ç¼–è¯‘æ—¶è¿˜æ˜¯è¿è¡Œæ—¶ï¼Ÿ
+   ç­”æ¡ˆæ˜¯æ—¢æœ‰ç¼–è¯‘æ—¶ï¼Œä¹Ÿå¯èƒ½ä¼šæœ‰è¿è¡Œæ—¶(seriously), ä»è¯­è¨€çš„å±‚é¢æ¥è¯´ï¼Œå…¨å±€å˜é‡çš„åˆå§‹åŒ–å¯ä»¥åˆ’åˆ†ä¸ºä»¥ä¸‹ä¸¤ä¸ªé˜¶æ®µï¼ˆc++11 N3690 3.6.2)ï¼š
+   static initialization: é™æ€åˆå§‹åŒ–æŒ‡çš„æ˜¯ç”¨å¸¸é‡æ¥å¯¹å˜é‡è¿›è¡Œåˆå§‹åŒ–,
+                          ä¸»è¦åŒ…æ‹¬ zero initialization å’Œ const initializationï¼Œ
+                          é™æ€åˆå§‹åŒ–åœ¨ç¨‹åºåŠ è½½çš„è¿‡ç¨‹ä¸­å®Œæˆï¼Œ
+                          å¯¹ç®€å•ç±»å‹(å†…å»ºç±»å‹ï¼ŒPODç­‰)æ¥è¯´ï¼Œ
+                          ä»å…·ä½“å®ç°ä¸Šçœ‹ï¼Œzero initialization çš„å˜é‡ä¼šè¢«ä¿å­˜åœ¨ bss æ®µï¼Œconst initialization çš„å˜é‡åˆ™æ”¾åœ¨ data æ®µå†…ï¼Œ
+                          ç¨‹åºåŠ è½½å³å¯å®Œæˆåˆå§‹åŒ–ï¼Œè¿™å’Œ c è¯­è¨€é‡Œçš„å…¨å±€å˜é‡åˆå§‹åŒ–åŸºæœ¬æ˜¯ä¸€è‡´çš„ã€‚
+   dynamic initializationï¼šåŠ¨æ€åˆå§‹åŒ–ä¸»è¦æ˜¯æŒ‡éœ€è¦ç»è¿‡å‡½æ•°è°ƒç”¨æ‰èƒ½å®Œæˆçš„åˆå§‹åŒ–ï¼Œ
+                           æ¯”å¦‚è¯´ï¼šint a = foo()ï¼Œæˆ–è€…æ˜¯å¤æ‚ç±»å‹ï¼ˆç±»ï¼‰çš„åˆå§‹åŒ–ï¼ˆéœ€è¦è°ƒç”¨æ„é€ å‡½æ•°ï¼‰ç­‰ã€‚
+                           è¿™äº›å˜é‡çš„åˆå§‹åŒ–ä¼šåœ¨ main å‡½æ•°æ‰§è¡Œå‰ç”±è¿è¡Œæ—¶è°ƒç”¨ç›¸åº”çš„ä»£ç ä»è€Œå¾—ä»¥è¿›è¡Œ(å‡½æ•°å†…çš„ static å˜é‡é™¤å¤–)ã€‚
+   éœ€è¦æ˜ç¡®çš„æ˜¯ï¼šé™æ€åˆå§‹åŒ–æ‰§è¡Œå…ˆäºåŠ¨æ€åˆå§‹åŒ–ï¼ åªæœ‰å½“æ‰€æœ‰é™æ€åˆå§‹åŒ–æ‰§è¡Œå®Œæ¯•ï¼ŒåŠ¨æ€åˆå§‹åŒ–æ‰ä¼šæ‰§è¡Œã€‚
+   æ˜¾ç„¶ï¼Œè¿™æ ·çš„è®¾è®¡æ˜¯å¾ˆç›´è§‚çš„ï¼Œèƒ½é™æ€åˆå§‹åŒ–çš„å˜é‡ï¼Œå®ƒçš„åˆå§‹å€¼éƒ½æ˜¯åœ¨ç¼–è¯‘æ—¶å°±èƒ½ç¡®å®šï¼Œå› æ­¤å¯ä»¥ç›´æ¥ hard code åˆ°ç”Ÿæˆçš„ä»£ç é‡Œï¼Œ
+   è€ŒåŠ¨æ€åˆå§‹åŒ–éœ€è¦åœ¨è¿è¡Œæ—¶æ‰§è¡Œç›¸åº”çš„åŠ¨ä½œæ‰èƒ½è¿›è¡Œï¼Œå› æ­¤ï¼Œé™æ€åˆå§‹åŒ–å…ˆäºåŠ¨æ€åˆå§‹åŒ–æ˜¯å¿…ç„¶çš„ã€‚
+2. C++ä¸­ä½¿ç”¨placement new   https://blog.csdn.net/linuxheik/article/details/80449059
+    ä¸€èˆ¬æ¥è¯´ï¼Œä½¿ç”¨newç”³è¯·ç©ºé—´æ—¶ï¼Œæ˜¯ä»ç³»ç»Ÿçš„â€œå †â€ï¼ˆheapï¼‰ä¸­åˆ†é…ç©ºé—´ã€‚ç”³è¯·æ‰€å¾—çš„ç©ºé—´çš„ä½ç½®æ˜¯æ ¹æ®å½“æ—¶çš„å†…å­˜çš„å®é™…ä½¿ç”¨æƒ…å†µå†³å®šçš„ã€‚
+    ä½†æ˜¯ï¼Œåœ¨æŸäº›ç‰¹æ®Šæƒ…å†µä¸‹ï¼Œå¯èƒ½éœ€è¦åœ¨å·²åˆ†é…çš„ç‰¹å®šå†…å­˜åˆ›å»ºå¯¹è±¡ï¼Œè¿™å°±æ˜¯æ‰€è°“çš„â€œå®šä½æ”¾ç½®newâ€ï¼ˆplacement newï¼‰æ“ä½œã€‚
+3.C# å‡½æ•°å¼ç¼–ç¨‹ ç¬¬å…­ç«  é—­åŒ…
+    1.åŒ¿åå¯¹è±¡
+    2.è®²è¯beg/endæ¨¡å¼
+20190723
+1.è°“è¯,æ¥æ”¶ä¸€ä¸ªå¯¹è±¡,åˆ¤æ–­å¯¹è±¡æ˜¯å¦æ»¡è¶³æ¡ä»¶
+  Predicate<T>  <=>  Func<T, bool>
+2..netè¡¨è¾¾å¼æ ‘ 
+  è¿è¡Œæ—¶å¤„ç†ä»£ç ,åŠ¨æ€å¤„ç†è¡¨è¾¾å¼
+  ç±»ä¼¼eval(js, python)
+3.å±€éƒ¨å¥—ç”¨(currying æŸ¯é‡ŒåŒ–) å±€éƒ¨åº”ç”¨(Partial Application ååº”ç”¨) https://blog.csdn.net/lzl315/article/details/42390775
+  å±€éƒ¨åº”ç”¨ï¼š è¿”å›æœ€ç»ˆç»“æœçš„å¤„ç†æ–¹å¼æ˜¯é™å®šçš„ï¼Œæ¯ä¸€å±‚çš„å‡½æ•°è°ƒç”¨æ‰€ä¼ å…¥
+             çš„å‚æ•°éƒ½å°†é€æ¬¡å‚ä¸æœ€ç»ˆå¤„ç†è¿‡ç¨‹ä¸­å»ï¼›
+  å±€éƒ¨å¥—ç”¨ï¼š è¿”å›æœ€ç»ˆç»“æœçš„å¤„ç†æ–¹å¼æ˜¯æœªçŸ¥çš„ï¼Œéœ€è¦æˆ‘ä»¬åœ¨ä½¿ç”¨çš„æ—¶å€™å°†
+             å…¶ä½œä¸ºå‚æ•°ä¼ å…¥ã€‚
+  =>å‚æ•°åˆ†ç¦»
+4.ä¸¥æ ¼æ±‚å€¼ä¸éä¸¥æ ¼æ±‚å€¼
+  ä½¿ç”¨é«˜é˜¶å‡½æ•°(ä¼ é€’å‡½æ•°) => æƒ°æ€§æ±‚å€¼
+  Lazy<T> => æƒ°æ€§æ±‚å€¼
+20190726
+1.C# å‡½æ•°å¼ç¼–ç¨‹ é¢„è®¡ç®—ä¸ç¼“å­˜ (ä»¥æ•°æ®çš„æ–¹å¼ or ä»¥å‡½æ•°çš„æ–¹å¼)
+    //é¢„è®¡ç®—å’Œç¼“å­˜ç¤ºä¾‹
+    static void Main(string[] args)
     {
-        char arr1[3]= {206,210,'\0'};// ===>>>ÎÒ
-        char arr2[3]= {-50,-46,'\0'};// ===>>>ÎÒ
-        return 0;
+     
+        List<string > list  = new List<string>();
+
+        list.Add("one");
+        list.Add("two");
+        list.Add("three");
+        list.Add("four");
+
+        var fun1 = FindStr(list);
+
+        Console.WriteLine(fun1("two"));
+
+        Console.Read();
+
     }
-    Ô­Òò c++ÀïÃæcharÊÇµ¥×Ö 8bit c#ÀïÃæcharÊÇË«×Ö½Ú 16bit
-    5.C#µ÷ÓÃC/C++¶¯Ì¬¿â ·âËÍ½á¹¹Ìå,½á¹¹ÌåÊı×é
-    https://www.cnblogs.com/HuangWj/p/5633675.html
-20180828
-    1.windowÏÂµÄÖĞÎÄ±àÂë
-        https://blog.csdn.net/leonardwang/article/details/5972776
-        ÔÚwindowsÏÂµÄ¼ÇÊÂ±¾ÖĞÊäÈë¡°ÎÒa¡±£¬·Ö±ğÒÔANSI¡¢Unicode¡¢UTF-8±£´æ£¬È»ºóÓÃ16½øÖÆ´ò¿ª£º
-        ANSI£ºced2 61 ANSI±àÂë(Ä¬ÈÏ)£ºÓ¢ÎÄ1¸ö×Ö½Ú£¬ÖĞÎÄ2¸ö×Ö½Ú£¬¼´Ò»¸ö×Ö½Ú×î¸ßÎª1Ê±£¬ÓëºóÒ»¸ö×Ö½ÚºÏ²¢×é³ÉË«×Ö½Ú£¬ÎªÒ»¸ö×Ö·û£¬·ñÔòÎªASCII×Ö·û¡£
-        Unicode£ºfffe 1162 6100    £¨fffeÊÇ¼ÇÊÂ±¾ÓÃÓÚ±êÊ¶ÊÇunicode±àÂëµÄ±êÊ¶·û£©Unicode£ºÎŞÂÛÖĞÓ¢ÎÄ£¬Ã¿¸ö¶¼ÊÇ2¸ö×Ö½Ú¡£
-        UTF-8£ºefbb bfe6 8891 61       £¨efbb bfÊÇ¼ÇÊÂ±¾ÓÃÓÚ±êÊ¶ÊÇutf-8±àÂëµÄ±êÊ¶·û£©UTF-8£ºÓ¢ÎÄ1¸ö×Ö½Ú£¬ÖĞÎÄ3¸ö×Ö½Ú¡£
-    2.c++¶Ô±àÂë¸ñÊ½ANSI utf8 unicode ½øĞĞ×ª»» https://blog.csdn.net/c914620529/article/details/73503708
-    3.C++ÅĞ¶Ï×Ö·û´®ÖĞÊÇ·ñÓĞÖĞÎÄ https://blog.csdn.net/wordwarwordwar/article/details/39940119
-    4.CTP¹Ù·½api°æ±¾Éı¼¶6.3.11 ¿ÉÒÔÔËĞĞ¸ü¶àapiÊµÀı ËµÊÇÄÜµ½300¸ö
-    5.¹ØÓÚ±àÂëansi¡¢GB2312¡¢unicodeÓëutf-8µÄÇø±ğ https://blog.csdn.net/chruan/article/details/8812110
-        ÔÚÖĞÎÄºÍÈÕÎÄ²Ù×÷ÏµÍ³ÀïÉú³ÉµÄ£¨txtºÍxml£©ÎÄ¼şµÄ±àÂëËäÈ»¶¼ÊÇansi
-        µ«ÊÇ£¬ÔÚ¼òÌåÖĞÎÄÏµÍ³ÏÂ£¬ansi ±àÂë´ú±í GB2312 ±àÂë£¬ÔÚÈÕÎÄ²Ù×÷ÏµÍ³ÏÂ£¬ansi ±àÂë´ú±í JIS ±àÂë¡£
-        ²»Í¬ ansi ±àÂëÖ®¼ä»¥²»¼æÈİ£¬µ±ĞÅÏ¢ÔÚ¹ú¼Ê¼ä½»Á÷Ê±£¬ÎŞ·¨½«ÊôÓÚÁ½ÖÖÓïÑÔµÄÎÄ×Ö£¬´æ´¢ÔÚÍ¬Ò»¶Î ansi ±àÂëµÄÎÄ±¾ÖĞ
-      ×Ö·û±àÂë£¨ASCII¡¢ANSI¡¢GB2312¡¢UTF-8µÈ£©ÏµÍ³ÊáÀí https://blog.csdn.net/u012152619/article/details/43235747
-20180829
-    1.Ç°¼¸Ìì±»ĞèÇóºÍÂÒÂëÎÊÌâ¸ãÍÂÁË ½ñÌìÄÑµÃÏĞÏÂÀ´ ÀÏ¹æ¾Ø»¹ÊÇ¿´¿´xml ½ñÌì¿´µÃÊÇxslt
-        a.<xsl:template match="/"> XSL 
-           ÑùÊ½±íÓÉÒ»¸ö»ò¶àÌ×±»³ÆÎªÄ£°å£¨template£©µÄ¹æÔò×é³É¡£ 
-           match ÊôĞÔµÄÖµÊÇ XPath ±í´ïÊ½£¨¾ÙÀı£¬match="/" ¶¨ÒåÕû¸öÎÄµµ£©¡£
-        b.<xsl:value-of>
-            ÓÃÓÚÌáÈ¡Ä³¸ö XML ÔªËØµÄÖµ£¬²¢°ÑÖµÌí¼Óµ½×ª»»µÄÊä³öÁ÷ÖĞ
-            ÀıÈç:<xsl:value-of select="catalog/cd/title"/> select ÊôĞÔµÄÖµÊÇÒ»¸ö XPath ±í´ïÊ½
-        c.<xsl:for-each>
-            ¿ÉÓÃÓÚÑ¡È¡Ö¸¶¨µÄ½Úµã¼¯ÖĞµÄÃ¿¸ö XML ÔªËØ 
-            ÀıÈç:<xsl:for-each select="catalog/cd"> select ÊôĞÔµÄÖµÊÇÒ»¸ö XPath ±í´ïÊ½
-            ¹ıÂËÊä³ö½á¹û  <xsl:for-each select="catalog/cd[artist='Bob Dylan']"> ºÏ·¨µÄ¹ıÂËÔËËã·û: = £¨µÈÓÚ£©!= £¨²»µÈÓÚ£©&lt; £¨Ğ¡ÓÚ£©&gt; £¨´óÓÚ£©
-            ps:<xsl:sort> ÔªËØÓÃÓÚ¶ÔÊä³ö½á¹û½øĞĞÅÅĞò ÈçĞè¶ÔÊä³ö½á¹û½øĞĞÅÅĞò£¬Ö»Òª¼òµ¥µØÔÚ XSL ÎÄ¼şÖĞµÄ <xsl:for-each> ÔªËØÄÚ²¿Ìí¼ÓÒ»¸ö <xsl:sort> ÔªËØ
-                ÀıÈç:    <xsl:for-each select="catalog/cd">
-                            <xsl:sort select="artist"/>
-                            ...
-                         </xsl:for-each>
-               <xsl:if> ÓÃÓÚ·ÅÖÃÕë¶Ô XML ÎÄ¼şÄÚÈİµÄÌõ¼ş²âÊÔ ÈçĞèÌí¼ÓÓĞÌõ¼şµÄ²âÊÔ£¬ÇëÔÚ XSL ÎÄ¼şÖĞµÄ <xsl:for-each> ÔªËØÄÚ²¿Ìí¼Ó <xsl:if> ÔªËØ
-                <xsl:if test="expression">
-                    ...Èç¹ûÌõ¼ş³ÉÁ¢ÔòÊä³ö...
-                </xsl:if>
-                ÀıÈç:   <xsl:for-each select="catalog/cd">
-                          <xsl:if test="price &gt; 10">
-                            <tr>
-                              <td><xsl:value-of select="title"/></td>
-                              <td><xsl:value-of select="artist"/></td>
-                              <td><xsl:value-of select="price"/></td>
-                            </tr>
-                          </xsl:if>
-                        </xsl:for-each>
-        d.<xsl:choose> ÔªËØÓÃÓÚ½áºÏ <xsl:when> ºÍ <xsl:otherwise> À´±í´ï¶àÖØÌõ¼ş²âÊÔ
-            <xsl:choose>
-                <xsl:when test="expression">
-                ... some output ...
-                </xsl:when>
-                <xsl:otherwise>
-                ... some output ....
-                </xsl:otherwise>
-            </xsl:choose>
-            ÀıÈç:ÔÚ CD µÄ¼Û¸ñ¸ßÓÚ 10 Ê±Ïò "Artist" ÁĞÌí¼Ó·ÛÉ«µÄ±³¾°ÑÕÉ«£¬²¢ÔÚ CD µÄ¼Û¸ñ¸ßÓÚ 9 ÇÒµÍÓÚµÈÓÚ 10 Ê±Ïò "Artist" ÁĞÌí¼Ó»ÒÉ«µÄ±³¾°ÑÕÉ«
-                    <xsl:for-each select="catalog/cd">
-                        <tr>
-                          <td><xsl:value-of select="title"/></td>
-                          <xsl:choose>
-                            <xsl:when test="price &gt; 10">
-                              <td bgcolor="#ff00ff">
-                              <xsl:value-of select="artist"/></td>
-                            </xsl:when>
-                            <xsl:when test="price &gt; 9">
-                              <td bgcolor="#cccccc">
-                              <xsl:value-of select="artist"/></td>
-                            </xsl:when>
-                            <xsl:otherwise>
-                              <td><xsl:value-of select="artist"/></td>
-                            </xsl:otherwise>
-                          </xsl:choose>
-                        </tr>
-                    </xsl:for-each>
-        e.<xsl:apply-templates> ÔªËØ¿É°ÑÒ»¸öÄ£°åÓ¦ÓÃÓÚµ±Ç°µÄÔªËØ»òÕßµ±Ç°ÔªËØµÄ×Ó½Úµã
-          <xsl:apply-templates select="expression" mode="name"> select¿ÉÑ¡¡£¹æ¶¨Òª´¦ÀíµÄ½Úµã¡£ĞÇºÅÑ¡È¡Õû¸ö½Úµã¼¯¡£Èç¹ûÊ¡ÂÔ¸ÃÊôĞÔ£¬Ôò½«Ñ¡È¡µ±Ç°½ÚµãµÄËùÓĞ×Ó½Úµã¡£
-            <!-- Content:(xsl:sort|xsl:with-param)* -->         ¿ÉÑ¡¡£Èç¹û´æÔÚÎªÏàÍ¬ÔªËØ¶¨ÒåµÄ¶à¸ö´¦Àí·½·¨£¬ÄÇÃ´ÓÃ mode ¿ÉÒÔÇø·ÖËüÃÇ
-          </xsl:apply-templates>
-          Àı×Ó ÓÃ h1 ÔªËØ°üÎ§ÎÄµµÖĞÃ¿¸ö title ÔªËØ£º
-                <?xml version="1.0" encoding="ISO-8859-1"?>
-                <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-                    <xsl:template match="title">
-                      <h1><xsl:apply-templates/></h1>
-                    </xsl:template>
-                </xsl:stylesheet>
-               ÓÃ h1 ÔªËØ°üÎ§ÎÄµµÖĞËùÓĞÊôÓÚ message µÄ×ÓÔªËØµÄ title ÔªËØ
-                    <xsl:template match="message">
-                       <h1><xsl:apply-templates select="title"/></h1>
-                    </xsl:template>
-               ÓÃ h1 ÔªËØ°üÎ§ÎÄµµÖĞ mode ÊôĞÔÉèÖÃÎª "big" µÄ message ËùÓĞ×Ó½Úµã
-                    <xsl:template match="message">
-                       <h1><xsl:apply-templates select="*" mode="big"/></h1>
-                    </xsl:template>
-          ps.
-          ±ÈÈçËµ£¬ÓĞÕâÑùÒ»¸öÎÄµµ½á¹¹   
-          <Root>   
-              <Row>   
-                  <name>1</name>   
-                  <age>12</age>   
-              </Row>   
-              <Row>   
-                  <name>2</name>   
-                  <age>13</age>   
-              </Row>   
-          </Root>   
-            
-          ÄãĞ´ÁËÒ»¸öÄ£°åÆ¥ÅäRow   
-              <xsl:template   match="Row">   
-                <xsl:apply-templates/>   
-              </xsl:template>   
-            
-          <xsl:apply-templates/>»á×ÔĞĞÆ¥ÅäRowÏÂµÄËùÓĞElementºÍAttribute   
-          Èç¹ûÄãÃ»ÓĞÎªnameºÍageĞ´Ä£°å£¬È±Ê¡ÏÔÊ¾ËüµÄÎÄ±¾ĞÅÏ¢¡£Èç¹ûÄã¶¨ÒåÁËÒÔÏÂÁ½¸öÄ£°å   
-              <xsl:template   match="name">   
-                ĞÕÃû£º<xsl:value-of   select="text()"/>   
-              </xsl:template>   
-              <xsl:template   match="age">   
-                ÄêÁä£º<xsl:value-of   select="text()"/>   
-              </xsl:template>   
-          Ëü¾Í»áÒ»Ò»½øĞĞÆ¥Åä
-          ²Î¿¼:http://www.cnblogs.com/it_mac/archive/2010/06/27/1766151.html
-            ¶¨ÒåÁËÓÃÓÚÆ¥Åä¡°cd¡±µÄÄ£°å£¬È»ºó¶¨ÒåÁË¡°title¡±ºÍ¡°artist¡±µÄÏÔÊ¾¸ñÊ½¡£
-            ½Ó×Å£¬ÎÒ¼ÓÁËÒ»¸ö<xsl:apply-templates/>¡£´ËÊ±£¬ÓÉÓÚÆ¥ÅäµÄ½ÚµãÊÇ¡°cd¡±£¬¶ø¡°title¡±ºÍ¡°artist¡±£¬»¹ÓĞºóÃæµÄ¡°tracks¡±¶¼ÊÇ¡°cd¡±µÄ×Ó½Úµã£¬ËùÒÔ½âÎöÆ÷ÎªÃ¿¸ö½ÚµãÑ°ÕÒÆ¥ÅäµÄÄ£°å¡£
-            ÓÉÓÚÃ»ÓĞ¶¨ÒåÓë¡°title¡±ºÍ¡°artist¡±Æ¥ÅäµÄÄ£°å£¬ËùÒÔ¡°title¡±ºÍ¡°artist¡±µÄÄÚÈİÓÖÒÔÎÄ±¾µÄĞÎÊ½Êä³öÁËÒ»´Î
-            Èç¹ûÆ¥Åä¡°title¡±ºÍ¡°artist¡±µÄÄ£°åÓĞ¶¨Òå£¬ÔòÓÖ»á°´ÕÕ¶¨ÒåµÄÄ£°åÖØĞÂÊä³öÒ»´Î
-        f.xsltÔÚ¿Í»§¶Ë
-            js¼ÓÔØxmlºÍxsl½øĞĞ×ª»»
-        g.xsktÔÚ·şÎñ¶Ë
-            php/aspµÈ·şÎñÆ÷¶Ë½Å±¾¼ÓÔØxmlºÍxsl½øĞĞ×ª»»(dom)
-20180830
-    1.XPath
-        a.ÏîÄ¿item=> ½áµãÓë»ù±¾Öµ 
-          ½áµã¹ØÏµ dom
-        b.Ñ¡È¡½áµã
-          nodename  /  //  .  .. @
-        c.Î½´Ê [...Ìõ¼ş±í´ïÊ½»òÕßË÷Òı]
-        d.Ñ¡È¡Î´Öª½Úµã * @* node()
-        e.| ºÏ²¢Èô¸ÉÂ·¾¶
-        f.Öá Axes 
-        g.³ı·¨ div Óë and »ò or
-    2.XQuery
-        a.FLWOR ÊÇ "For, Let, Where, Order by, Return" µÄÖ»È¡Ê××ÖÄ¸ËõĞ´
-        doc("books.xml")/bookstore/book[price>30]/title
-        =>for $x in doc("books.xml")/bookstore/book
-            where $x/price>30
-            order by $x/title
-            return $x/title
-        b.È¡½áµãÊı¾İdata($x)
-        c.XQuery ¶Ô´óĞ¡Ğ´Ãô¸Ğ
-          XQuery µÄÔªËØ¡¢ÊôĞÔÒÔ¼°±äÁ¿±ØĞëÊÇºÏ·¨µÄ XML Ãû³Æ¡£
-          XQuery ×Ö·û´®Öµ¿ÉÊ¹ÓÃµ¥ÒıºÅ»òË«ÒıºÅ¡£
-          XQuery ±äÁ¿ÓÉ ¡°$¡± ²¢¸úËæÒ»¸öÃû³ÆÀ´½øĞĞ¶¨Òå£¬¾ÙÀı£¬$bookstore
-          XQuery ×¢ÊÍ±» (: ºÍ :) ·Ö¸î£¬ÀıÈç£¬(: XQuery ×¢ÊÍ :)
-        d.for $x in doc("books.xml")/bookstore/book
-            return	if ($x/@category="CHILDREN")
-                then <child>{data($x/title)}</child>
-                else <adult>{data($x/title)}</adult>
-            Çë×¢Òâ "If-Then-Else" µÄÓï·¨£ºif ±í´ïÊ½ºóµÄÔ²À¨ºÅÊÇ±ØĞèµÄ¡£else Ò²ÊÇ±ØĞèµÄ£¬²»¹ıÖ»Ğ´ ¡°else ()¡± Ò²¿ÉÒÔ
-        e.ÔÚ XQuery ÖĞ£¬ÓĞÁ½ÖÖ·½·¨À´±È½ÏÖµ¡£
-            Í¨ÓÃ±È½Ï£º=, !=, <, <=, >, >=
-            ÖµµÄ±È½Ï£ºeq¡¢ne¡¢lt¡¢le¡¢gt¡¢ge
-            $bookstore//book/@q > 10
-            Èç¹û q ÊôĞÔµÄÖµ´óÓÚ 10£¬ÉÏÃæµÄ±í´ïÊ½µÄ·µ»ØÖµÎª true¡£
-            $bookstore//book/@q gt 10
-            Èç¹û½ö·µ»ØÒ»¸ö q£¬ÇÒËüµÄÖµ´óÓÚ 10£¬ÄÇÃ´±í´ïÊ½·µ»Ø true¡£Èç¹û²»Ö¹Ò»¸ö q ±»·µ»Ø£¬Ôò»á·¢Éú´íÎó
-    3.XQuery¸ß¼¶
-        a.XQuery ±í´ïÊ½·µ»Ø title ÔªËØµÄ·½Ê½ºÍËüÃÇÔÚÊäÈëÎÄµµÖĞ±»ÃèÊöµÄ·½Ê½µÄÏàÍ¬µÄ
-        <html>
-            <body>
-                <h1>Bookstore</h1>
-                <ul>
-                    {
-                        for $x in doc("books.xml")/bookstore/book
-                        order by $x/title
-                        return <li>{data($x/title)}. Category: {data($x/@category)}</li>
-                    }
-                </ul>
-                
-                <ul>
-                    {
-                        for $x in doc("books.xml")/bookstore/book
-                        order by $x/title
-                        return <li class="{data($x/@category)}">{data($x/title)}</li>
-                    }
-                </ul>
-            </body>
-        </html>
-        b.for Óï¾ä for  to:$x in (1 to 5) at:for $x at $i in doc("books.xml")/bookstore/book/title in:for $x in (10,20), $y in (100,200)
-          let Óï¾ä¿ÉÍê³É±äÁ¿·ÖÅä£¬²¢¿É±ÜÃâ¶à´ÎÖØ¸´ÏàÍ¬µÄ±í´ïÊ½¡£let Óï¾ä²»»áµ¼ÖÂµü´ú let $x := (1 to 5) return <test>{$x}</test> => <test>1 2 3 4 5</test>
-          where/order by/return
-        c.º¯Êı XQuery º¬ÓĞ³¬¹ı 100 ¸öÄÚ½¨µÄº¯Êı¡£ÕâĞ©º¯Êı¿ÉÓÃÓÚ×Ö·û´®Öµ¡¢ÊıÖµ¡¢ÈÕÆÚÒÔ¼°Ê±¼ä±È½Ï¡¢½ÚµãºÍ QName ²Ù×÷¡¢ĞòÁĞ²Ù×÷¡¢Âß¼­ÖµµÈµÈ¡£ÄúÒ²¿ÉÔÚ XQuery ÖĞ¶¨Òå×Ô¼ºµÄº¯Êı  
-                http://www.w3school.com.cn/xpath/xpath_functions.asp
-          XQuery º¯ÊıÃüÃû¿Õ¼äµÄ URI£ºhttp://www.w3.org/2005/02/xpath-functions
-            º¯ÊıÃüÃû¿Õ¼äµÄÄ¬ÈÏÇ°×ºÊÇ fn:¡£
-            ÌáÊ¾£ºº¯Êı¾­³£±»Í¨¹ı fn: Ç°×º½øĞĞµ÷ÓÃ£¬ÀıÈç fn:string()¡£²»¹ı£¬ÓÉÓÚ fn: ÊÇÃüÃû¿Õ¼äµÄÄ¬ÈÏÇ°×º£¬ËùÒÔº¯ÊıÃû³Æ²»±ØÔÚ±»µ÷ÓÃÊ±Ê¹ÓÃÇ°×º¡£
-          ÓÃ»§¶¨Òåº¯Êı:
-            declare function Ç°×º:º¯ÊıÃû($²ÎÊı AS Êı¾İÀàĞÍ) 
-              AS ·µ»ØµÄÊı¾İÀàĞÍ
-            {
 
-            (: ...º¯Êı´úÂë... :)
+    //ä½œç”¨ç¼“å­˜
+    static Func<string , bool> FindStr(List<string > lst)
+    {
+        HashSet<string > hsSet = new HashSet<string >(lst);
 
-            };
-            Àı×Ó:
-            declare function local:minPrice(
-              $price as xs:decimal?,
-              $discount as xs:decimal?)
-              AS xs:decimal?
-            {
-            let $disc := ($price * $discount) div 100
-            return ($price - $disc)
-            };
+        return item =>
+        {
+            return hsSet.Contains(item);
+        };
+    }
+    å±€éƒ¨å¥—ç”¨è¿›è¡Œç¼“å­˜(å‡½æ•°å¼ç¼–ç¨‹,ä»¥å‡½æ•°çš„æ–¹å¼ç¼“å­˜æ•°æ®,è€Œä¸æ˜¯ä»¥æ•°æ®çš„æ–¹å¼)
+20190730
+1.C#å‡½æ•°å¼ç¼–ç¨‹ é€’å½’
+    å°¾è°ƒç”¨->å°¾é€’å½’ https://www.cnblogs.com/freelandun/p/7290768.html
+        å°¾é€’å½’çš„å®ç°ï¼Œå¾€å¾€éœ€è¦æ”¹å†™é€’å½’å‡½æ•°ï¼Œç¡®ä¿æœ€åä¸€æ­¥åªè°ƒç”¨è‡ªèº«ã€‚åšåˆ°è¿™ä¸€ç‚¹çš„æ–¹æ³•ï¼Œå°±æ˜¯æŠŠæ‰€æœ‰ç”¨åˆ°çš„å†…éƒ¨å˜é‡æ”¹å†™æˆå‡½æ•°çš„å‚æ•°
+    ç´¯åŠ å™¨ä¼ é€’æ¨¡å¼
+        ä¸ºäº†ä½¿lambdaè¡¨è¾¾å¼å…·æœ‰é€’å½’ä½œç”¨,å…ˆå£°æ˜ä¸ºnull å†èµ‹å€¼è°ƒç”¨
+    åç»§ä¼ é€’æ¨¡å¼(CPS)
+    é—´æ¥é€’å½’/äº’é€’å½’
+20190820
+1.è·å–ç¡¬ç›˜åºåˆ—å·
+    windowsåœ¨cmdé‡Œæ‰§è¡Œ:wmic diskdrive get SerialNumber linuxå‘½ä»¤è¡Œæ‰§è¡Œï¼šsudo hdparm -I /dev/sd? | grep 'Serial\ Number'
+    PS:ç½‘ä¸Šæ™®éæµä¼ çš„diskpartå‘½ä»¤è·å–çš„ç£ç›˜idå¹¶ä¸æ˜¯ç£ç›˜å”¯ä¸€åºåˆ—å·
+    
+20190831
+1.C# ConcurrentDictionary AddOrUpdate vs Indexer Set    
+https://stackoverflow.com/questions/17926519/concurrent-dictionary-addorupdate-vs-index-add
+This is an old question, but no one answered why you would use one over the other.
+Choose A (the indexer) if you want to add or update and the update is not dependent on the existing value.
+Choose B (AddOrUpdate) if you want to add or update and the update depends on an existing value. AddOrUpdate will do the update atomically.
+So in the case in the question, you want to use the indexer. It's simpler, easier to read, and probably faster since you aren't creating an anonymous function.  
 
-            (: ÏÂÃæÊÇµ÷ÓÃÉÏÃæµÄº¯ÊıµÄÀı×Ó :)
+2.lambda ä¼ é€’refå‚æ•°æœ‰ä¸ªè¯­æ³•bugï¼Œå¿…é¡»è¦æ˜¾å¼ä¹¦å†™å‚æ•°ç±»å‹ã€‚
+//å¦‚
+delegate bool FuncType(ref int num);
 
-            <minPrice>{local:minPrice($book/price, $book/discount)}</minPrice>
-    4.xpathºÍxquery²î²»¶à,xquery¶Ôxpath×öÁËÀ©Õ¹
-20180831
-    1.xlinkÓëxpointer
-        XLink ¶¨ÒåÔÚ XML ÎÄµµÖĞ´´½¨³¬¼¶Á´½ÓµÄ±ê×¼·½·¨¡£
-        XPointer ÔÊĞíÕâĞ©³¬¼¶Á´½ÓÖ¸Ïò XML ÎÄµµÖĞµÄ¸ü¶à¾ßÌå²¿·Ö£¨Æ¬¶Ï£©
-        a.Óï·¨
-          xlink:ÎªÁË·ÃÎÊ XLink µÄÊôĞÔºÍÌØĞÔ£¬ÎÒÃÇ±ØĞëÔÚÎÄµµµÄ¶¥¶ËÉùÃ÷ XLink ÃüÃû¿Õ¼ä¡£XLink µÄÃüÃû¿Õ¼äÊÇ£º"http://www.w3.org/1999/xlink"¡£
-                <homepage xlink:type="simple" xlink:href="http://www.w3school.com.cn">Visit W3School</homepage>
-                xlink:type ºÍ xlink:href ÊôĞÔ¶¨ÒåÁËÀ´×Ô XLink ÃüÃû¿Õ¼äµÄ type ºÍ href ÊôĞÔ xlink:type="simple" ¿É´´½¨Ò»¸ö¼òµ¥µÄÁ½¶ËÁ´½Ó=>¶à¶Ë
-          xpointer:ÔÚ HTML ÖĞ£¬ÎÒÃÇ¿É´´½¨Ò»¸ö¼ÈÖ¸ÏòÄ³¸ö HTML Ò³ÃæÓÖÖ¸Ïò HTML Ò³ÃæÄÚÄ³¸öÊéÇ©µÄ³¬¼¶Á´½Ó£¨Ê¹ÓÃ#£©
-                   ¼ÙÈç³¬¼¶Á´½ÓÖ¸ÏòÄ³¸ö XML ÎÄµµ£¬ÎÒÃÇ¿ÉÒÔÔÚ xlink:href ÊôĞÔÖĞ°Ñ XPointer ²¿·ÖÌí¼Óµ½ URL ºóÃæ£¬ÕâÑù¾Í¿ÉÒÔµ¼º½£¨Í¨¹ı XPath ±í´ïÊ½£©µ½ÎÄµµÖĞÄ³¸ö¾ßÌåµÄÎ»ÖÃÁË
-                   href="http://www.example.com/cdlist.xml#id('rock').child(5,item)"
-        b.Àı×Ó
-            ±í´ïÊ½£º#xpointer(id("Rottweiler")) ¿ÉÒıÓÃÄ¿±êÎÄµµÖĞ id ÖµÎª "Rottweiler" µÄÔªËØ¡£
-            Òò´Ë£¬xlink:href ÊôĞÔ»áÀàËÆÕâÑù£ºxlink:href="http://dog.com/dogbreeds.xml#xpointer(id('Rottweiler'))"
-            ²»¹ı£¬µ±Ê¹ÓÃ id Á´½Óµ½Ä³¸öÔªËØÊ±£¬XPointer ÔÊĞí¼òĞ´ĞÎÊ½¡£Äú¿ÉÒÔÖ±½ÓÊ¹ÓÃ id µÄÖµ£¬¾ÍÏñÕâÑù£º
-                xlink:href="http://dog.com/dogbreeds.xml#Rottweiler"
-        c.ÊôĞÔ i. xlink:actuate
-                                onLoad
-                                onRequest
-                                other
-                                none
-                        ¶¨ÒåºÎÊ±¶ÁÈ¡ºÍÏÔÊ¾±»Á´½ÓµÄ×ÊÔ´¡£
-               ii. xlink:href  URL  ÒªÁ´½ÓµÄ URL¡£
-               iii. xlink:show
-                                embed
-                                new
-                                replace
-                                other
-                                none
-                        ÔÚºÎ´¦´ò¿ªÁ´½Ó¡£Replace ÊÇÄ¬ÈÏÖµ¡£
-               iiii. xlink:type
-                                simple
-                                extended
-                                locator
-                                arc
-                                resource
-                                title
-                                none
-                                Á´½ÓµÄÀàĞÍ¡£
-    2.XSL-FO ÓÃÓÚ¸ñÊ½»¯¹©Êä³öµÄ XML Êı¾İ Extensible Stylesheet Language Formatting Objects
-        a.document
-            <?xml version="1.0" encoding="ISO-8859-1"?>
+FuncType func1;
+func1 = num => true; //é”™
+func1 = (ref num) => true;//é”™
+func1 = (ref int num) => true;//ok
 
-            <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+//å¹¶ä¸”,å½“ä¸€ä¸ªå‚æ•°ä¹¦å†™ç±»å‹ï¼Œå…¶ä»–å‚æ•°ä¹Ÿè¦ä¹¦å†™ï¼Œæ€»ä¹‹å¾ˆçƒ¦ã€‚d
 
-            <fo:layout-master-set>
-              <fo:simple-page-master master-name="A4">
-                <!-- Page template goes here -->
-              </fo:simple-page-master>
-            </fo:layout-master-set>
+3..NETï¼šå­—ç¬¦é›†å’Œç¼–ç å­¦ä¹ æ€»ç»“   https://www.cnblogs.com/happyframework/p/3273606.html
+    .NETä¸­ä½¿ç”¨ä½•ç§ç¼–ç è¡¨ç¤ºå­—ç¬¦ä¸²? è¿™ä¸ªé—®é¢˜å’Œæºä»£ç æ‰€åœ¨çš„æ–‡ä»¶çš„ç¼–ç æ²¡æœ‰ä»»ä½•å…³ç³»ï¼Œæ–‡ä»¶çš„æ ¼å¼åªæ˜¯å½±å“å¼€å‘æœŸé—´çš„ç¼–ç¨‹å·¥ä½œ
+    .NETä½¿ç”¨çš„æ˜¯Unicodeçš„16ä½ç¼–ç 
 
-            <fo:page-sequence master-reference="A4">
-              <!-- Page content goes here -->
-            </fo:page-sequence>
-
-            </fo:root>
-        b.  Pages£¨Ò³Ãæ£©
-                Regions£¨Çø£©
-                    region-body (Ò³ÃæµÄÖ÷Ìå)
-                    region-before (Ò³ÃæµÄÒ³Ã¼)
-                    region-after (Ò³ÃæµÄÒ³½Å)
-                    region-start (×ó²àÀ¸)
-                    region-end (ÓÒ²àÀ¸)
-                        Block areas£¨¿éÇøÓò£©
-                            Line areas£¨ĞĞÇøÓò£©
-                                Inline areas£¨ĞĞÄÚÇøÓò£©
-        c.output
-            XSL-FO Êä³öÍ¨³£±»Ç¶Ì×ÔÚ <fo:block> ÔªËØÖĞ£¬<fo:block> Ç¶Ì×ÓÚ <fo:flow> ÔªËØÖĞ£¬<fo:flow> Ç¶Ì×ÓÚ <fo:page-sequence> ÔªËØÖĞ
-            <?xml version="1.0" encoding="ISO-8859-1"?>               |--------------------|
-            <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">    |hello w3cschool     |
-                <fo:layout-master-set>                                |                    |
-                  <fo:simple-page-master master-name="A4">            |                    |
-                  </fo:simple-page-master>                            |                    |
-                </fo:layout-master-set>                               |                    |
-                <fo:page-sequence master-reference="A4">      ===> A4 |                    |
-                  <fo:flow flow-name="xsl-region-body">               |                    |
-                    <fo:block>Hello W3School</fo:block>               |                    |
-                  </fo:flow>                                          |                    |
-                </fo:page-sequence>                                   |                    |
-            </fo:root>                                                |--------------------|
-        d.Á÷ Ò³Ãæ ¿é ÁĞ±í ±í¸ñ => Ò³Ãæ²¼¾Ö ºĞ×ÓÄ£ĞÍ
-          ¾ÍÊÇ¿ØÖÆxmlÏñhtmlÄÇÑùÊä³öÄÚÈİ
-          <fo:block
-                font-size="14pt" font-family="verdana" color="red"
-                space-before="5mm" space-after="5mm">
-            W3School
-          </fo:block>
-
-          <fo:block
-                  text-indent="5mm"
-                  font-family="verdana" font-size="12pt"
-                  space-before="5mm" space-after="5mm">
-              At W3School you will find all the Web-building tutorials you
-              need, from basic HTML and XHTML to advanced XML, XSL, Multimedia
-              and WAP.
-          </fo:block>
-          
-          µÈ¼ÛÓÚ
-          
-          ´ÓÎÄµµÒÆ³ı XSL-FO ĞÅÏ¢£º
-            <header>
-            W3School
-            </header>
-
-            <paragraph>
-            At W3School you will find all the Web-building tutorials you
-            need, from basic HTML and XHTML to advanced XML, XSL, Multimedia
-            and WAP.
-            </paragraph>
-          Ìí¼Ó XSLT ×ª»»£º
-            <xsl:template match="header">
-            <fo:block
-                font-size="14pt" font-family="verdana" color="red"
-                space-before="5mm" space-after="5mm">
-                <xsl:apply-templates/>
-            </fo:block>
-            </xsl:template>
-
-            <xsl:template match="paragraph">
-            <fo:block
-                text-indent="5mm"
-                font-family="verdana" font-size="12pt"
-                space-before="5mm" space-after="5mm">
-                <xsl:apply-templates/>
-            </fo:block>
-            </xsl:template>
-    3.git ²é¿´ÅäÖÃĞÅÏ¢
-        git config user.name
-        git config user.email
+4.å„ç§ç¼–ç 
+  https://blog.csdn.net/xiangxianghehe/article/details/77574965
+  ansi ä¸ ascii 
+    ANSIç¼–ç æ˜¯ä¸€ç§å¯¹ASCIIç çš„æ‹“å±•ï¼šANSIç¼–ç ç”¨0x00~0x7f ï¼ˆå³åè¿›åˆ¶ä¸‹çš„0åˆ°127ï¼‰èŒƒå›´çš„1 ä¸ªå­—èŠ‚æ¥è¡¨ç¤º 1 ä¸ªè‹±æ–‡å­—ç¬¦ï¼Œè¶…å‡ºä¸€ä¸ªå­—èŠ‚çš„ 0x80~0xFFFF èŒƒå›´æ¥è¡¨ç¤ºå…¶ä»–è¯­è¨€çš„å…¶ä»–å­—ç¬¦ã€‚
+    ä¹Ÿå°±æ˜¯è¯´ï¼ŒANSIç ä»…åœ¨å‰128ï¼ˆ0-127ï¼‰ä¸ªä¸ASCIIç ç›¸åŒï¼Œä¹‹åçš„å­—ç¬¦å…¨æ˜¯æŸä¸ªå›½å®¶è¯­è¨€çš„æ‰€æœ‰å­—ç¬¦ã€‚
+    å€¼å¾—æ³¨æ„çš„æ˜¯ï¼Œä¸¤ä¸ªå­—èŠ‚æœ€å¤šå¯ä»¥å­˜å‚¨çš„å­—ç¬¦æ•°ç›®æ˜¯2çš„16æ¬¡æ–¹ï¼Œå³65536ä¸ªå­—ç¬¦ï¼Œè¿™å¯¹äºä¸€ä¸ªè¯­è¨€çš„å­—ç¬¦æ¥è¯´ï¼Œç»å¯¹å¤Ÿäº†ã€‚
+    è¿˜æœ‰ANSIç¼–ç å…¶å®åŒ…æ‹¬å¾ˆå¤šç¼–ç ï¼šä¸­å›½åˆ¶å®šäº†GB2312ç¼–ç ï¼Œç”¨æ¥æŠŠä¸­æ–‡ç¼–è¿›å»å¦å¤–ï¼Œæ—¥æœ¬æŠŠæ—¥æ–‡ç¼–åˆ°Shift_JISé‡Œï¼ŒéŸ©å›½æŠŠéŸ©æ–‡ç¼–åˆ°Euc-kré‡Œï¼Œå„å›½æœ‰å„å›½çš„æ ‡å‡†ã€‚
+    å—åˆ¶äºå½“æ—¶çš„æ¡ä»¶ï¼Œä¸åŒè¯­è¨€ä¹‹é—´çš„ANSIç ä¹‹é—´ä¸èƒ½äº’ç›¸è½¬æ¢ï¼Œè¿™å°±ä¼šå¯¼è‡´åœ¨å¤šè¯­è¨€æ··åˆçš„æ–‡æœ¬ä¸­ä¼šæœ‰ä¹±ç ã€‚
+ Unicode ä¸ UTF-8
+    ä¸ºäº†è§£å†³ä¸åŒå›½å®¶ANSIç¼–ç çš„å†²çªé—®é¢˜ï¼ŒUnicodeåº”è¿è€Œç”Ÿï¼šå¦‚æœå…¨ä¸–ç•Œæ¯ä¸€ä¸ªç¬¦å·éƒ½ç»™äºˆä¸€ä¸ªç‹¬ä¸€æ— äºŒçš„ç¼–ç ï¼Œé‚£ä¹ˆä¹±ç é—®é¢˜å°±ä¼šæ¶ˆå¤±ã€‚
+    è¿™å°±æ˜¯Unicodeï¼Œå°±åƒå®ƒçš„åå­—éƒ½è¡¨ç¤ºçš„ï¼Œè¿™æ˜¯ä¸€ç§æ‰€æœ‰ç¬¦å·çš„ç¼–ç ã€‚
+    Unicodeæ ‡å‡†ä¹Ÿåœ¨ä¸æ–­å‘å±•ï¼Œä½†æœ€å¸¸ç”¨çš„æ˜¯ç”¨ä¸¤ä¸ªå­—èŠ‚è¡¨ç¤ºä¸€ä¸ªå­—ç¬¦ï¼ˆå¦‚æœè¦ç”¨åˆ°éå¸¸ååƒ»çš„å­—ç¬¦ï¼Œå°±éœ€è¦4ä¸ªå­—èŠ‚ï¼‰ã€‚
+    ç°ä»£æ“ä½œç³»ç»Ÿå’Œå¤§å¤šæ•°ç¼–ç¨‹è¯­è¨€éƒ½ç›´æ¥æ”¯æŒUnicodeã€‚
+    ä½†æ˜¯é—®é¢˜åœ¨äºï¼ŒåŸæœ¬å¯ä»¥ç”¨ä¸€ä¸ªå­—èŠ‚å­˜å‚¨çš„è‹±æ–‡å­—æ¯åœ¨Unicodeé‡Œé¢å¿…é¡»å­˜ä¸¤ä¸ªå­—èŠ‚ï¼ˆè§„åˆ™å°±æ˜¯åœ¨åŸæ¥è‹±æ–‡å­—æ¯å¯¹åº”ASCIIç å‰é¢è¡¥0ï¼‰ï¼Œè¿™å°±äº§ç”Ÿäº†æµªè´¹ã€‚
+    é‚£ä¹ˆæœ‰æ²¡æœ‰ä¸€ç§æ—¢èƒ½æ¶ˆé™¤ä¹±ç ï¼Œåˆèƒ½é¿å…æµªè´¹çš„ç¼–ç æ–¹å¼å‘¢ï¼Ÿ
+    ç­”æ¡ˆå°±æ˜¯UTF-8ï¼è¿™æ˜¯ä¸€ç§å˜é•¿çš„ç¼–ç æ–¹å¼ï¼šå®ƒå¯ä»¥ä½¿ç”¨1~4ä¸ªå­—èŠ‚è¡¨ç¤ºä¸€ä¸ªç¬¦å·ï¼Œæ ¹æ®ä¸åŒçš„ç¬¦å·è€Œå˜åŒ–å­—èŠ‚é•¿åº¦ï¼Œå½“å­—ç¬¦åœ¨ASCIIç çš„èŒƒå›´æ—¶ï¼Œå°±ç”¨ä¸€ä¸ªå­—èŠ‚è¡¨ç¤ºï¼Œä¿ç•™äº†ASCIIå­—ç¬¦ä¸€ä¸ªå­—èŠ‚çš„ç¼–ç åšä¸ºå®ƒçš„ä¸€éƒ¨åˆ†ï¼Œå¦‚æ­¤ä¸€æ¥UTF-8ç¼–ç ä¹Ÿå¯ä»¥æ˜¯ä¸ºè§†ä¸ºä¸€ç§å¯¹ASCIIç çš„æ‹“å±•ã€‚
+    å€¼å¾—æ³¨æ„çš„æ˜¯unicodeç¼–ç ä¸­ä¸€ä¸ªä¸­æ–‡å­—ç¬¦å 2ä¸ªå­—èŠ‚ï¼Œè€ŒUTF-8ä¸€ä¸ªä¸­æ–‡å­—ç¬¦å 3ä¸ªå­—èŠ‚ã€‚ä»unicodeåˆ°uft-8å¹¶ä¸æ˜¯ç›´æ¥çš„å¯¹åº”ï¼Œè€Œæ˜¯è¦è¿‡ä¸€äº›ç®—æ³•å’Œè§„åˆ™æ¥è½¬æ¢ã€‚
+  PSï¼šåœ¨è®¡ç®—æœºå†…å­˜ä¸­ï¼Œç»Ÿä¸€ä½¿ç”¨Unicodeç¼–ç ï¼Œå½“éœ€è¦ä¿å­˜åˆ°ç¡¬ç›˜æˆ–è€…éœ€è¦ä¼ è¾“çš„æ—¶å€™ï¼Œå°±è½¬æ¢ä¸ºUTF-8ç¼–ç ã€‚
+      ç”¨è®°äº‹æœ¬ç¼–è¾‘çš„æ—¶å€™ï¼Œä»æ–‡ä»¶è¯»å–çš„UTF-8å­—ç¬¦è¢«è½¬æ¢ä¸ºUnicodeå­—ç¬¦åˆ°å†…å­˜é‡Œï¼Œç¼–è¾‘å®Œæˆåï¼Œä¿å­˜çš„æ—¶å€™å†æŠŠUnicodeè½¬æ¢ä¸ºUTF-8ä¿å­˜åˆ°æ–‡ä»¶ã€‚
+  https://blog.csdn.net/lvxiangan/article/details/8151670
+    ISO-8859-1ç¼–ç æ˜¯å•å­—èŠ‚ç¼–ç ï¼Œå‘ä¸‹å…¼å®¹ASCIIï¼Œå…¶ç¼–ç èŒƒå›´æ˜¯0x00-0xFFï¼Œ0x00-0x7Fä¹‹é—´å®Œå…¨å’ŒASCIIä¸€è‡´ï¼Œ0x80-0x9Fä¹‹é—´æ˜¯æ§åˆ¶å­—ç¬¦ï¼Œ0xA0-0xFFä¹‹é—´æ˜¯æ–‡å­—ç¬¦å·ã€‚æ­¤å­—ç¬¦é›†ä¸»è¦æ”¯æŒæ¬§æ´²ä½¿ç”¨çš„è¯­è¨€ã€‚
+   
+    GBK: ?æ±‰å­—å›½æ ‡æ‰©å±•ç ,åŸºæœ¬ä¸Šé‡‡ç”¨äº†åŸæ¥GB2312-80æ‰€æœ‰çš„æ±‰å­—åŠç ä½ï¼Œå¹¶æ¶µç›–äº†åŸUnicodeä¸­æ‰€æœ‰çš„æ±‰å­—20902ï¼Œæ€»å…±æ”¶å½•äº†883ä¸ªç¬¦å·ï¼Œ ? 21003ä¸ªæ±‰å­—åŠæä¾›äº†1894ä¸ªé€ å­—ç ä½ã€‚
+          Windows 95ç³»ç»Ÿå°±æ˜¯ä»¥GBKä¸ºå†…ç ï¼Œåˆç”±äºGBKåŒæ—¶ä¹Ÿæ¶µç›–äº†Unicodeæ‰€æœ‰CJKæ±‰å­—ï¼Œæ‰€ä»¥ä¹Ÿå¯ä»¥å’ŒUnicodeåšä¸€ä¸€å¯¹åº”ã€‚
+    URLä¸URI
+        URLæ˜¯å…¨çƒèµ„æºå®šä½ç¬¦çš„è‹±æ–‡æ‰€å†™ï¼Œæ‚¨å¹³æ—¶ä¸Šç½‘æ—¶åœ¨IEæµè§ˆå™¨ä¸­è¾“å…¥çš„é‚£ä¸ªåœ°å€å°±æ˜¯URLã€‚æ¯”å¦‚ï¼šç½‘æ˜“ http://www.163.comå°±æ˜¯ä¸€ä¸ªURLã€‚
+        URIæ˜¯Webä¸Šå¯ç”¨çš„æ¯ç§èµ„æº - HTMLæ–‡æ¡£ã€å›¾åƒã€è§†é¢‘ç‰‡æ®µã€ç¨‹åº,ç”±ä¸€ä¸ªé€šè¿‡é€šç”¨èµ„æºæ ‡å¿—ç¬¦(Universal Resource Identifier, ç®€ç§°"URI")è¿›è¡Œå®šä½ã€‚
+    URLç¼–ç  ä¸€èˆ¬æ¥è¯´ï¼ŒURLåªèƒ½ä½¿ç”¨è‹±æ–‡å­—æ¯ã€é˜¿æ‹‰ä¼¯æ•°å­—å’ŒæŸäº›æ ‡ç‚¹ç¬¦å·ï¼Œä¸èƒ½ä½¿ç”¨å…¶ä»–æ–‡å­—å’Œç¬¦å·
+ http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html
+   unicodeçš„é—®é¢˜
+    éœ€è¦æ³¨æ„çš„æ˜¯ï¼ŒUnicode åªæ˜¯ä¸€ä¸ªç¬¦å·é›†ï¼Œå®ƒåªè§„å®šäº†ç¬¦å·çš„äºŒè¿›åˆ¶ä»£ç ï¼Œå´æ²¡æœ‰è§„å®šè¿™ä¸ªäºŒè¿›åˆ¶ä»£ç åº”è¯¥å¦‚ä½•å­˜å‚¨ã€‚
+    æ¯”å¦‚ï¼Œæ±‰å­—ä¸¥çš„ Unicode æ˜¯åå…­è¿›åˆ¶æ•°4E25ï¼Œè½¬æ¢æˆäºŒè¿›åˆ¶æ•°è¶³è¶³æœ‰15ä½ï¼ˆ100111000100101ï¼‰ï¼Œä¹Ÿå°±æ˜¯è¯´ï¼Œè¿™ä¸ªç¬¦å·çš„è¡¨ç¤ºè‡³å°‘éœ€è¦2ä¸ªå­—èŠ‚ã€‚
+    è¡¨ç¤ºå…¶ä»–æ›´å¤§çš„ç¬¦å·ï¼Œå¯èƒ½éœ€è¦3ä¸ªå­—èŠ‚æˆ–è€…4ä¸ªå­—èŠ‚ï¼Œç”šè‡³æ›´å¤šã€‚
+    è¿™é‡Œå°±æœ‰ä¸¤ä¸ªä¸¥é‡çš„é—®é¢˜ï¼Œç¬¬ä¸€ä¸ªé—®é¢˜æ˜¯ï¼Œå¦‚ä½•æ‰èƒ½åŒºåˆ« Unicode å’Œ ASCII ï¼Ÿ
+    è®¡ç®—æœºæ€ä¹ˆçŸ¥é“ä¸‰ä¸ªå­—èŠ‚è¡¨ç¤ºä¸€ä¸ªç¬¦å·ï¼Œè€Œä¸æ˜¯åˆ†åˆ«è¡¨ç¤ºä¸‰ä¸ªç¬¦å·å‘¢ï¼Ÿç¬¬äºŒä¸ªé—®é¢˜æ˜¯ï¼Œæˆ‘ä»¬å·²ç»çŸ¥é“ï¼Œè‹±æ–‡å­—æ¯åªç”¨ä¸€ä¸ªå­—èŠ‚è¡¨ç¤ºå°±å¤Ÿäº†ï¼Œå¦‚æœ Unicode ç»Ÿä¸€è§„å®šï¼Œæ¯ä¸ªç¬¦å·ç”¨ä¸‰ä¸ªæˆ–å››ä¸ªå­—èŠ‚è¡¨ç¤ºï¼Œé‚£ä¹ˆæ¯ä¸ªè‹±æ–‡å­—æ¯å‰éƒ½å¿…ç„¶æœ‰äºŒåˆ°ä¸‰ä¸ªå­—èŠ‚æ˜¯0ï¼Œè¿™å¯¹äºå­˜å‚¨æ¥è¯´æ˜¯æå¤§çš„æµªè´¹ï¼Œæ–‡æœ¬æ–‡ä»¶çš„å¤§å°ä¼šå› æ­¤å¤§å‡ºäºŒä¸‰å€ï¼Œè¿™æ˜¯æ— æ³•æ¥å—çš„ã€‚
+    å®ƒä»¬é€ æˆçš„ç»“æœæ˜¯ï¼š1ï¼‰å‡ºç°äº† Unicode çš„å¤šç§å­˜å‚¨æ–¹å¼ï¼Œä¹Ÿå°±æ˜¯è¯´æœ‰è®¸å¤šç§ä¸åŒçš„äºŒè¿›åˆ¶æ ¼å¼ï¼Œå¯ä»¥ç”¨æ¥è¡¨ç¤º Unicodeã€‚2ï¼‰Unicode åœ¨å¾ˆé•¿ä¸€æ®µæ—¶é—´å†…æ— æ³•æ¨å¹¿ï¼Œç›´åˆ°äº’è”ç½‘çš„å‡ºç°
+    
+    äº’è”ç½‘çš„æ™®åŠï¼Œå¼ºçƒˆè¦æ±‚å‡ºç°ä¸€ç§ç»Ÿä¸€çš„ç¼–ç æ–¹å¼ã€‚UTF-8 å°±æ˜¯åœ¨äº’è”ç½‘ä¸Šä½¿ç”¨æœ€å¹¿çš„ä¸€ç§ Unicode çš„å®ç°æ–¹å¼ã€‚
+    å…¶ä»–å®ç°æ–¹å¼è¿˜åŒ…æ‹¬ UTF-16ï¼ˆå­—ç¬¦ç”¨ä¸¤ä¸ªå­—èŠ‚æˆ–å››ä¸ªå­—èŠ‚è¡¨ç¤ºï¼‰å’Œ UTF-32ï¼ˆå­—ç¬¦ç”¨å››ä¸ªå­—èŠ‚è¡¨ç¤ºï¼‰ï¼Œä¸è¿‡åœ¨äº’è”ç½‘ä¸ŠåŸºæœ¬ä¸ç”¨ã€‚é‡å¤ä¸€éï¼Œè¿™é‡Œçš„å…³ç³»æ˜¯ï¼ŒUTF-8 æ˜¯ Unicode çš„å®ç°æ–¹å¼ä¹‹ä¸€ã€‚
+    UTF-8 æœ€å¤§çš„ä¸€ä¸ªç‰¹ç‚¹ï¼Œå°±æ˜¯å®ƒæ˜¯ä¸€ç§å˜é•¿çš„ç¼–ç æ–¹å¼ã€‚å®ƒå¯ä»¥ä½¿ç”¨1~4ä¸ªå­—èŠ‚è¡¨ç¤ºä¸€ä¸ªç¬¦å·ï¼Œæ ¹æ®ä¸åŒçš„ç¬¦å·è€Œå˜åŒ–å­—èŠ‚é•¿åº¦ã€‚
+    UTF-8 çš„ç¼–ç è§„åˆ™å¾ˆç®€å•ï¼Œåªæœ‰äºŒæ¡ï¼š
+    1ï¼‰å¯¹äºå•å­—èŠ‚çš„ç¬¦å·ï¼Œå­—èŠ‚çš„ç¬¬ä¸€ä½è®¾ä¸º0ï¼Œåé¢7ä½ä¸ºè¿™ä¸ªç¬¦å·çš„ Unicode ç ã€‚å› æ­¤å¯¹äºè‹±è¯­å­—æ¯ï¼ŒUTF-8 ç¼–ç å’Œ ASCII ç æ˜¯ç›¸åŒçš„ã€‚
+    2ï¼‰å¯¹äºnå­—èŠ‚çš„ç¬¦å·ï¼ˆn > 1ï¼‰ï¼Œç¬¬ä¸€ä¸ªå­—èŠ‚çš„å‰nä½éƒ½è®¾ä¸º1ï¼Œç¬¬n + 1ä½è®¾ä¸º0ï¼Œåé¢å­—èŠ‚çš„å‰ä¸¤ä½ä¸€å¾‹è®¾ä¸º10ã€‚å‰©ä¸‹çš„æ²¡æœ‰æåŠçš„äºŒè¿›åˆ¶ä½ï¼Œå…¨éƒ¨ä¸ºè¿™ä¸ªç¬¦å·çš„ Unicode ç ã€‚
+   Little endian å’Œ Big endian
+    å¦‚æœä¸€ä¸ªæ–‡æœ¬æ–‡ä»¶çš„å¤´ä¸¤ä¸ªå­—èŠ‚æ˜¯FE FFï¼Œå°±è¡¨ç¤ºè¯¥æ–‡ä»¶é‡‡ç”¨å¤§å¤´æ–¹å¼ï¼›å¦‚æœå¤´ä¸¤ä¸ªå­—èŠ‚æ˜¯FF FEï¼Œå°±è¡¨ç¤ºè¯¥æ–‡ä»¶é‡‡ç”¨å°å¤´æ–¹å¼ã€‚
+  https://www.cnblogs.com/skynet/archive/2011/05/03/2035105.html
+    å­—ç¬¦é›†ä¸ç¼–ç 
+        
+5.æ–‡ä»¶ç¼–ç ä¸BOMæµ…æ https://blog.csdn.net/lipeijs3/article/details/5062243
+    UTF-8çš„BOMï¼ˆ0xEF BB BFï¼‰å…è®¸ä½†å¹¶ä¸å»ºè®®ä½¿ç”¨, UTF-8ä¸éœ€è¦BOMæ¥è¡¨æ˜å­—èŠ‚é¡ºåºï¼Œä½†å¯ä»¥ç”¨BOMæ¥è¡¨æ˜ç¼–ç æ–¹å¼ã€‚å­—ç¬¦â€ZERO WIDTH NO-BREAK SPACEâ€çš„UTF-8ç¼–ç æ˜¯EF BB BFã€‚æ‰€ä»¥å¦‚æœæ¥æ”¶è€…æ”¶åˆ°ä»¥EF BB BFå¼€å¤´çš„å­—èŠ‚æµï¼Œå°±çŸ¥é“è¿™æ˜¯UTF-8ç¼–ç äº†ã€‚
+    Windowså°±æ˜¯ä½¿ç”¨BOMæ¥æ ‡è®°æ–‡æœ¬æ–‡ä»¶çš„ç¼–ç æ–¹å¼çš„ã€‚ç”¨è®°äº‹æœ¬ç¼–å†™ä»£ç è¦æ³¨æ„BOMã€‚

@@ -1,414 +1,118 @@
-20180903
-    1.sql server Ö´ÐÐ¼Æ»®
-        
-    2.ÏµÍ³¼Ü¹¹Ê¦¿¼ÊÔ ÂÛÎÄ
-      a.Éè¼ÆÄ£Ê½ 
-      b.Èí¼þ¼Ü¹¹ »ìºÏ¼Ü¹¹
-20180904
-    1.sql server Í³¼ÆÐÅÏ¢
-      È«·Ï»°SQL ServerÍ³¼ÆÐÅÏ¢ https://blog.csdn.net/dba_huangzj/article/details/52835958
-      
-20180905
-    1.×óÇã´íÎóµÄ¡°×ó¡±Òª¼ÓÒýºÅ£¬¶ø¡°ÓÒ¡±²»¼ÓÊÇÒòÎªÊ²Ã´
-        ×óÇã´íÎóµÄ¡°×ó¡±Òª¼ÓÒýºÅ£¬¶ø¡°ÓÒ¡±²»¼ÓÊÇÎªÁËÇø·ÖÔÚÎÞ²ú½×¼¶¸ïÃüÊ·ÉÏ£¬ÈËÃÇÏ°¹ßÓÚ°Ñ²Î¼Ó¸ïÃü¶ÓÎéµÄÈË£¬°´ËûÃÇ¸ïÃüÌ¬¶È¼á¶¨Óë·ñ·ÖÎª×ó¡¢ÖÐ¡¢ÓÒÈýÅÉ£º
-        ×ó£¨²»¼ÓÒýºÅµÄ£©Ö¸µÄÊÇ¸ïÃü×î¼á¾ö×î¼¤½øÕß£¬
-        ÓÒÊÇÖ¸¶Ô¸ïÃü²»¼á¶¨ÈÝÒ×¶¯Ò¡Õß£¬
-        ÖÐÔò½éÓÚ¶þÕßÖ®¼ä¡£
-        ¿É¼û£¬²»´øÒýºÅµÄ×óÊÇÓÃÀ´±íÊ¾¸ïÃüÒâÖ¾¼á¶¨£¬¸ïÃü·½ÏòÕýÈ·µÄÈË
-        µ«Êµ¼ÊÉÏÔÚ¸ïÃü¶ÓÎéÖÐ£¬»¹ÓÐÒ»ÖÖÈË£¬ËûÃÇÃ²ËÆ¸ïÃüÒâÖ¾·Ç³£¼á¶¨£¬ÐÐÎª·Ç³£¼¤½ø£¬ÆäÊµÊÇÊ®·ÖÃ°ÏÕ¡¢³¬Ô½¿Í¹Û¿ÉÄÜÒò¶ø»á¸ø¸ïÃü´øÀ´ÑÏÖØËðÊ§µÄ¡£
-        ÕâÖÖ×ó²»ÊÇÕæÕýµÄ×ó£¬ÎªÁËÇø±ðÆð¼û£¬¾Í¸øËü¼ÓÉÏÒýºÅ¡£µ«ÓÒÅÉ¡¢ÓÒÇã¾ÍÃ»·¢ÏÖÓÐÕâÖÖÇé¿ö£¬ËùÒÔÒ²¾ÍÓÃ²»×ÅÓÃÒýºÅ¼ÓÒÔÇø±ðÁË
-        ×óÇãÊÇÖ¸ÕþÖÎÉÏ×·Çó½ø²½¡¢Í¬ÇéÀÍ¶¯ÈËÃñµÄÇãÏò¡£
-        ¶ø´øÒýºÅµÄ¡°×ó¡±Çã£¬ÔòÊÇÕþÖÎË¼ÏëÉÏ³¬Ô½¿Í¹Û£¬ÍÑÀëÉç»áÏÖÊµÌõ¼þ£¬ÏÝÈë¿ÕÏë¡¢Ã¤¶¯ºÍÃ°ÏÕµÄÇãÏò¡£
-        ËùÒÔ£¬ÎªÁË±íÊ¾±áÒå£¬ÌØÔÚ×ó×ÖÉÏÌí¼ÓÁËÒýºÅ£¬¼´¡°×ó¡±Çã£¬ÒÔÇø±ðÓÚÕæÕýµÄ×óÇã¡£¡°×ó¡±ÇãË¼Ïë±íÏÖÎª¼±ÓÚÇó³É£¬Ö÷¹ÛµØ¿ä´ó¸ïÃüÁ¦Á¿£¬ÇáÊÓµÐÈËÁ¦Á¿ºÍ¿Í¹ÛÀ§ÄÑ£¬ÔÚ¸ïÃüºÍ½¨ÉèÖÐ²ÉÈ¡Ã¤¶¯µÄÃ°ÏÕµÄÐÐ¶¯£»
-        »òÕßÔÚ¸ïÃü×éÖ¯ÄÚ²¿»ìÏýÁ½Àà²»Í¬ÐÔÖÊµÄÃ¬¶Ü£¬²ÉÈ¡²Ð¿á¶·Õù¡¢ÎÞÇé´ò»÷µÄÕþ²ß£»
-        »òÕßÔÚÍ¬ÃË¾üÎÊÌâÉÏÊµÐÐ¹ØÃÅÖ÷Òå£¬´òµ¹Ò»ÇÐ
-        ÓÒÇãÊÇÖ¸ÕþÖÎË¼ÏëÉÏ£¬ÈÏÊ¶ÂäºóÓÚÊµ¼Ê£¬²»ÄÜËæ±ä»¯ÁËµÄ¿Í¹ÛÇé¿ö±ä»¯¡¢Ç°½ø£¬ÉõÖÁÎ¥±³¿Í¹Û·¢Õ¹¹æÂÉµÄÇãÏò¡£
-        ÓÒÇãË¼ÏëÈç¹ûÐÎ³ÉÎªÏµÍ³ÍêÕûµÄÂ·Ïß£¬²¢ÔÚÊµ¼ùÖÐ¹á³¹±ã³ÉÎªÓÒÇã»ú»áÖ÷Òå¡£
-        ÓÒÇã»ú»áÖ÷ÒåÔÚÕþÖÎ¶·ÕùÖÐÍùÍù·ÅÆúÔ­Ôò£¬ÎþÉüÎÞ²ú½×¼¶¸ù±¾ÀûÒæ¶øÇóµÃÍ×Ð­£¬ÓÖ½ÐÓÒÇãÍ¶½µÖ÷Òå
-           
-        ÕþÖÎÇãÏò£º×óºÍÓÒ¶¼Ã»ÓÐºÃ»µÖ®·ÖµÄ£¬×óÊÇ¼¤½ø£¬ÓÒÊÇ±£ÊØ¡£ºÃ»µÒª¾ßÌåÇé¿ö¾ßÌå·ÖÎö¡­¡­
-        Âí¿ËË¼Òª¿¿±©Á¦¸ïÃü¾ÍÊÇ¼¤½øµÄ£¬Î°´óµÄ¶÷¸ñË¹¾Í²»ÔÞÍ¬¡­¡­ Èç¹û±ÈÂí¿ËË¼»¹¼¤½ø£¬¾ÍÒª¼ÓÒýºÅ±íÊ¾Çø·Ö¡£
-        
-        ÕþÖÎÁìÓò£¬ÓÒµÄÒâË¼ÊÇ±£ÊØ£¨Ö÷¹ÛÂäºóÓÚ¿Í¹Û£©£¬¶ø×ó´ú±í½ø²½£¨Ö÷¹ÛÔÚ¿Í¹ÛÖ®Ç°£©¡£ËùÒÔ×óÊÇ°ýÒå¡£
-        ½²µ½¡°×ó¡±£¬Ö¸µÄÊÇÄÇÖÖ¹ýÓÚ×óµÄ×ó£¬¹ýÓÚ¼¤½ø£¬²»ÊÇÕæÕýµÄ×ó£¬²»ÊÇ°ýÒåµÄÄÇÖÖ×ó£¬ËùÒÔ¼ÓÉÏÒýºÅ¼ÓÒÔÇø·Ö
-        
-    2.×óºÍÓÒ
-        ´Ó¹ú¼ÊÉÏ¿´,×óÓëÓÒµÄÇø±ðÒ»°ã¶¨ÒåÎª×óÒªÇó±ä¸ï,±È½Ï¼¤½ø,ÓÒÒ»°ã²»ÔÞ³É±ä¸ï,±È½Ï±£ÊØ.×îÔçÇø·Ö×óºÍÓÒ¼ÇµÃÊÇÔÚÅ·ÖÞµÄÀúÊ·ÉÏ,
-        Ö÷ÕÅ¼¤½ø¸Ä¸ïµÄÒéÔ±×ø×ó±ß,Ö÷ÕÅÎ¬³ÖÏÖ×´±£ÊØµÄÒéÔ±×øÓÒ±ßÕâÑù¿ªÊ¼Çø·Ö×óÓëÓÒµÄÀúÊ·
-        
-    3.Ò»ÆªÎÄÕÂ½ÌÄã·ÖÇå×óºÍÓÒ£¬¼«¡°×ó¡±ºÍ¼«ÓÒ https://www.sohu.com/a/239677129_425345
-        Ïñµ±Äê¶í¹úÉç»áÃñÖ÷¹¤µ³µÄ¶àÊýÅÉ£¬¼´²¼¶ûÊ²Î¬¿Ë£¬¼´Îª×óÅÉ
-        ¶øÁíÒ»²¿·ÖÉÙÊýÅÉ£¬¼ÈÃÏÊ²Î¬¿Ë£¬¼´ÎªÓÒÅÉ¡£
-        
-    4.¹ØÓÚ²¼¶ûÊ²Î¬¿Ë
-        ¡°²¼¶ûÊ²Î¬¿Ë¡±ÊÇ¶íÎÄ¡°¶àÊýÅÉ¡±£¨§¢§à§Ý§î§ê§Ö§Ó§Ú§Ü§Ú?£©µÄÒôÒë£¬ÊÇÁÐÄþ´´½¨µÄ¶í¹úÎÞ²ú½×¼¶Õþµ³¡£
-        ÓëÖ®Ïà¶ÔµÄÊÇ¡°ÃÏÊ²Î¬¿Ë¡±£¬¶íÓïÒâÖ¸¡°ÉÙÊýÅÉ¡±¡£
-        ÔÚ1903Äê¶í¹úÉç»áÃñÖ÷¹¤µ³µÚ¶þ´Î´ú±í´ó»áÉÏ£¬Ò»¸öÐÂÐÍµÄÎÞ²ú½×¼¶Õþµ³¡ª¡ª²¼¶ûÊ²Î¬¿Ëµ³Ðû¸æµ®Éú¡£
-        ²¼¶ûÊ²Î¬¿Ëµ³µÄ½¨Á¢ÊÇ¶í¹ú¹¤ÈËÔË¶¯Ê·ÉÏµÄÖØ´ó×ªÕÛµã£¬ÍÆ¶¯ÁË¶í¹ú¸ïÃüÔË¶¯µÄ·¢Õ¹£¬Ëü²»µ«¶Ô¶í¹ú¸ïÃüÀúÊ·µÄ½ø³Ì¶øÇÒ¶ÔºóÀ´µÄÕû¸ö¹ú¼Ê¹²ÔË²úÉúÁËÉîÔ¶µÄÓ°Ïì
-        ËÕÎ¬°£¶í¹ú½¨Á¢ºóÔÚ1918Äê¸ÄÃûÎª¹²²úµ³£¬Òò´Ë¶í¹ú¹²²úµ³Ò²½Ð²¼¶ûÊ²Î¬¿Ëµ³¼´¶í¹²£¨²¼£©
-        ÊÇËÕ¹²µÚ28´Î´ú±í´ó»áºó½âÌåµÄ
-
-20180911
-    1.×î½üÔÙÆÆ½â ok v2½Ó¿Ú
-      a.ÖØÒª×Ö¶Î Request headers -> User-Agent Referer(Ö»ÔÚÌØ¶¨µÄÖµÏÂ²Å·µ»Ø ÌØ¶¨Êý¾Ý ±ÈÈçµÇÂ¼ÈÏÖ¤µÈ)
-        ÔÚC#ÖÐHttpWebRequestÓÐµÄ×Ö¶Î¿ÉÒÔÖ±½ÓÉèÖÃ(±¾Éí¾ÍÓÐÕâÐ©ÊôÐÔ) ÓÐµÄÐèÒªÌí¼Óµ½Headers³ÉÔ±(WebHeaderCollection ÓÐaddºÍset·½·¨)
-      b.QryString Ö±½ÓÔÚurlÖÐÌá½»
-      c.Post form data Ö±½ÓÔÚurlÖÐÌá½»»òÕßEncoding±àÂëÌá½»(È¡¾öÓë·þÎñÆ÷)
-      d.Post payload ±ØÐëencoding±àÂëÌá½»
-20180912
-    1. ÈçºÎÔÚ²»Í¬±à³ÌÓïÑÔÖÐ»ñÈ¡ÏÖÔÚµÄUnixÊ±¼ä´Á C#
-        public static string GetTimestampByMillSec() ºÁÃë
-        {
-            return ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000).ToString();
-        }
-
-        public static string GetTimestampBySec() Ãë
-        {
-            return ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-        }
-20180914
-    1.SQL ServerÍ³¼ÆÐÅÏ¢ (Í·ÐÅÏ¢ ÃÜ¶ÈÐÅÏ¢ Ö±·½Í¼)(»ùÊýÔ¤¹À ¿ªÏúÔ¤¹À)
-        a.Äã´«¸øSQL ServerµÄ²éÑ¯Ê×ÏÈ»á´«µÝµ½SQL Server²éÑ¯ÓÅ»¯Æ÷£¨Query Optimizer£©ÖÐ£¬Èç¹ûSQL ServerÃ»ÓÐ»º´æÖ´ÐÐ¼Æ»®£¬ÄÇÃ´Ëü¾Í»áÕë¶ÔÕâ¸ö²éÑ¯Éú³ÉÒ»¸ö²éÑ¯¼Æ»®¡£
-          ÔÚÉú³ÉµÄ¹ý³ÌÖÐ£¬SQL ServerÓÅ»¯Æ÷»á Ñ¡ÔñÓëÂß¼­²Ù×÷·û£¨ÈçjoinµÈ£©¶ÔÓ¦µÄºÏÊÊµÄÎïÀí²Ù×÷·ûÔÚÎïÀí²ãÃæÉÏ½øÐÐÖ´ÐÐ£¨
-          ×¢£ºSQL£¬½á¹¹»¯²éÑ¯ÓïÑÔ£¬ÊÇÎªÁËÈÃÓÃ»§¸æÖªÊý¾Ý¿âÐèÒªÊ²Ã´Êý¾Ý»ò²Ù×÷£¬¶ø²»ÊÇ¸æËßÊý¾Ý¿âÈçºÎÈ¥»ñÈ¡Êý¾ÝºÍ²Ù×÷£¬ËùÒÔSQLÓïÑÔ´«Êäµ½DBMSºóÐèÒª×ª»»³É¼ÆËã»úÄÜÊ¶±ðµÄ²Ù×÷£¬ÕâÐ©²Ù×÷ÔÚ¸ß²ã´ÎÉÏ¿´À´¾ÍÊÇÒ»ÏµÁÐµÄÎïÀí²Ù×÷·û£©¡£
-          ÔÚÑ¡ÔñÎïÀí²Ù×÷·ûµÄÊ±ºò£¬Ò»¸öÂß¼­²Ù×÷·û¿ÉÄÜ¿ÉÒÔÊ¹ÓÃ¶à¸öÎïÀí²Ù×÷·ûÀ´ÊµÏÖ£¬±ÈÈç¶ÔÓÚÂß¼­²Ù×÷·ûÖÐµÄWHERE XXX=XXXX£¬ÔÚÎïÀí²Ù×÷·ûÖÐ¿ÉÄÜÊ¹ÓÃË÷Òý²éÕÒ£¨Index seek£©»ò±íÉ¨Ãè£¨Table Scan£©À´ÊµÏÖ.
-          ÓÖ±ÈÈç¶ÔÓÚSQLÓï¾äÖÐµÄ¸÷ÖÖJOIN£¬¿ÉÑ¡µÄÎïÀí²Ù×÷·ûÓÐHash¡¢MergeºÍNested Loop Joins
-        b.ÓÐºÜ¶àÒòËØ»áÓ°ÏìÓÅ»¯Æ÷¶ÔÎïÀí²Ù×÷·ûµÄÑ¡Ôñ£¬ÆäÖÐ×îÖØÒªµÄÒ»¸ö¾ÍÊÇ»ùÊýÔ¤¹À£¨cardinality estimations£©£¬Õâ¸ö¹ý³Ì»á¼ÆËãÔÚÓ¦ÓÃÁË¹ýÂË²Ù×÷Ö®ºó£¬¿ÉÄÜÊ£ÏÂµÄ·ûºÏÌõ¼þµÄÐÐÊý
-        c.Ëµµ½Í³¼ÆÐÅÏ¢£¬¾ÍÒ»¶¨ÒªÌáµ½²éÑ¯ÓÅ»¯Æ÷£¬Ö÷Á÷¹ØÏµÐÍÊý¾Ý¿â¹ÜÀíÏµÍ³µÄ²éÑ¯ÓÅ»¯Æ÷¶¼ÊÇ»ùÓÚ¿ªÏúµÄÓÅ»¯£¨cost-based optimizer, CBO£©,¶øÓÅ»¯Æ÷ÊÇÉú³ÉÖ´ÐÐ¼Æ»®µÄ×é¼þ
-          ËùÒÔ£¬Ö´ÐÐ¼Æ»®µÄÖÊÁ¿Ö±½ÓÒÀÀµÓÚ¿ªÏúÔ¤¹ÀµÄ×¼È·ÐÔ£¬Í¬Ñù£¬Ö´ÐÐ¼Æ»®µÄÔ¤¹À¿ªÏúÓÖ»ùÓÚËã·¨/²Ù×÷·ûµÄÊ¹ÓÃºÍ»ùÊýÔ¤¹À¡£
-          ËùÒÔ£¬ÎªÁËÈÃÓÅ»¯Æ÷µÃµ½×¼È·µÄÔ¤¹À¿ªÏú£¬ÓÅ»¯Æ÷ÐèÒª¾¡¿ÉÄÜ×¼È·µØÔ¤¹ÀÖÆ¶¨²éÑ¯Òª·µ»ØµÄ¼ÇÂ¼Êý
-    2.ÕýÔò±í´ïÊ½Æ¥ÅäËÄÔòÔËËã .net
-        Regex regex = new Regex(@"
-        ^                       (?#Æ¥Åä¿ªÍ·)
-        [-+]?                   (?#¿ªÍ·¿ÉÒÔ³öÏÖÕý¸ººÅ)
-        ([0-9]+($|[-+*/]))*     (?#¿ÉÑ¡Êý-·ûºÅ-Êý-·ûºÅ-¡­¡­-Êý-·ûºÅ»ò½áÎ²)
-        (
-            (
-                (?<o>\()        (?#×óÀ¨ºÅ£¬±£´æµ½oÃû×ÖÏÂ)
-                [-+]?           (?#¿ÉÑ¡Õý¸ººÅ)
-                ([0-9]+[-+*/])* (?#¿ÉÑ¡Êý-·û-Êý-·û¡­¡­)
-            )+                  (?#¿ÉÒÔÖØ¸´³öÏÖ×óÀ¨ºÅ)
-            [0-9]+              (?#×óÓÒÀ¨ºÅÖ®¼ä×îÆðÂëÐèÒªÒ»¸ö²Ù×÷Êý)
-            (                   (?#)
-                (?<-o>\))       (?#ÓÒÀ¨ºÅ£¬Æ¥ÅäµÄÍ¬Ê±È¥µôÒ»¸ö×óÀ¨ºÅ)
-                ([-+*/][0-9]+)* (?#¿ÉÑ¡·û-Êý-·û-Êý¡­¡­)
-            )+                  (?#¿ÉÒÔÖØ¸´³öÏÖÓÒÀ¨ºÅ£¬½öµ±»¹ÓÐ×óÀ¨ºÅÊ£Óà)
-            ($|[-+*/])          (?#ÒªÃ´½áÎ²£¬ÒªÃ´ÔÚÏÂÒ»¸ö×óÀ¨ºÅ³öÏÖÖ®Ç°³öÏÖÒ»¸öÔËËã·û)
-        )*                      (?#ÖØ¸´³öÏÖ×óÀ¨ºÅ)
-        (?(o)(?!))              (?#Èç¹û»¹ÓÐ×óÀ¨ºÅÊ£Óà¾Í²»Æ¥ÅäÈÎºÎ¶«Î÷)
-        $                       (?#Æ¥Åä½áÎ²)
-        ", RegexOptions.IgnorePatternWhitespace);
-                    string[] tests = new string[] {
-                        "1",
-                        "1+23",
-                        "1+23*456",
-                        "1*(23+456)",
-                        "(3)",
-                        "((67+8)*9+10)/11",
-                        "12+(13*)",
-                        "(()",
-                        "((3)",
-                        "(3))",
-                        "+3",
-                        "5*(4+3/(-2))",
-                        "(5*(4+3/(-2))",
-                        "5*(4+3/(-2)))",
-                    };
-                    foreach (string s in tests)
-                        Console.WriteLine("{0}: {1}", regex.IsMatch(s) ? "Good" : " Bad", s);
-                    Console.ReadKey();
-                    //½á¹û£º
-                    //Good: 1
-                    //Good: 1+23
-                    //Good: 1+23*456
-                    //Good: 1*(23+456)
-                    //Good: (3)
-                    //Good: ((67+8)*9+10)/11
-                    // Bad: 12+(13*)
-                    // Bad: (()
-                    // Bad: ((3)
-                    // Bad: (3))
-                    //Good: +3
-                    //Good: 5*(4+3/(-2))
-                    // Bad: (5*(4+3/(-2))
-                    // Bad: 5*(4+3/(-2)))
-        ps.Æ½ºâ×é¶¨ÒåÆ¥Åä Balanced group definition 
-            https://blogs.msdn.microsoft.com/bclteam/2005/03/15/net-regular-expressions-regex-and-balanced-matching-ryan-byington/
-            https://docs.microsoft.com/en-us/dotnet/standard/base-types/grouping-constructs-in-regular-expressions#balancing_group_definition
-           ÓÃÕýÔò±í´ïÊ½À´×öËÄÔòÔËËã È·ÊµÓÐµã¸´ÔÓÁË => Äæ²¨À¼
-20180918
-    1.±íÓëÊÓÍ¼
-        Çø±ð£º
-            aÊÓÍ¼ÊÇÒÑ¾­±àÒëºÃµÄsqlÓï¾ä£»¶ø±í²»ÊÇ¡£
-            bÊÓÍ¼Ã»ÓÐÊµ¼ÊµÄÎïÀí¼ÇÂ¼£»¶ø±íÓÐ¡£
-            cÊÓÍ¼ÊÇ´°¿Ú£»±íÊÇÄÚÈÝ
-            d±êÊÇÓÃÎïÀí¿Õ¼ä¶øÊÓÍ¼²»Õ¼ÓÃÎïÀí¿Õ¼ä£¬ÊÓÍ¼Ö»ÊÇÂß¼­¸ÅÄîµÄ´æÔÚ£»±í¿ÉÒÔÐÞ¸Ä£¬µ«ÊÓÍ¼Ö»ÄÜÓÐ´´½¨µÄÓï¾äÀ´ÐÞ¸Ä¡£
-            e±íÊÇÄÚÄ£Ê½£¬ÊÓÍ¼ÊÇÍâÄ£Ê½¡£
-            fÊÓÍ¼ÊÇ²é¿´Êý¾Ý±íµÄÒ»ÖÖ·½·¨£¬¿ÉÒÔ²éÑ¯Êý¾Ý±íÖÐÄ³Ð©×Ö¶Î¹¹³ÉµÄÊý¾Ý£¬Ö»ÊÇÒ»Ð©sqlÓï¾äµÄ¼¯ºÏ¡£´Ó°²È«µÄ½Ç¶ÈÀ´Ëµ£¬ÊÓÍ¼¿ÉÒÔ²»¸øÓÃ»§½Ó´¥Êý¾Ý±í£¬´Ó¶ø²»ÖªµÀ±í½á¹¹¡£
-            g±íÊôÓÚÈ«¾ÖÄ£Ê½ÖÐµÄ±í£¬ÊÇÊµ±í£»ÊÓÍ¼ÊôÓÚ¾Ö²¿Ä£Ê½µÄ±í£¬ÊÇÐé±í¡£
-            hÊÓÍ¼µÄ½¨Á¢ºÍÉ¾³ýÖ»Ó°ÏìÊÓÍ¼±¾Éí£¬²»Ó°Ïì¶ÔÓ¦µÄ»ù±¾±í¡£
-        ÁªÏµ£ºÊÓÍ¼ÊµÔÚ»ù±¾±íÖ®ÉÏ½¨Á¢µÄ±í£¬ËüµÄ½á¹¹£¨¼´ËùÓÐ¶¨ÒåÁÐ£©ºÍÄÚÈÝ£¨¼´ËùÓÐÊý¾ÝÐÐ£©¶¼À´×Ô»ù±¾±í£¬ËüÒÀ¾Ý»ù±¾±í´æÔÚ¶ø´æÔÚ¡£
-              Ò»¸öÊÓÍ¼¿ÉÒÔ¶ÔÓ¦Ò»¸ö»ù±¾±í£¬Ò²¿ÉÒÔ¶ÔÓ¦¶à¸ö»ù±¾±í¡£ÊÓÍ¼ÊÇ»ù±¾±íµÄ³éÏóºÍÔÚÂß¼­ÒâÒåÉÏ½¨Á¢µÄÐÂ¹ØÏµ¡£
-    2.ÕýÔò±í´ïÊ½ 
-        . Æ¥Åä³ý»»ÐÐ·ûÒÔÍâµÄÈÎÒâ×Ö·û 
-        \w Æ¥Åä×ÖÄ¸»òÊý×Ö»òÏÂ»®Ïß»òºº×Ö 
-        \s Æ¥ÅäÈÎÒâµÄ¿Õ°×·û 
-        \d Æ¥ÅäÊý×Ö 
-        \b Æ¥Åäµ¥´ÊµÄ¿ªÊ¼»ò½áÊø 
-        ^ Æ¥Åä×Ö·û´®µÄ¿ªÊ¼ 
-        $ Æ¥Åä×Ö·û´®µÄ½áÊø 
+20191120
+1.git clone ä¸Ž fork https://www.cnblogs.com/chenxiang613/p/10240133.html
+    git clone æ˜¯åœ¨è‡ªå·±ç”µè„‘ï¼ˆè¿™é‡Œæˆ‘æ˜¯ubuntuï¼‰ç›´æŽ¥æ•²å‘½ä»¤ï¼Œç»“æžœæ˜¯å°†githubä»“åº“ä¸­çš„é¡¹ç›®å…‹éš†åˆ°è‡ªå·±æœ¬åœ°ç”µè„‘ä¸­äº†
+    forkæ˜¯ç›´æŽ¥è®¿é—®githubç½‘ç«™ï¼Œåœ¨é¡¹ç›®é¡µé¢ä¸­ç‚¹å‡»forkï¼Œç„¶åŽè‡ªå·±githubé¡¹ç›®ä¸­å°±ä¼šå¤šå‡ºä¸€ä¸ªå¤åˆ¶çš„é¡¹ç›®
     
-        * ÖØ¸´Áã´Î»ò¸ü¶à´Î 
-        + ÖØ¸´Ò»´Î»ò¸ü¶à´Î 
-        ? ÖØ¸´Áã´Î»òÒ»´Î 
-        {n} ÖØ¸´n´Î 
-        {n,} ÖØ¸´n´Î»ò¸ü¶à´Î 
-        {n,m} ÖØ¸´nµ½m´Î 
+20191125
+1.å­—èŠ‚å¯¹é½çš„åº•å±‚åŽŸç† 
+    https://blog.csdn.net/zhangyanfei01/article/details/101096913
+    chip-bank : banké—´å¹¶è¡Œ 8ä¸ªbank æ‰€ä»¥8å­—èŠ‚å¯¹å…¶
+    æ‰€ä»¥ï¼Œå†…å­˜å¯¹é½æœ€æœ€åº•å±‚çš„åŽŸå› æ˜¯å†…å­˜çš„IOæ˜¯ä»¥8ä¸ªå­—èŠ‚64bitä¸ºå•ä½è¿›è¡Œçš„
+    æ¢ä¸ªä¾‹å­ï¼Œå‡å¦‚ä½ æŒ‡å®šè¦èŽ·å–çš„æ˜¯0x0001-0x0008ï¼Œä¹Ÿæ˜¯8å­—èŠ‚ï¼Œä½†æ˜¯ä¸æ˜¯0å¼€å¤´çš„ï¼Œå†…å­˜éœ€è¦æ€Žä¹ˆå·¥ä½œå‘¢ï¼Ÿâ€˜â€™
+    æ²¡æœ‰å¥½åŠžæ³•ï¼Œå†…å­˜åªå¥½å…ˆå·¥ä½œä¸€æ¬¡æŠŠ0x0000-0x0007å–å‡ºæ¥ï¼Œç„¶åŽå†æŠŠ0x0008-0x0015å–å‡ºæ¥ï¼ŒæŠŠä¸¤æ¬¡çš„ç»“æžœéƒ½è¿”å›žç»™ä½ ã€‚ 
+    CPUå’Œå†…å­˜IOçš„ç¡¬ä»¶é™åˆ¶å¯¼è‡´æ²¡åŠžæ³•ä¸€æ¬¡è·¨åœ¨ä¸¤ä¸ªæ•°æ®å®½åº¦ä¸­é—´è¿›è¡ŒIOã€‚
+    æ‰©å±•1ï¼šäº‹å®žä¸Šï¼Œç¼–è¯‘å’Œé“¾æŽ¥å™¨ä¼šè‡ªåŠ¨æ›¿å¼€å‘è€…å¯¹é½å†…å­˜çš„ï¼Œå°½é‡å¸®ä½ ä¿è¯ä¸€ä¸ªå˜é‡ä¸è·¨åˆ—å¯»å€ã€‚ä½†æ˜¯ä»–ä¸èƒ½åšåˆ°ååˆ†å®Œç¾Žã€‚
+    æ‰©å±•2ï¼šå…¶å®žåœ¨å†…å­˜ç¡¬ä»¶å±‚ä¸Šï¼Œè¿˜æœ‰æ“ä½œç³»ç»Ÿå±‚ã€‚æ“ä½œç³»ç»Ÿè¿˜ç®¡ç†äº†CPUçš„ä¸€çº§ã€äºŒçº§ã€ä¸‰çº§ç¼“å­˜ã€‚ä¸çŸ¥é“ä½ æœ‰æ²¡æœ‰å°è±¡ï¼Œæˆ‘ä»¬å‰é¢çš„æ–‡ç« è¯´è¿‡é«˜é€Ÿç¼“å­˜é‡Œçš„Cache Lineä¹Ÿæ˜¯64å­—èŠ‚ï¼Œå®ƒæ˜¯å†…å­˜IOçš„æ•´æ•°å€ï¼Œä¸ä¼šè®©å†…å­˜IOæµªè´¹ã€‚
+
+2.å†è°ˆ"é—­åŒ…"
+    https://zhuanlan.zhihu.com/p/31616347
+
+20191126
+1.C#å‡½æ•°å¼ç¨‹åºè®¾è®¡ 16ç« 
+    ç”¨è¡¨è¾¾å¼æž„å»ºå’Œç¼–è¯‘æŸä¸ªç±»åž‹çš„æž„é€ å‡½æ•°ï¼Œæ¯”åå°„è¦å¿«å¾—å¤šã€‚
+2.C#å‡½æ•°å¼ç¨‹åºè®¾è®¡ 17ç«  ï¼ˆå•å­ å‡½å­ï¼‰ 
+    https://www.zhihu.com/question/19635359
+
+20191127
+1.å†è°ˆâ€œrefâ€ä¼ å‚ https://www.cnblogs.com/qidong/p/11155708.html
         
-        ×Ö·ûÀà
-            ÒªÏë²éÕÒÊý×Ö£¬×ÖÄ¸»òÊý×Ö£¬¿Õ°×ÊÇºÜ¼òµ¥µÄ£¬ÒòÎªÒÑ¾­ÓÐÁË¶ÔÓ¦ÕâÐ©×Ö·û¼¯ºÏµÄÔª×Ö·û£¬µ«ÊÇÈç¹ûÄãÏëÆ¥ÅäÃ»ÓÐÔ¤¶¨ÒåÔª×Ö·ûµÄ×Ö·û¼¯ºÏ(±ÈÈçÔªÒô×ÖÄ¸a,e,i,o,u),Ó¦¸ÃÔõÃ´°ì£¿
-            ºÜ¼òµ¥£¬ÄãÖ»ÐèÒªÔÚ·½À¨ºÅÀïÁÐ³öËüÃÇ¾ÍÐÐÁË£¬Ïñ[aeiou]¾ÍÆ¥ÅäÈÎºÎÒ»¸öÓ¢ÎÄÔªÒô×ÖÄ¸£¬[.?!]Æ¥Åä±êµã·ûºÅ(.»ò?»ò!)¡£
-20180919
-    1.Url±àÂë½âÂë 
-        using System.Web;//System.Web.dll
-        HttpUtility.UrlDecode
-        HttpUtility.UrlEncode
-    2.jsÕýÔò±í´ïÊ½Æ¥Åä È«¾ÖÄ£Ê½ g
-      Èç¹ûÄã²»´øg,ÔÚÕýÔò¹ý³ÌÖÐ£¬×Ö·û´®ÊÇ´Ó×óÖÁÓÒÆ¥ÅäµÄ£¬Èç¹ûÆ¥Åä³É¹¦¾Í²»ÔÙ¼ÌÐøÏòÓÒÆ¥ÅäÁË£¬Èç¹ûÄã´øg,Ëü»áÖØÍ·µ½Î²µÄ°ÑÕýÈ·Æ¥ÅäµÄ×Ö·û´®ÌôÑ¡³öÀ´
-      var str = 'aaaaaaaa'
-      var reg1 = /a/ 
-      var reg2 = /a/g 
-      str.match(reg1)  // ½á¹ûÎª£º["a", index: 0, input: "aaaaaaaa"] 
-      str.match(reg2)  // ½á¹ûÎª£º["a", "a", "a", "a", "a", "a", "a", "a"] 
-    3.ÕýÔò±í´ïÊ½ http://imweb.io/topic/56e804ef1a5f05dc50643106
-        Æ¥Åähtml±êÇ©
-            Æ¥ÅäHTML±êÇ©Âï£¬¸Ð¾õºÜ¼òµ¥µÄÑù×Ó£¬ÎÒÃÇµÄµÚÒ»·´Ó¦¿ÉÄÜÊÇ£ºvar pattern = /<[^>]+>/ ²»¹ýÕâÑùÆ¥Åä¿ÉÄÜ´æÔÚµÄÎÊÌâÊÇ£ºÈç¹ûtagÖÐº¬ÓÐ>£¬ÉÏÃæµÄÕýÔò¾Í²»ÄÜÕý³£Æ¥ÅäÁË¡£Èç£º <input name=123 value=">" >
-            ËäÈ»ÉÏÃæÕâÖÖHTMLµÄÐ´·¨ºÜÉÙ(sha)¼û(bi)£¬µ«È·ÊµºÏ·¨µÄ¡£Òò´Ë£¬¼òµ¥µÄ<[^>]+>¾Í²»ÄÜÓÃÁË£¬ÐèÒªÏë¸ö´ÏÃ÷µãµÄ°ì·¨¡£ ÎÒÃÇÏÈÀ´¿´Ò»ÏÂHTML TagÖÐÓÐÊ²Ã´¹æÔò£º<...>ÖÐÄÜ¹»³öÏÖ
-            ÒýÓÃÎÄ±¾£¨±»µ¥ÒýºÅ»òË«ÒýºÅ°ü¹üµÄ£©
-            ·ÇÒýÓÃÐÎÊ½µÄ¡°ÆäËûÎÄ±¾¡±£¨°üÀ¨³ýÁË>ºÍÒýºÅÖ®ÍâµÄÈÎºÎ×Ö·û£©
-
-            ÒýÓÃÎÄ±¾£ºHTMLÖÐµÄÒýÎÄ¿ÉÒÔÓÃË«ÒýºÅ£¬Ò²¿ÉÒÔÓÃµ¥ÒýºÅ£¬µ«²»ÔÊÐíÇ¶Ì××ªÒåµÄÒýºÅ¡£
-            Òò´ËÎÒÃÇ¿ÉÒÔÊ¹ÓÃ/("[^"]*"|'[^']*')/À´Æ¥Åä¡£
-
-            ÆäËûÎÄ±¾£º³ýÁË>ºÍÒýºÅÖ®ÍâµÄÈÎÒâ×Ö·û
-            ¿ÉÒÔÊ¹ÓÃ/[^'">]/À´Æ¥Åä ÏÖÔÚ¿ÉÒÔµÃ³öÆ¥ÅäHTML TagµÄÕýÔò±í´ïÊ½×îÖÕ°æ£¡
-
-            var pattern = /<("[^"]*"|'[^']*'|[^'">])*>/
-            ¸øÕâ¸öÕýÔò±í´ïÊ½À´µã×¢ÊÍ£º
-
-            <                # ¿ªÊ¼µÄ¼âÀ¨ºÅ"<"
-                (            #     ÈÎÒâÊýÁ¿µÄ...
-                    "[^"]*"  #         Ë«ÒýºÅ×Ö·û´®
-                    |        #         »òÕßÊÇ...
-                    '[^']*'  #         µ¥ÒýºÅ×Ö·û´®
-                    |        #         »òÕßÊÇ...
-                    [^'">]   #         "ÆäËûÎÄ±¾"
-                )*           #         
-            >                # ½áÊøµÄ¼âÀ¨ºÅ">"
-            ÐèÒª×¢ÒâµÄÊÇ£¬ÎÒÃÇ²»ÓÃ"+"À´ÐÞÊÎ[^'">]µÄÔ­ÒòÊÇ([^'">]+)*¿ÉÄÜ»á´øÀ´ÔÖÄÑÐÔµÄºó¹û¡£Æ¥Åä´ÎÊý³ÊÖ¸Êý¼¶Ôö³¤¡£±ÈÈç£º¶ÔÓÚ¼òµ¥µÄÄ¿±ê×Ö·û´®helloworld£¬ÊÇÐÇºÅ»áµü´ú10´Î£¬Ã¿Ò»´Îµü´úÖÐ[^'">]+Æ¥ÅäÒ»¸ö×Ö·û£¿»¹ÊÇÐÇºÅµü´ú3´Î£¬ÄÚ²¿µÄ[^'">]+·Ö±ðÆ¥Åä5¡¢2¡¢3¸ö×Ö·û£¿»òÕß2¡¢3¡¢1¡¢4¸ö×Ö·û£¿»¹ÊÇÆäËûÇé¿ö£¿ÕâÑù»á°ÑÕýÔòÒýÇæ¸ã·èµôµÄÀ²£¡
-        Æ¥Åästring
-            ÆäÊµÆ¥ÅäÒýºÅÄÚ×Ö·û´®µÄ×î¼òµ¥°ì·¨ÊÇÓÃÕâ¸ö±í´ïÊ½£º/"[^"]*"/ ²»¹ýÎÒÃÇÒªÈÝÐíÆäÖÐ°üº¬×ªÒåµÄÒýºÅ£¬ÀýÈç£º"we have a \"awesome\" world!" ÏÂÃæ½øÐÐÈÎÎñ·Ö½â£º
-            Æ¥ÅäÆðÊ¼ÒýºÅ
-            Æ¥ÅäÕýÎÄ
-            Æ¥Åä½áÊøÒýºÅ
-            ²»¹ýÓÉÓÚ×ªÒåÖ®ºóµÄÒýºÅÒ²ÄÜ¹»³öÏÖµÄÕýÎÄÖÐ£¬ËùÒÔ´¦ÀíÆðÀ´±È½Ï¼¬ÊÖ¹þ¡£ ÎÒÃÇ»¹ÊÇÒÔ"we have a \"awesome\" world!"ÎªÀý×Ó¡£ Èç¹ûJavaScriptÖÐÓÐÄæÐò»·ÊÓ(lookaround)¿ÉÓÃ£¬ÎÒÃÇ¿ÉÒÔÕâÑùÐ´£ºvar pattern = /"([^"]|(?<=\\)")*"/ µ«ÊÇÕâ¸öÕýÔò±í´ïÊ½ÎÞ·¨Æ¥ÅäÏÂÃæÕâÁ½¸öÎÞÁÄµÄÀý×Ó£º"/-|-\\" or "[^-^]" ÎÒ±¾À´ÏëÆ¥Åä"/-|-\\"£¬½á¹ûÆ¥ÅäµÄÈ·ÊÇ"/-|-\\" or " ×¢£º
-            ÕâÀïµÄ½áÊø·Ö¸ô·ûÊÇÒ»¸öÒýºÅ£¬µ«ÕýÎÄÒ²¿ÉÄÜ°üº¬×ªÒåÖ®ºóµÄÒýºÅ¡£Æ¥Åä¿ªÊ¼ºÍ½áÊø·Ö¸ô·ûºÜÈÝÒ×£¬¾÷ÇÏ¾ÍÔÚÓÚ£¬Æ¥ÅäÕýÎÄµÄÊ±ºò²»Òª³¬Ô½½áÊø·Ö¸ô·û¡£ Æ¥ÅäÕýÎÄµÄË¼Â·£º1¡¢²»ÊÇÒýºÅ£ºÓÉ[^"]Æ¥Åä¡£2¡¢ÊÇÒ»¸öÒýºÅ£¬¶øËü×ó±ßÓÖÓÐÒ»¸ö·´Ð±¸Ë£¬ÄÇÃ´Õâ¸öÒýºÅÒ²ÊôÓÚÕýÎÄ¡£Ê¹ÓÃÄæÐò»·ÊÓ£º/"([^"]|(?<=\\)")*"/
-            ¼øÓÚÉÏÃæµÄÀý×Ó£¬ÎÒÃÇÐèÒª¶Ôvar pattern = /"([^"]|(?<=\\)")*"/½øÐÐÐÞ¸Ä£¡ µÚÒ»¸ö±í´ïÊ½µÄÎÊÌâÔÚÓÚ£¬ÎÒÃÇ°Ñ·´Ð±¸ËÈÏÎªÖ»ÊÇÓÃÀ´×ªÒåÒýºÅµÄ£¬ÆäÊµ·´Ð±¸ËÔÚ×Ö·û´®ÖÐ¿ÉÒÔÓÃÀ´×ªÒåÈÎºÎ×Ö·û¡£Òò´Ë£¬ÎÒÃÇÒªÆ¥ÅäµÄÎÄ±¾ÆäÊµÊÇ¿ªÊ¼ÒýºÅºÍ½áÊøÒýºÅÖ®¼ä£¬°üÀ¨×ªÒå×Ö·ûºÍ·ÇÒýºÅµÄÈÎºÎ×Ö·û¡£µÃµ½£º/"(\\.|[^"])*"/
-            ²»¹ý£¡
-            ÉÏÃæµÄ±í´ïÊ½»¹ÊÇ»á´íÎóµÄÆ¥Åä£º"You need a new\"world\" haha. ÖÐµÄ"You need a new\"world\" ¼´Ê¹Õâ²¢²»ÊÇÒ»¸ö×Ö·û´®¡£ ÒòÎª£¬Õâ¸ö±í´ïÊ½Ò»¿ªÊ¼Æ¥Åäµ½ÁËÒýºÅÖ®ºóµÄÎÄ±¾£¬Èç¹ûÕÒ²»µ½½áÊøµÄÒýºÅ£¬Ëü¾Í»á»ØËÝ¡£¶ø[^"]Æ¥Åäµ½ÁËworld\ÀïµÄ·´Ð±¸Ëºó£¬Ö®ºóµÄÄÇ¸öÒýºÅ»á±»±í´ïÊ½ÈÏÎªÊÇÒ»¸ö½áÊøµÄÒýºÅ¡£¡£¡£
-            ¼ÌÐø¸Ä¸Ä¸Ä£¡
-            ËùÒÔÎÒÃÇÐèÒª±£Ö¤£¬×Ö·û´®ÀïµÄ·´Ð±¸Ë²»ÄÜÒÔ[^"]·½Ê½Æ¥Åä¡£Òª½«[^"]¸ÄÎª[^\\"] ÉÏÃæµÄÕýÔò±í´ïÊ½Ê¹ÓÃÁËJavaScriptÕýÔò±í´ïÊ½²¢²»×È´ÉµÄÄæÐò»·ÊÓ£¬ÕâÀï¸ø³öJavaScriptÖ§³ÖµÄ°æ±¾¡£ /(["'])(((\\.|[^\1\\])*)+)\1/ »òÕß /^(['"])(((\\['"])?([^\1])*)+)\1/
-    4.try catch Ô­Àí
-        VC++µÄtry/catchÊÇ»ùÓÚWin32µÄSEHÊµÏÖµÄ¡£ (SEH) https://blog.csdn.net/yygydjkthh/article/details/38363635
-        try/catchÖ»ÄÜ²¶×½µ±Ç°Ïß³ÌµÄÒì³££¬Ã¿¸öÏß³Ì¶¼ÓÐ×Ô¼ºµÄÒì³£´¦ÀíÈë¿Ú¡£
-        Òì³£´¦ÀíÈë¿ÚÊÇÓÉOS¸ºÔðµ÷ÓÃµÄ£¬ÔÚÒì³£·¢ÉúÊ±¡£
-        ÎªÁËÊ¹ÓÃSEH£¬VC++±àÒëÆ÷×Ô¶¯Éú³ÉÁËºÜ¶àµÄ´úÂë¡£
-        MSDNÉÏ¹ØÓÚSEHµÄ¾­µäÎÄÕÂ
-            https://www.cnblogs.com/awpatp/archive/2010/06/15/1758763.html
-            Ã¿¸öÏß³ÌÒ»¸öcallback: _EXCEPTION_RECORD  EstablisherFrame _CONTEXT DispatcherContext  
-            callbackµÇ¼Ç->EXCEPTION_REGISTRATION:
-                Ïß³ÌÐÅÏ¢¿é(TEB»òTIB). Õâ¸ö½á¹¹Ìåµ±ÖÐµÄÄ³Ð©fieldÔÚWindows NT, Windows? 95, Win32s, ºÍOS/2ÊÇÒ»ÑùµÄ. TIBµÄµÚÒ»¸öDWORDÊÇÒ»¸öÖ¸ÏòÏß³ÌµÄEXCEPTION_REGISTRATIONµÄÖ¸Õë. ÔÚIntelµÄWin32Æ½Ì¨ÉÏ, FS¼Ä´æÆ÷ÓÀÔ¶Ö¸Ïòµ±Ç°µÄTIB. ¼´, ÔÚFS:[0]µÄÎ»ÖÃ, Äã¿ÉÒÔÕÒµ½Ò»¸öÖ¸ÏòEXCEPTION_REGISTRATION½á¹¹µÄÖ¸Õë
-            try-catch:ËùÓÐÔÚtry¿éÖÐµÄ´úÂë¶¼±»Ò»¸öEXCEPTION_REGISTRATION ±£»¤×Å, Õâ¸öEXCEPTION_REGISTRATION ÊÇ¹¹½¨ÔÚº¯ÊýµÄÕ»Ö¡ÉÏµÄ(stack frame). ÔÚÈë¿Ú´¦,   Õâ¸öÐÂµÄEXCEPTION_REGISTRATION »á±»·ÅÔÚexception handlerµÄÁ´±íµÄÍ·²¿. ÔÚ_try¿éµÄ½áÎ², ËüµÄEXCEPTION_REGISTRATION »á±»´ÓÁ´±íµÄÍ·²¿ÒÆ³ý. ÕýÈçÎÒÔçÐ©Ê±ºòÌáµ½µÄ, exception handlerÁ´±íµÄÍ·ÊÇ´æ´¢ÔÚFS:[0]µ±ÖÐµÄ
-        CodeProjectÉÏµÄÄ£ÄâÊµÏÖ
-            How a C++ compiler implements exception handling
-            https://www.codeproject.com/Articles/2126/How-a-C-compiler-implements-exception-handling
-        CLRµÄÊµÏÖ
-            The Exception Model
-            https://blogs.msdn.microsoft.com/cbrumme/2003/10/01/the-exception-model/
-        CLR ÖÐÎ´´¦ÀíÒì³£µÄ´¦ÖÃ
-            //²¶»ñGUIÒì³££¬ÎÞGUIÔò²»ÐèÒª¼Ó
-            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);//
-            //²¶»ñÏß³ÌÒì³££¬²¶»ñ²»ÁËGUIÒì³£
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;//msheng,´¦ÀíÏß³ÌÒì³£
-            https://blog.csdn.net/sgzwiz/article/details/40980527
-        Ç³ÎöCLRµÄÒì³£´¦ÀíÄ£ÐÍ
-            http://www.itdaan.com/blog/2018/06/03/1cfc5e5d03cd1281c019632c65f4a5f3.html
-                Òì³£ÖØÖÃ
-                CER£¨Ô¼ÊøÖ´ÐÐÇøÓò£©:RuntimeHelpers.PrepareConstrainedRegions() & ReliabilityContractÌØÐÔÐÞÊÎ
-20180920
-    1.setjump/longjump => ¿ÉÒÔÓÃÀ´×öÒì³£´¦Àí
-        #include <stdio.h>
-        #include <setjmp.h>
-        jmp_buf buf;
-        void haha()
+        private static void ChangeVal(DataModel c)
         {
-            printf("in haha()\n");
-            longjmp(buf,1);
-            printf("kaonima\n");
+            var b = c;
+            c = new DataModel() { Value = 2 };
+            Console.WriteLine($"b = {b.Value}");
+            Console.WriteLine($"c = {c.Value}");
         }
-        int tim=0;
-         
-        int main()
+        private static void Test2()
         {
-            if(setjmp(buf))
-            {
-                printf("back in main\n");
-                tim++;
-            }
-            else
-            {
-                printf("first time through\n");
-                haha();
-            }
-            if(tim<3) longjmp(buf,1);
-            return 0;
+            var a = new DataModel() { Value = 1 };
+            ChangeVal(a);
+            Console.WriteLine($"a = {a.Value}");
+            //Output: a=1 b=1 c=2
         }
-        out:
-        first time through
-        in haha()
-        back in main
-        back in main
-        back in main
-        ps:a.Èç¹ûsetjmpËùÔÚµÄº¯ÊýÒÑ¾­µ÷ÓÃ·µ»ØÁË£¬ÄÇÃ´longjmpÊ¹ÓÃ¸Ã´¦setjmpËùÌîÐ´µÄ¶ÔÓ¦jmp_buf»º³åÇø½«²»ÔÙÓÐÐ§¡£ÕâÊÇÒòÎªlongjmpËùÒª·µ»ØµÄ"Õ»Ö¡"(stack frame)ÒÑ¾­²»ÔÙ´æÔÚÁË£¬³ÌÐò·µ»Øµ½Ò»¸ö²»ÔÙ´æÔÚµÄÖ´ÐÐµã£¬ºÜ¿ÉÄÜ¸²¸Ç»òÕßÅª»µ³ÌÐòÕ»
-           b.setjmpÓëlongjmpÈç¹ûÌø³öÁËµ±Ç°º¯ÊýµÄ»°£¬µ±Ç°º¯ÊýÖÐÉùÃ÷µÄ¶ÔÏó¿ÉÊÇ²»»á±»Îö¹¹µÄ£¨²»»áµ÷ÓÃÎö¹¹º¯Êý£©£¬ÄÇÃ´¾Í´æÔÚÁËÒ»¶¨µÄÎ£ÏÕ
-            class Rainbow
-            {
-            public:
-                Rainbow() {cout<<"Rainbow()"<<endl;}
-                ~Rainbow() {cout<<"~Rainbow()"<<endl;}
-            };
-            jmp_buf jmpBuf;
-            void Summer()
-            {
-                Rainbow rb;
-                for(int i=3;i>0;--i)
-                    cout<<"Happy Chinese Valentine's Day!"<<endl;
-                longjmp(jmpBuf,2);
-                
-                //ÏÂÃæÕâ¾ä±»ºöÂÔ
-                cout<<"Oh no.I am being ignore."<<endl;
-            }
-
-            int main()  
-            {  
-                test();
-                if(!setjmp(jmpBuf))
-                {
-                    cout<<"setjmp() return a zero value!"<<endl;
-                    Summer();
-                }
-                else
-                {
-                    cout<<"setjmp() get a non-zero value!"<<endl;
-                }
-                return 0;  
-            }
-            ¾­²âÊÔ£¬G++ÏÂ²¢²»»áµ÷ÓÃ¸ÃÎö¹¹º¯Êý¡£µ±È»£¬ÄãÐèÒª¿¼ÂÇ±àÒëÆ÷µÄÖÇÄÜ³Ì¶È£¬¿ÉÄÜ°ïÄã×öÓÅ»¯ÁË
-    2.how to share data between stored procedures
-        a.out put parameters
-            CREATE PROCEDURE insert_customer @name    nvarchar(50),
-                                 @address nvarchar(50),
-                                 @city    nvarchar(50),
-                                 @cust_id int OUTPUT AS
-            BEGIN TRANSACTION
-            SELECT @cust_id = coalesce(MAX(cust_id), 0) + 1 FROM customers (UPDLOCK)
-            INSERT customers (cust_id, name, address, city)
-               VALUES (@cust_id, @name, @address, @city)
-            COMMIT TRANSACTION
-            =>EXEC insert_customer @name, @address, @city, @cust_id OUTPUT
-        b.Table-valued Functions
-            inline functions
-                An inline function is a parameterised view (UDF user define function)
-                There are a couple of system functions you cannot use in a UDF, because SQL Server thinks it matters that they are side-effecting
-            multi-statement functions      pS.¿´ÆðÀ´±íÖµº¯ÊýËù×öµÄÊÂÇéºÍ´æ´¢¹ý³Ì²¢ÎÞ²»Í¬£¬µ«Êµ¼ÊÉÏ»¹ÊÇÓÐËù²î±ð¡£ÊÇÒòÎª±íÖµº¯Êý¿ÉÒÔ±»ÓÃÓÚÐ´ÈëÆäËû²éÑ¯£¬¶ø´æ´¢¹ý³Ì²»ÐÐ¡£´ËÍâ£¬±íÖµº¯ÊýºÍApply²Ù×÷·ûÁªºÏÊ¹ÓÃ¿ÉÒÔ¼«´óµÄ¼ò»¯Á¬½Ó²Ù×÷¡£
-                Èç¹û´æ´¢¹ý³Ì·ûºÏÏÂÊöÌõ¼þµÄÆäÖÐÒ»¸ö£¬¿ÉÒÔ¿¼ÂÇÖØÐ´Îª±íÖµº¯Êý¡£
-                ´æ´¢¹ý³ÌÂß¼­·Ç³£¼òµ¥£¬½ö½öÊÇÒ»¸öSelectÓï¾ä£¬²»ÓÃÊÓÍ¼µÄÔ­Òò½ö½öÊÇÓÉÓÚÐèÒª²ÎÊý¡£
-                ´æ´¢¹ý³ÌÖÐÃ»ÓÐ¸üÐÂ²Ù×÷¡£
-                ´æ´¢¹ý³ÌÖÐÃ»ÓÐ¶¯Ì¬SQL¡£
-                ´æ´¢¹ý³ÌÖÐÖ»·µ»ØÒ»¸ö½á¹û¼¯¡£
-                ´æ´¢¹ý³ÌµÄÖ÷ÒªÄ¿µÄÊÇÎªÁË²úÉúÁÙÊ±½á¹û¼¯£¬²¢½«½á¹û¼¯´æÈëÁÙÊ±±íÒÔ¹©ÆäËû²éÑ¯µ÷ÓÃ¡£
-               ¶¯Ì¬SQL:   Ê¹ÓÃexecÃüÁî£¬Óï·¨£ºexec sql: execÃüÁîÓÐÁ½¸öÓÃÍ¾£¬Ò»¸öÊÇÓÃÀ´Ö´ÐÐ´æ´¢¹ý³Ì£¬ÁíÒ»¸öÊÇÖ´ÐÐ¶¯Ì¬SQL
-                          Ê¹ÓÃÏµÍ³´æ´¢¹ý³Ì exec excutesql  ²ÎÊý1,²ÎÊý2,²ÎÊý3: ÆäÖÐ²ÎÊý1ÊÇÒªÖ´ÐÐµÄ¶¯Ì¬SQLÓï¾ä£¬²ÎÊý2ÊÇÊäÈëµÄ²ÎÊýµÄ¶¨Òå£¬²ÎÊý3ÊÇÊäÈëµÄ²ÎÊýµÄÖµ
-20180926
-    1.µÑ¿¨¶û»ýÓë±íÁ¬½Ó
-        Ò»¡¢£¨¶à±í£©Á¬½Ó·½Ê½·ÖÀà
-            T-SQLÌá¹©Á½ÖÖÁ¬½Ó·½Ê½£º´«Í³·½Ê½ºÍSQLÁ¬½Ó·½Ê½
-                1.´«Í³·½Ê½£ºSELECT ÁÐ1£¬ÁÐ2£¬ÁÐ3.... FROM  ±í1£¬±í2£¬±í3... WHERE condition
-                  ÕâÖÖ·½Ê½»á°Ñ±í1,2,3×öµÑ¿¨¶û»ý£¨¸ù¾Ý²âÊÔ½á¹ûÍÆ²â£¬²»Ò»¶¨×¼È·£©
-                2.SQLÁ¬½Ó·½Ê½:
-                    1>.INNER JOIN£¬ÄÚÁª£¬ÏµÍ³Ä¬ÈÏ£¬Ïàµ±ÓÚJOIN ¡£·µ»Ø¶à±íÖ®¼äÍêÈ«Æ¥ÅäµÄ½á¹û¡£
-                    2>.LETF JOIN ,×óÁª£¬·µ»Ø³ýÁËÓÐÍêÈ«Æ¥ÅäµÄ½á¹û»¹ÓÐ×ó±íËùÓÐÐÐ¡£
-                    3>.RIGHT JOIN ,ÓÒÁª£¬·µ»Ø³ýÁËÓÐÍêÈ«Æ¥ÅäµÄ½á¹û»¹ÓÐÓÒ±íËùÓÐÐÐ¡£
-                    4>.Full JOIN £¬ÍêÈ«ÍâÁ´½Ó£¬·µ»Ø³ýÁËÓÐÍêÈ«Æ¥ÅäµÄ½á¹û»¹ÓÐ×óÓÒ±íËùÓÐÐÐ¡£
-                       ÆäÖÐLETF JOIN¡¢RIGHT JOINºÍFull JOIN ¾ùÊôÓÚÍâÁ¬½Ó£¨OUTER JOIN£©
-                    5>.CROSS JOIN,½»²æÁ¬½Ó£¬ÓÖ³ÆÎª×ÔÈ»Á¬½Ó£¬¼´Éú³ÉÒ»¸öµÑ¿¨¶û»ý¡££¨Ó¦¸ÃÀàËÆÓÚ´«Í³·½Ê½£©
-        ¶þ¡¢SQL Server JOIN ÄÚ²¿ÊµÏÖµÄÈýÖÖËã·¨£º
-            1. Loop join£¨Ç¶Ì×Ñ­»·£©£¬   ¼´Ê×ÏÈ±éÀú A£¬½«A±íÖÐµÄÃ¿Ò»Ìõ¼ÇÂ¼Óë B±í½øÐÐÁ¬½Ó±È½Ï£¬Èç¹ûÂú×ãA.di=B.id£¬Ôò·µ»Ø¼ÇÂ¼£»
-            2. Merge join£¨ºÏ²¢Á¬½Ó£©£¬ ¼´Ê×ÏÈ¶ÔA,B±í½øÐÐÅÅÐò£¬È»ºóÍ¬Ê±±éÀúAºÍB±í£¬½øÐÐA.id=B.idµÄÑéÖ¤£¬Ö±µ½±éÀúµ½AºÍB±í½áÊø£»
-            3. Hash join£¨¹þÏ£Á¬½Ó£©£¬ ¼´Ê×ÏÈ¶ÔA±íËùÓÐ¼ÇÂ¼µÄid½øÐÐhash¼ÆËã£¬×îÖÕÐÎ³ÉÒ»¸öhash±í£¬È»ºójoinÊ±£¬±éÀúB±í£¬¶ÔB±íÃ¿Ìõ¼ÇÂ¼µÄid½øÐÐhashÔËËã£¬È»ºóÔÚAµÄHash±íÖÐÑéÖ¤ÊÇ·ñÒ»ÖÂ£¬×îºóµÃ³ö½á¹û
-        ×Ü½á
-            a.Á½±íÖ±½ÓµÑ¿¨¶û»ýµÄ½á¹ûÊýÁ¿ÊÇÁ½±íµÄÊý¾ÝÁ¿Ïà³Ë
-            b.´øwhereÌõ¼þidÏàµÈµÄµÑ¿¨¶û»ýºÍinner join½á¹ûÏàÍ¬£¬µ«ÊÇinner joinÐ§ÂÊ¿ìÒ»µã
-            c.left join£ºTEST_A±íµÄIDÎª¿ÕÊ±Æ´½ÓTEST_B±íµÄÄÚÈÝÎª¿Õ£¬right joinÔòÏà·´
-            d.full join£ºµÈÓÚleft joinºÍright joinµÄ²¢¼¯
-            e.cross join => µÑ¿¨¶û»ý
-        Èý¡¢¹ØÓÚÁ¬½Ó
-            Ê×ÏÈ»®·ÖÒ»ÏÂ£¬Á¬½Ó·ÖÎªÈýÖÖ£ºÄÚÁ¬½Ó¡¢ÍâÁ¬½Ó¡¢½»²æÁ¬½Ó? 
-            ÄÚÁ¬½Ó(INNER JOIN)£º? 
-            ??? ·ÖÎªÈýÖÖ£ºµÈÖµÁ¬½Ó¡¢×ÔÈ»Á¬½Ó¡¢²»µÈÁ¬½Ó? 
-            ????? 
-            ÍâÁ¬½Ó(OUTER JOIN)£º? 
-            ??? ·ÖÎªÈýÖÖ£º? 
-            ??? ×óÍâÁ¬½Ó(LEFT OUTER JOIN»òLEFT JOIN)? 
-            ??? ÓÒÍâÁ¬½Ó(RIGHT OUTER JOIN»òRIGHT JOIN)? 
-            ??? È«ÍâÁ¬½Ó(FULL OUTER JOIN»òFULL JOIN)? 
-            ? 
-            ½»²æÁ¬½Ó(CROSS JOIN)£º? 
-            ??? Ã»ÓÐWHERE ×Ó¾ä£¬Ëü·µ»ØÁ¬½Ó±íÖÐËùÓÐÊý¾ÝÐÐµÄµÑ¿¨¶û»ý?
-            
-            a. ½»²æÁ¬½Ó CROSS JOIN:
-                Èç¹û²»´øWHEREÌõ¼þ×Ó¾ä£¬Ëü½«»á·µ»Ø±»Á¬½ÓµÄÁ½¸ö±íµÄµÑ¿¨¶û»ý£¬·µ»Ø½á¹ûµÄÐÐÊýµÈÓÚÁ½¸ö±íÐÐÊýµÄ³Ë»ý£» ¾ÙÀý
-                SELECT * FROM table1 CROSS JOIN table2 µÈÍ¬ÓÚ
-                SELECT * FROM table1,table2
-                Ò»°ã²»½¨ÒéÊ¹ÓÃ¸Ã·½·¨£¬ÒòÎªÈç¹ûÓÐWHERE×Ó¾äµÄ»°£¬ÍùÍù»áÏÈÉú³ÉÁ½¸ö±íÐÐÊý³Ë»ýµÄÐÐµÄÊý¾Ý±íÈ»ºó²Å¸ù¾ÝWHEREÌõ¼þ´ÓÖÐÑ¡Ôñ¡£ Òò´Ë£¬Èç¹ûÁ½¸öÐèÒªÇó½»¼ÊµÄ±íÌ«´ó£¬½«»á·Ç³£·Ç³£Âý£¬²»½¨ÒéÊ¹ÓÃ
-            b.ÄÚÁ¬½Ó INNER JOIN :
-                Èç¹û½ö½öÊ¹ÓÃ SELECT * FROM table1 INNER JOIN table2 Ã»ÓÐÖ¸¶¨Á¬½ÓÌõ¼þµÄ»°£¬ºÍ½»²æÁ¬½ÓµÄ½á¹ûÒ»Ñù¡£ µ«ÊÇÍ¨³£Çé¿öÏÂ£¬Ê¹ÓÃINNER JOINÐèÒªÖ¸¶¨Á¬½ÓÌõ¼þ¡£
-                -- µÈÖµÁ¬½Ó(=ºÅÓ¦ÓÃÓÚÁ¬½ÓÌõ¼þ, ²»»áÈ¥³ýÖØ¸´µÄÁÐ) SELECT * FROM table1 AS a INNER JOIN table2 AS b on a.column=b.column
-                -- ²»µÈÁ¬½Ó(>,>=,<,<=,!>,!<,<>) ÀýÈç SELECT * FROM table1 AS a INNER JOIN table2 AS b on a.column<>b.column
-                -- ×ÔÈ»Á¬½Ó(»áÈ¥³ýÖØ¸´µÄÁÐ)
-            c.ÍâÁ¬½Ó OUTER JOIN:
-                Ê×ÏÈÄÚÁ¬½ÓºÍÍâÁ¬½ÓµÄ²»Í¬Ö®´¦:
-                ÄÚÁ¬½ÓÈç¹ûÃ»ÓÐÖ¸¶¨Á¬½ÓÌõ¼þµÄ»°£¬ºÍµÑ¿¨¶û»ýµÄ½»²æÁ¬½Ó½á¹ûÒ»Ñù.
-                µ«ÊÇ²»Í¬ÓÚµÑ¿¨¶û»ýµÄµØ·½ÊÇ£¬Ã»ÓÐµÑ¿¨¶û»ýÄÇÃ´¸´ÔÓµØÒªÏÈÉú³ÉÐÐÊý³Ë»ýµÄÊý¾Ý±í.
-                ÄÚÁ¬½ÓµÄÐ§ÂÊÒª¸ßÓÚµÑ¿¨¶û»ýµÄ½»²æÁ¬½Ó.
-                Ö¸¶¨Ìõ¼þµÄÄÚÁ¬½Ó£¬½ö½ö·µ»Ø·ûºÏÁ¬½ÓÌõ¼þµÄÌõÄ¿.?
-                ÍâÁ¬½ÓÔò²»Í¬£¬·µ»ØµÄ½á¹û²»½ö°üº¬·ûºÏÁ¬½ÓÌõ¼þµÄÐÐ£¬¶øÇÒ°üÀ¨×ó±í(×óÍâÁ¬½ÓÊ±), ÓÒ±í(ÓÒÁ¬½ÓÊ±)»òÕßÁ½±ßÁ¬½Ó(È«ÍâÁ¬½ÓÊ±)µÄËùÓÐÊý¾ÝÐÐ
-    2.LINQ¼¼ÊõÄÚÄ» 11ÕÂ Áª½á²éÑ¯½á¹û ½áÊø
-        into: into×Ó¾ä¿ÉÒÔ´´½¨Ò»¸öÁÙÊ±±êÊ¶·û£¬Ê¹ÓÃ¸Ã±êÊ¶·û¿ÉÒÔ´æ´¢group¡¢join»òselect×Ó¾äµÄ½á¹û
-        left join:from ...¡¡join ... on ... into sub
-                    from ... in sub.DefaultIfEmpty()
-        ×éºÏ¼ü: ...on new {cross.CustomerID,cross.ProductID} quals new {groupJoin.CustomerID,groupJoin,ProductID}
+        
+        private static void ChangeVal(ref DataModel c)
+        {
+            var b = c;
+            c = new DataModel() { Value = 2 };
+            Console.WriteLine($"b = {b.Value}");
+            Console.WriteLine($"c = {c.Value}");
+        }
+        private static void Test3()
+        {
+            var a = new DataModel() { Value = 1 };
+            ChangeVal(ref a);
+            Console.WriteLine($"a = {a.Value}");
+            //Output: a=2 b=1 c=2
+        }
+2.net è¿›é˜¶
+    nopcommerce 
+        http://www.nopchina.net/ nopcommerceæ˜¯å›½å¤–asp.neté¢†åŸŸä¸€ä¸ªé«˜è´¨é‡çš„b2cå¼€æºé¡¹ç›®ï¼ŒåŸºäºŽEntityFrameworkå’ŒMVCå¼€å‘
+        https://blog.csdn.net/wingxabc/article/details/79049853
+    orchard
+        https://www.cnblogs.com/zhoujg/archive/2011/02/10/1950766.html
+        https://blog.csdn.net/lg343028751/article/details/49127257
+    ABP ASP.NET Boilerplate Projectï¼ˆABPï¼‰æ¡†æž¶ 
+        http://baijiahao.baidu.com/s?id=1601846947942562830&wfr=spider&for=pc
+    spring boot 
     
-20180927
-    1.LINQ¼¼ÊõÄÚÄ» 13ÕÂ Ê¹ÓÃLinq²éÑ¯¹ØÏµÐÍÊý¾Ý¿â ½áÊø
-        DataContext LINQ to SQL ¿ò¼ÜµÄÖ÷Èë¿Úµã
-            a.context.Log = Console.Out => Êä³öÉú³ÉµÄsqlÓï¾ä
-              context.GetCommand()
-            b.¶ÔÃ¿¸öÊý¾Ý¿â·â×°×Ô¼ºµÄDataContext×ÓÀà
-            c. ÊÖ¶¯Ìí¼Ó 
-               or Éè¼ÆÆ÷Éú³É
-               or sqlmeta
-        Linq to DataSet base on ado.net
-    2.LINQ¼¼ÊõÄÚÄ» 14ÕÂ ´´½¨¸üºÃµÄÊµÌåÒÔ¼°Ó³Éä¼Ì³ÐÓë¼¯ºÏ
-        ¿É¿ÕÀàÐÍ Type?/Nullable<T> <=> [Column(CanBeNull = true)]
+20191128
+    1.plinq å¹¶è¡Œ LINQ https://docs.microsoft.com/zh-cn/dotnet/standard/parallel-programming/parallel-linq-plinq
+        é€šè¿‡å¹¶è¡Œæ‰§è¡Œï¼Œé€šå¸¸åªéœ€å‘æ•°æ®æºæ·»åŠ  AsParallel æŸ¥è¯¢æ“ä½œï¼ŒPLINQ å³å¯æ˜¾è‘—æå‡æ€§èƒ½ï¼ˆä¸ŽæŸäº›ç±»åž‹æŸ¥è¯¢çš„æ—§ä»£ç ç›¸æ¯”ï¼‰ã€‚ 
+        ä½†æ˜¯ï¼Œå¹¶è¡Œå¯èƒ½ä¼šå¼•å…¥å…¶è‡ªèº«çš„å¤æ‚æ€§ï¼Œå› æ­¤å¹¶éžæ‰€æœ‰çš„æŸ¥è¯¢æ“ä½œçš„è¿è¡Œé€Ÿåº¦åœ¨ PLINQ ä¸­éƒ½æ›´å¿«ã€‚ 
+        äº‹å®žä¸Šï¼Œå¹¶è¡Œå®žé™…ä¸Šä¼šé™ä½ŽæŸäº›æŸ¥è¯¢çš„é€Ÿåº¦ã€‚ å› æ­¤ï¼Œåº”äº†è§£æŽ’åºç­‰é—®é¢˜å°†å¦‚ä½•å¯¹å¹¶è¡ŒæŸ¥è¯¢äº§ç”Ÿå½±å“ã€‚ 
+        æœ‰å…³è¯¦ç»†ä¿¡æ¯ï¼Œè¯·å‚é˜…äº†è§£ PLINQ ä¸­çš„åŠ é€Ÿã€‚
+    2.ä¸å¯å˜æ•°æ®ç±»åž‹ https://www.cnblogs.com/mushroom/p/4373951.html
+        ä¸å¯å˜é˜Ÿåˆ—ï¼Œä¸å¯å˜åˆ—è¡¨ç­‰æ•°æ®ç»“æž„å¦‚æžœéƒ½è‡ªå·±å®žçŽ°å·¥ä½œé‡ç¡®å®žæœ‰ç‚¹å¤§ã€‚å¹¸å¥½çš„æ˜¯Netåœ¨4.5ç‰ˆæœ¬å·²ç»æä¾›äº†ä¸å¯å˜é›†åˆçš„åŸºç¡€ç±»åº“ã€‚ 
+        ä¸å¯å˜æœ¬èº«çš„ä¼˜ç‚¹å³æ˜¯ç¼ºç‚¹ï¼Œå½“æ¯æ¬¡å¯¹è±¡/é›†åˆæ“ä½œéƒ½ä¼šè¿”å›žä¸ªæ–°å€¼ã€‚è€Œæ—§å€¼ä¾æ—§ä¼šä¿ç•™ä¸€æ®µæ—¶é—´ï¼Œè¿™ä¼šä½¿å†…å­˜æœ‰æžå¤§å¼€é”€ï¼Œä¹Ÿä¼šç»™GCé€ æˆå›žæ”¶è´Ÿæ‹…ï¼Œæ€§èƒ½ä¹Ÿæ¯”å¯å˜é›†åˆå·®çš„å¤šã€‚
+        å¦å¤–ä¸€ä¸ªç¼ºç‚¹æ¯”è¾ƒæœ‰è¶£ï¼Œä¹Ÿæœ‰ä¸å°‘äººå¿½ç•¥ã€‚ ç”±äºŽstringçš„ä¸å¯å˜ç‰¹æ€§ï¼Œæ‰€ä»¥å½“æˆ‘ä»¬ä½¿ç”¨stringåœ¨ä¿å­˜æ•æ„Ÿä¿¡æ¯æ—¶ï¼Œå°±éœ€è¦ç‰¹åˆ«æ³¨æ„ã€‚
+        æ¯”å¦‚å¯†ç  var pwd="mushroomsir"ï¼Œæ­¤æ—¶å¯†ç ä¼šä»¥æ˜Žæ–‡å­˜å‚¨åœ¨å†…å­˜ä¸­ï¼Œä¹Ÿè®¸ä½ ç¨åŽä¼šåŠ å¯†ç½®ç©ºç­‰ï¼Œä½†è¿™éƒ½æ˜¯ä¼šç”Ÿæˆæ–°å€¼çš„ã€‚è€Œæ˜Žæ–‡ä¼šé•¿æ—¶é—´å­˜å‚¨åœ¨å…±äº«åŸŸå†…å­˜ä¸­ï¼Œä»»ä½•èƒ½æ‹¿åˆ°dumpæ–‡ä»¶çš„äººéƒ½å¯ä»¥çœ‹åˆ°æ˜Žæ–‡ï¼Œå¢žåŠ äº†å¯†ç è¢«çªƒå–çš„é£Žé™©ã€‚
+        å½“ç„¶è¿™ä¸æ˜¯ä¸€ä¸ªæ–°é—®é¢˜ï¼Œnet2.0æä¾›çš„æœ‰SecureStringæ¥è¿›è¡Œå®‰å…¨å­˜å‚¨ï¼Œä½¿ç”¨æ—¶è¿›è¡Œæ¢å¤åŠæ¸…ç†ã€‚
+    
+20191129
+    1.C#è¡¨è¾¾å¼æ ‘ https://www.cnblogs.com/Terrylee/archive/2008/08/01/custom-linq-provider-part-1-expression-tree.html
+        å½“æˆ‘ä»¬åœ¨C#è¯­è¨€ä¸­ç¼–å†™ä¸€ä¸ªæŸ¥è¯¢è¡¨è¾¾å¼æ—¶ï¼Œå®ƒå°†è¿”å›žä¸€ä¸ªIQueryableç±»åž‹çš„å€¼ï¼Œåœ¨è¯¥ç±»åž‹ä¸­åŒ…å«äº†ä¸¤ä¸ªå¾ˆé‡è¦çš„å±žæ€§Expressionå’ŒProviderï¼Œå¦‚ä¸‹é¢çš„ä»£ç ï¼š
+        public interface IQueryable:IEnumerable
+        {
+            Type ElementType { get; }
+            Expression Expression { get; }
+            IQueryProvider Provider { get; }
+        }
+        æˆ‘ä»¬ç¼–å†™çš„æŸ¥è¯¢è¡¨è¾¾å¼ï¼Œå°†å°è£…ä¸ºä¸€ç§æŠ½è±¡çš„æ•°æ®ç»“æž„ï¼Œè¿™ä¸ªæ•°æ®ç»“æž„å°±æ˜¯è¡¨è¾¾å¼ç›®å½•æ ‘ï¼Œå½“æˆ‘ä»¬åœ¨ä½¿ç”¨ä¸Šé¢è¿”å›žçš„å€¼æ—¶ï¼Œç¼–è¯‘å™¨å°†ä¼šä»¥è¯¥å€¼æ‰€æœŸæœ›çš„æ–¹å¼è¿›è¡Œç¿»è¯‘ï¼Œè¿™ç§æ–¹å¼å°±æ˜¯ç”±Expressionå’ŒProvideræ¥å†³å®šã€‚
+        å¯ä»¥çœ‹åˆ°ï¼Œè¿™æ ·å°†ä¼šéžå¸¸çš„çµæ´»ä¸”å…·æœ‰è‰¯å¥½çš„å¯æ‰©å±•æ€§ï¼Œæœ‰äº†è¡¨è¾¾å¼ç›®å½•æ ‘ï¼Œå¯ä»¥è‡ªç”±çš„ç¼–å†™è‡ªå·±çš„Providerï¼ŒåŽ»æŸ¥è¯¢æˆ‘ä»¬å¸Œæœ›çš„æ•°æ®æºã€‚
+        ç»å¸¸è¯´LINQä¸ºè®¿é—®å„ç§ä¸åŒçš„æ•°æ®æºæä¾›äº†ä¸€ç§ç»Ÿä¸€çš„ç¼–ç¨‹æ–¹å¼ï¼Œå…¶å¥¥ç§˜å°±åœ¨è¿™é‡Œã€‚ç„¶è€Œéœ€è¦æ³¨æ„çš„æ˜¯LINQ to Objectså¹¶ä¸éœ€è¦ä»»ä½•ç‰¹å®šçš„LINQ Providerï¼Œå› ä¸ºå®ƒå¹¶ä¸ç¿»è¯‘ä¸ºè¡¨è¾¾å¼ç›®å½•æ ‘
+    2.C# IQueryableå’ŒIEnumerableçš„åŒºåˆ« 
+        LINQæŸ¥è¯¢ä¸€å…±æä¾›äº†ä¸¤ç±»æ‰©å±•æ–¹æ³•ï¼Œåœ¨System.Linqå‘½åç©ºé—´ä¸‹ï¼Œæœ‰ä¸¤ä¸ªé™æ€ç±»ï¼šEnumerableç±»ï¼Œå®ƒé’ˆå¯¹ç»§æ‰¿äº†IEnumerable<T>æŽ¥å£çš„é›†åˆè¿›è¡Œæ‰©å±•ï¼›Queryableç±»ï¼Œå®ƒé’ˆå¯¹ç»§æ‰¿äº†IQueryable<T>æŽ¥å£çš„é›†åˆç±»è¿›è¡Œæ‰©æ‰Žã€‚æŽ¥å£IQueryable<T>ä¹Ÿæ˜¯ç»§æ‰¿äº†IEnumerable<T>æŽ¥å£çš„ï¼Œæ‰€ä»¥ï¼Œè‡´ä½¿ä¸¤ä¸ªæŽ¥å£çš„æ–¹æ³•åœ¨å¾ˆå¤§ç¨‹åº¦ä¸Šæ—¶ä¸€è‡´çš„ã€‚
+        LINQæŸ¥è¯¢ä»ŽåŠŸèƒ½ä¸Šæ¥è®²å®žé™…ä¸Šå¯åˆ†ä¸º3ç±»ï¼šLINQ to OBJECTSã€LINQ to SQLã€LINQ to XMLã€‚è®¾è®¡ä¸¤å¥—æŽ¥å£çš„ç›®çš„åœ¨äºŽåŒºåˆ†å¯¹å¾…LINQ to OBJECTSã€LINQ to SQLï¼Œä¸¤è€…å¯¹äºŽæŸ¥è¯¢çš„å¤„ç†åœ¨å†…éƒ¨ä½¿ç”¨çš„æ˜¯å®Œå…¨ä¸åŒçš„æœºåˆ¶ã€‚
+        é’ˆå¯¹LINQ to OBJECTSæ—¶ï¼Œä½¿ç”¨Enumerableä¸­çš„æ‰©å±•æ–¹æ³•å¯¹æœ¬åœ°é›†åˆè¿›è¡ŒæŽ’åºå’ŒæŸ¥è¯¢ç­‰æ“ä½œï¼ŒæŸ¥è¯¢å‚æ•°æŽ¥å—çš„æ˜¯Func<>ã€‚Func<>å«åšè°“è¯­è¡¨è¾¾å¼ï¼Œç›¸å½“äºŽä¸€ä¸ªå§”æ‰˜ã€‚
+        é’ˆå¯¹LINQ to SQLæ—¶ï¼Œåˆ™ä½¿ç”¨Queryableä¸­çš„æ‰©å±•æ–¹æ³•ï¼Œå®ƒæŽ¥å—çš„æ˜¯Expression<>ã€‚
+        Expression<>ç”¨äºŽåŒ…è£…Func<>ã€‚LINQ to SQLæœ€ç»ˆä¼šå°†è¡¨è¾¾å¼æ ‘è½¬æ¢æˆç›¸åº”çš„SQLè¯­å¥ï¼Œç„¶åŽåœ¨æ•°æ®åº“ä¸­æ‰§è¡Œã€‚
+        ç®€å•çš„è¯´ï¼šæœ¬åœ°æ•°æ®æºç”¨IEnumerable<T>ï¼Œè¿œç¨‹æ•°æ®æºç”¨IQueryable<T>ã€‚
+        1.Func<>è°“è¯è¡¨è¾¾å¼ï¼Œå°±æ˜¯ä¸€ä¸ªå§”æ‰˜ï¼Œå§”æ‰˜ä¸€æ—¦è°ƒç”¨ï¼Œå°±ç«‹å³æ‰§è¡Œäº†ï¼Œå°†æ‰§è¡Œç»“æžœä¿å­˜åœ¨å†…å­˜ä¸­ã€‚
+        2.Expressionæ˜¯ä¸€ä¸ªè¡¨è¾¾å¼ï¼Œä¼šå­˜å‚¨æ‹¼æŽ¥è¡¨è¾¾å¼æ ‘ï¼Œç›´åˆ°åœ¨è¿è¡ŒæœŸæœ€ç»ˆæ‰§è¡Œã€‚
+        é‚£ä¹ˆåœ¨EFä¸­æˆ‘ä»¬æ ¹æ®æ¡ä»¶æŸ¥è¯¢æ•°æ®æ—¶ï¼Œä¸åº”è¯¥æŠŠæ•°æ®ä¸€æ¬¡æ€§åŠ è½½åˆ°æœ¬åœ°å†…å­˜ä¸­ï¼Œç„¶åŽå†æœ¬åœ°å†…å­˜ä¸­è¿›è¡Œç­›é€‰ï¼Œå¦‚æžœæ•°æ®é‡å¤§äº†ï¼Œå°±å´©æºƒäº†ã€‚
+        æˆ‘ä»¬éœ€è¦å°†è¡¨è¾¾å¼ç»„åˆå¥½ï¼Œç„¶åŽå†ä¸€èµ·æäº¤åˆ°æ•°æ®åº“æ‰§è¡Œï¼Œè¿”å›žæŸ¥è¯¢ç»“æžœã€‚
+        (æ¯æ¬¡åœ¨æ‰§è¡ŒwhereæŸ¥è¯¢æ“ä½œç¬¦çš„æ—¶å€™IQueryProviderä¼šä¸ºæˆ‘ä»¬åˆ›å»ºä¸€ä¸ªæ–°çš„IQueryable<T>,è°ƒç”¨AsEnumerable()æ–¹æ³•çš„æ—¶å€™å¹¶ä¸ä¼šåŽ»å®žé™…å–å€¼ï¼Œåªæ˜¯
+        å¾—åˆ°äº†ä¸€ä¸ªIEnumerable,æ‰€ä»¥EFåœ¨æŸ¥è¯¢æ•°æ®æ—¶å€™ä¸è¦å…ˆå–IEnumerableå†åŽ»ç­›é€‰æ•°æ®ã€‚æ‰§è¡ŒToListæ–¹æ³•æ—¶æ‰ä¼šåŽ»çœŸæ­£è°ƒç”¨è¿­ä»£å™¨GetEnumerator()
+        å–å€¼ã€‚çœŸæ­£å–å€¼æ—¶å€™ï¼Œä¼šåŽ»æ‰§è¡ŒIQueryProviderä¸­çš„Excuteæ–¹æ³•.(è§£æžè¡¨è¾¾å¼ï¼Œç„¶åŽæ‰§è¡Œå–å¾—ç»“æžœ))
+        è¿™å°±æ˜¯IQueryableçš„å»¶è¿ŸåŠ è½½
+    3.æ¼”ç»ƒï¼šåˆ›å»º IQueryable LINQ æä¾›ç¨‹åº https://docs.microsoft.com/zh-cn/previous-versions/bb546158(v=vs.120)?redirectedfrom=MSDN
+20191224
+    1.QQè¿·ä½ é¦–é¡µæ‰“ä¸å¼€ã€QQç¾¤æ–‡ä»¶å…±äº«é¡µé¢æ‰“å¼€ã€QQç¾¤å…¬å‘Šé¡µé¢æ‰“å¼€ä¸å¼€ç­‰
+        http://www.d9soft.com/school/soft_jiaocheng/49278.html
+        ä½¿ç”¨äº†ä»£ç†ï¼Œå¦‚æžœæˆ‘ä»¬ä½¿ç”¨äº†ä»£ç†ä¼šå¯¼è‡´è¿·ä½ ç‰ˆæ‰“ä¸å¼€ï¼ŒæŠŠè®¾ç½®çš„ä»£ç†å–æ¶ˆæŽ‰å°±å¯ä»¥å•¦ã€‚å–æ¶ˆæ–¹æ³•ï¼Œåœ¨ieé¢æ¿ï¼Œå·¥å…·-interneté€‰é¡¹-é“¾æŽ¥-å±€åŸŸç½‘è®¾ç½®ï¼ŒæŠŠä¸ºLANä½¿ç”¨ä»£ç†æœåŠ¡å™¨çš„å‹¾åŽ»æŽ‰å³å¯
+20191230
+    1.if-elseé‡æž„ä¼˜åŒ–
+    https://www.jianshu.com/p/b21dc8ad7ab4
         
+    

@@ -1,910 +1,200 @@
-20180301-20180302
-    1.git: http://blog.csdn.net/lechengyuyuan/article/details/50404461
-          git clone ´ÓÔ¶³Ì¿â¿ËÂ¡Ò»¸ö°æ±¾¿â
-          git remote -v ÁĞ³öÔ¶³ÌÖ÷»úºÍµØÖ·
-            $ git remote -v
-                origin  git@github.com:jquery/jquery.git (fetch)
-                origin  git@github.com:jquery/jquery.git (push)
-            ¿ËÂ¡°æ±¾¿âµÄÊ±ºò£¬ËùÊ¹ÓÃµÄÔ¶³ÌÖ÷»ú×Ô¶¯±»GitÃüÃûÎªorigin¡£Èç¹ûÏëÓÃÆäËûµÄÖ÷»úÃû£¬ĞèÒªÓÃgit cloneÃüÁîµÄ-oÑ¡ÏîÖ¸¶¨¡£
-                $ git clone -o jQuery https://github.com/jquery/jquery.git
-                $ git remote
-                jQuery
-          git remote show <Ö÷»úÃû>
-            $ git remote show origin
-            * remote origin
-              Fetch URL: git@github.com:whu-iss-sunny/Note.git
-              Push  URL: git@github.com:whu-iss-sunny/Note.git
-              HEAD branch: master
-              Remote branch:
-                master tracked
-              Local branch configured for 'git pull':
-                master merges with remote master
-              Local ref configured for 'git push':
-                master pushes to master (up to date)
-          git fetch <Ö÷»úÃû><·ÖÖ§Ãû> Ä¬ÈÏÈ¡»ØËùÓĞ¸üĞÂ
-            git fetchÃüÁîÍ¨³£ÓÃÀ´²é¿´ÆäËûÈËµÄ½ø³Ì£¬ÒòÎªËüÈ¡»ØµÄ´úÂë¶ÔÄã±¾µØµÄ¿ª·¢´úÂëÃ»ÓĞÓ°Ïì
-            ËùÈ¡»ØµÄ¸üĞÂ£¬ÔÚ±¾µØÖ÷»úÉÏÒªÓÃ"Ô¶³ÌÖ÷»úÃû/·ÖÖ§Ãû"µÄĞÎÊ½¶ÁÈ¡¡£±ÈÈçoriginÖ÷»úµÄmaster£¬¾ÍÒªÓÃorigin/master¶ÁÈ¡¡£
-            git branchÃüÁîµÄ-rÑ¡Ïî£¬¿ÉÒÔÓÃÀ´²é¿´Ô¶³Ì·ÖÖ§£¬-aÑ¡Ïî²é¿´ËùÓĞ·ÖÖ§¡£
-            $ git branch -r
-            origin/master
-
-            $ git branch -a
-            * master
-              remotes/origin/master
-            ÉÏÃæÃüÁî±íÊ¾£¬±¾µØÖ÷»úµÄµ±Ç°·ÖÖ§ÊÇmaster£¬Ô¶³Ì·ÖÖ§ÊÇorigin/master¡£
-            È¡»ØÔ¶³ÌÖ÷»úµÄ¸üĞÂÒÔºó£¬¿ÉÒÔÔÚËüµÄ»ù´¡ÉÏ£¬Ê¹ÓÃgit checkoutÃüÁî´´½¨Ò»¸öĞÂµÄ·ÖÖ§¡£
-
-            $ git checkout -b newBrach origin/master
-            ÉÏÃæÃüÁî±íÊ¾£¬ÔÚorigin/masterµÄ»ù´¡ÉÏ£¬´´½¨Ò»¸öĞÂ·ÖÖ§¡£
-            ´ËÍâ£¬Ò²¿ÉÒÔÊ¹ÓÃgit mergeÃüÁî»òÕßgit rebaseÃüÁî£¬ÔÚ±¾µØ·ÖÖ§ÉÏºÏ²¢Ô¶³Ì·ÖÖ§¡£
-
-            $ git merge origin/master
-            # »òÕß
-            $ git rebase origin/master
-            ÉÏÃæÃüÁî±íÊ¾ÔÚµ±Ç°·ÖÖ§ÉÏ£¬ºÏ²¢origin/master¡£
-          git pull
-            git pullÃüÁîµÄ×÷ÓÃÊÇ£¬È¡»ØÔ¶³ÌÖ÷»úÄ³¸ö·ÖÖ§µÄ¸üĞÂ£¬ÔÙÓë±¾µØµÄÖ¸¶¨·ÖÖ§ºÏ²¢¡£ËüµÄÍêÕû¸ñÊ½ÉÔÉÔÓĞµã¸´ÔÓ¡£
-
-            $ git pull <Ô¶³ÌÖ÷»úÃû> <Ô¶³Ì·ÖÖ§Ãû>:<±¾µØ·ÖÖ§Ãû>
-            ±ÈÈç£¬È¡»ØoriginÖ÷»úµÄnext·ÖÖ§£¬Óë±¾µØµÄmaster·ÖÖ§ºÏ²¢£¬ĞèÒªĞ´³ÉÏÂÃæÕâÑù¡£
-
-            $ git pull origin next:master
-            Èç¹ûÔ¶³Ì·ÖÖ§ÊÇÓëµ±Ç°·ÖÖ§ºÏ²¢£¬ÔòÃ°ºÅºóÃæµÄ²¿·Ö¿ÉÒÔÊ¡ÂÔ¡£
-
-            $ git pull origin next
-            ÉÏÃæÃüÁî±íÊ¾£¬È¡»Øorigin/next·ÖÖ§£¬ÔÙÓëµ±Ç°·ÖÖ§ºÏ²¢¡£ÊµÖÊÉÏ£¬ÕâµÈÍ¬ÓÚÏÈ×ögit fetch£¬ÔÙ×ögit merge¡£
-
-            $ git fetch origin
-            $ git merge origin/next
-            ÔÚÄ³Ğ©³¡ºÏ£¬Git»á×Ô¶¯ÔÚ±¾µØ·ÖÖ§ÓëÔ¶³Ì·ÖÖ§Ö®¼ä£¬½¨Á¢Ò»ÖÖ×·×Ù¹ØÏµ£¨tracking£©¡£±ÈÈç£¬ÔÚgit cloneµÄÊ±ºò£¬ËùÓĞ±¾µØ·ÖÖ§Ä¬ÈÏÓëÔ¶³ÌÖ÷»úµÄÍ¬Ãû·ÖÖ§£¬½¨Á¢×·×Ù¹ØÏµ£¬Ò²¾ÍÊÇËµ£¬±¾µØµÄmaster·ÖÖ§×Ô¶¯"×·×Ù"origin/master·ÖÖ§¡£
-            GitÒ²ÔÊĞíÊÖ¶¯½¨Á¢×·×Ù¹ØÏµ¡£
-
-            git branch --set-upstream master origin/next
-            ÉÏÃæÃüÁîÖ¸¶¨master·ÖÖ§×·×Ùorigin/next·ÖÖ§¡£
-            Èç¹ûµ±Ç°·ÖÖ§ÓëÔ¶³Ì·ÖÖ§´æÔÚ×·×Ù¹ØÏµ£¬git pull¾Í¿ÉÒÔÊ¡ÂÔÔ¶³Ì·ÖÖ§Ãû¡£
-
-            $ git pull origin
-            ÉÏÃæÃüÁî±íÊ¾£¬±¾µØµÄµ±Ç°·ÖÖ§×Ô¶¯Óë¶ÔÓ¦µÄoriginÖ÷»ú"×·×Ù·ÖÖ§"£¨remote-tracking branch£©½øĞĞºÏ²¢¡£
-            Èç¹ûµ±Ç°·ÖÖ§Ö»ÓĞÒ»¸ö×·×Ù·ÖÖ§£¬Á¬Ô¶³ÌÖ÷»úÃû¶¼¿ÉÒÔÊ¡ÂÔ¡£
-
-            $ git pull
-            ÉÏÃæÃüÁî±íÊ¾£¬µ±Ç°·ÖÖ§×Ô¶¯ÓëÎ¨Ò»Ò»¸ö×·×Ù·ÖÖ§½øĞĞºÏ²¢¡£
-            Èç¹ûºÏ²¢ĞèÒª²ÉÓÃrebaseÄ£Ê½£¬¿ÉÒÔÊ¹ÓÃ--rebaseÑ¡Ïî¡£
-
-            $ git pull --rebase <Ô¶³ÌÖ÷»úÃû> <Ô¶³Ì·ÖÖ§Ãû>:<±¾µØ·ÖÖ§Ãû>
-            Èç¹ûÔ¶³ÌÖ÷»úÉ¾³ıÁËÄ³¸ö·ÖÖ§£¬Ä¬ÈÏÇé¿öÏÂ£¬git pull ²»»áÔÚÀ­È¡Ô¶³Ì·ÖÖ§µÄÊ±ºò£¬É¾³ı¶ÔÓ¦µÄ±¾µØ·ÖÖ§¡£ÕâÊÇÎªÁË·ÀÖ¹£¬ÓÉÓÚÆäËûÈË²Ù×÷ÁËÔ¶³ÌÖ÷»ú£¬µ¼ÖÂgit pull²»Öª²»¾õÉ¾³ıÁË±¾µØ·ÖÖ§¡£
-            µ«ÊÇ£¬Äã¿ÉÒÔ¸Ä±äÕâ¸öĞĞÎª£¬¼ÓÉÏ²ÎÊı -p ¾Í»áÔÚ±¾µØÉ¾³ıÔ¶³ÌÒÑ¾­É¾³ıµÄ·ÖÖ§¡£
-
-            $ git pull -p
-            # µÈÍ¬ÓÚÏÂÃæµÄÃüÁî
-            $ git fetch --prune origin 
-            $ git fetch -p
-          git push
-            git pushÃüÁîÓÃÓÚ½«±¾µØ·ÖÖ§µÄ¸üĞÂ£¬ÍÆËÍµ½Ô¶³ÌÖ÷»ú¡£ËüµÄ¸ñÊ½Óëgit pullÃüÁîÏà·Â¡£
-
-            $ git push <Ô¶³ÌÖ÷»úÃû> <±¾µØ·ÖÖ§Ãû>:<Ô¶³Ì·ÖÖ§Ãû>
-            ×¢Òâ£¬·ÖÖ§ÍÆËÍË³ĞòµÄĞ´·¨ÊÇ<À´Ô´µØ>:<Ä¿µÄµØ>£¬ËùÒÔgit pullÊÇ<Ô¶³Ì·ÖÖ§>:<±¾µØ·ÖÖ§>£¬¶øgit pushÊÇ<±¾µØ·ÖÖ§>:<Ô¶³Ì·ÖÖ§>¡£
-            Èç¹ûÊ¡ÂÔÔ¶³Ì·ÖÖ§Ãû£¬Ôò±íÊ¾½«±¾µØ·ÖÖ§ÍÆËÍÓëÖ®´æÔÚ"×·×Ù¹ØÏµ"µÄÔ¶³Ì·ÖÖ§£¨Í¨³£Á½ÕßÍ¬Ãû£©£¬Èç¹û¸ÃÔ¶³Ì·ÖÖ§²»´æÔÚ£¬Ôò»á±»ĞÂ½¨¡£
-
-            $ git push origin master
-            ÉÏÃæÃüÁî±íÊ¾£¬½«±¾µØµÄmaster·ÖÖ§ÍÆËÍµ½originÖ÷»úµÄmaster·ÖÖ§¡£Èç¹ûºóÕß²»´æÔÚ£¬Ôò»á±»ĞÂ½¨¡£
-            Èç¹ûÊ¡ÂÔ±¾µØ·ÖÖ§Ãû£¬Ôò±íÊ¾É¾³ıÖ¸¶¨µÄÔ¶³Ì·ÖÖ§£¬ÒòÎªÕâµÈÍ¬ÓÚÍÆËÍÒ»¸ö¿ÕµÄ±¾µØ·ÖÖ§µ½Ô¶³Ì·ÖÖ§¡£
-
-            $ git push origin :master
-            # µÈÍ¬ÓÚ
-            $ git push origin --delete master
-            ÉÏÃæÃüÁî±íÊ¾É¾³ıoriginÖ÷»úµÄmaster·ÖÖ§¡£
-            Èç¹ûµ±Ç°·ÖÖ§ÓëÔ¶³Ì·ÖÖ§Ö®¼ä´æÔÚ×·×Ù¹ØÏµ£¬Ôò±¾µØ·ÖÖ§ºÍÔ¶³Ì·ÖÖ§¶¼¿ÉÒÔÊ¡ÂÔ¡£
-
-            $ git push origin
-            ÉÏÃæÃüÁî±íÊ¾£¬½«µ±Ç°·ÖÖ§ÍÆËÍµ½originÖ÷»úµÄ¶ÔÓ¦·ÖÖ§¡£
-            Èç¹ûµ±Ç°·ÖÖ§Ö»ÓĞÒ»¸ö×·×Ù·ÖÖ§£¬ÄÇÃ´Ö÷»úÃû¶¼¿ÉÒÔÊ¡ÂÔ¡£
-
-            $ git push
-            Èç¹ûµ±Ç°·ÖÖ§Óë¶à¸öÖ÷»ú´æÔÚ×·×Ù¹ØÏµ£¬Ôò¿ÉÒÔÊ¹ÓÃ-uÑ¡ÏîÖ¸¶¨Ò»¸öÄ¬ÈÏÖ÷»ú£¬ÕâÑùºóÃæ¾Í¿ÉÒÔ²»¼ÓÈÎºÎ²ÎÊıÊ¹ÓÃgit push¡£
-
-            $ git push -u origin master
-            ÉÏÃæÃüÁî½«±¾µØµÄmaster·ÖÖ§ÍÆËÍµ½originÖ÷»ú£¬Í¬Ê±Ö¸¶¨originÎªÄ¬ÈÏÖ÷»ú£¬ºóÃæ¾Í¿ÉÒÔ²»¼ÓÈÎºÎ²ÎÊıÊ¹ÓÃgit pushÁË¡£
-            ²»´øÈÎºÎ²ÎÊıµÄgit push£¬Ä¬ÈÏÖ»ÍÆËÍµ±Ç°·ÖÖ§£¬Õâ½Ğ×ösimple·½Ê½¡£´ËÍâ£¬»¹ÓĞÒ»ÖÖmatching·½Ê½£¬»áÍÆËÍËùÓĞÓĞ¶ÔÓ¦µÄÔ¶³Ì·ÖÖ§µÄ±¾µØ·ÖÖ§¡£Git 2.0°æ±¾Ö®Ç°£¬Ä¬ÈÏ²ÉÓÃmatching·½·¨£¬ÏÖÔÚ¸ÄÎªÄ¬ÈÏ²ÉÓÃsimple·½Ê½¡£Èç¹ûÒªĞŞ¸ÄÕâ¸öÉèÖÃ£¬¿ÉÒÔ²ÉÓÃgit configÃüÁî¡£
-
-            $ git config --global push.default matching
-            # »òÕß
-            $ git config --global push.default simple
-            »¹ÓĞÒ»ÖÖÇé¿ö£¬¾ÍÊÇ²»¹ÜÊÇ·ñ´æÔÚ¶ÔÓ¦µÄÔ¶³Ì·ÖÖ§£¬½«±¾µØµÄËùÓĞ·ÖÖ§¶¼ÍÆËÍµ½Ô¶³ÌÖ÷»ú£¬ÕâÊ±ĞèÒªÊ¹ÓÃ--allÑ¡Ïî¡£
-
-            $ git push --all origin
-            ÉÏÃæÃüÁî±íÊ¾£¬½«ËùÓĞ±¾µØ·ÖÖ§¶¼ÍÆËÍµ½originÖ÷»ú¡£
-            Èç¹ûÔ¶³ÌÖ÷»úµÄ°æ±¾±È±¾µØ°æ±¾¸üĞÂ£¬ÍÆËÍÊ±Git»á±¨´í£¬ÒªÇóÏÈÔÚ±¾µØ×ögit pullºÏ²¢²îÒì£¬È»ºóÔÙÍÆËÍµ½Ô¶³ÌÖ÷»ú¡£ÕâÊ±£¬Èç¹ûÄãÒ»¶¨ÒªÍÆËÍ£¬¿ÉÒÔÊ¹ÓÃ--forceÑ¡Ïî¡£
-
-            $ git push --force origin 
-            ÉÏÃæÃüÁîÊ¹ÓÃ--forceÑ¡Ïî£¬½á¹ûµ¼ÖÂÔ¶³ÌÖ÷»úÉÏ¸üĞÂµÄ°æ±¾±»¸²¸Ç¡£³ı·ÇÄãºÜÈ·¶¨ÒªÕâÑù×ö£¬·ñÔòÓ¦¸Ã¾¡Á¿±ÜÃâÊ¹ÓÃ--forceÑ¡Ïî¡£
-            ×îºó£¬git push²»»áÍÆËÍ±êÇ©£¨tag£©£¬³ı·ÇÊ¹ÓÃ--tagsÑ¡Ïî¡£
-
-            $ git push origin --tags
-    2..Net Double.NaN
-        //       NaN == NaN: False
-        //       NaN != NaN: True
-        //       NaN.Equals(NaN): True
-        //       ! NaN.Equals(NaN): False
-        //       NaN > NaN: False
-        //       NaN >= NaN: False
-        //       NaN < NaN: False
-        //       NaN < 100.0: False
-        //       NaN <= 100.0: False
-        //       NaN >= 100.0: False
-        //       NaN.CompareTo(NaN): 0
-        //       NaN.CompareTo(100.0): -1
-        //       (100.0).CompareTo(Double.NaN): 1
-    3.JavaScriptÑ§Ï°
-        ±íµ¥ÊÂ¼ş
-        BOM
-        Js×÷ÓÃÓò
-    4.OTC over-the-counter ³¡Íâ½»Ò× µêÍ·½»Ò× ¹ñÌ¨½»Ò×
-    5.WebsocketĞ­Òé (WebSocket Ğ­Òé±¾ÖÊÉÏÊÇÒ»¸ö»ùÓÚ TCP µÄĞ­Òé µ«ÊÇÍ¨¹ıhttpºÍ·şÎñÆ÷ÎÕÊÖ)
-        https://www.cnblogs.com/fuqiang88/p/5956363.html
-20180305-20180306
-    1.ÔÚMicrosoft SQL Server Management StudioÎÄ±¾±à¼­Æ÷ÀïÃæ×¢ÒâÇø·ÖÊı×Ö"1"ºÍĞ¡Ğ´×ÖÄ¸"l"
-    2.CLR vir C# I/O-Bound Asynchronous Operations ½áÊø
-        CreateFile×ÜÊÇÒÔÍ¬²½·½Ê½Ö´ĞĞ
-        FileStreamÌØÓĞµÄÎÊÌâ   FileOptions.Asynchronous->BeginXXX ·ñÔòµ÷ÓÃÍ¬²½·½·¨
-        IOÓÅÏÈ¼¶:±ÜÃâÔÚÆÕÍ¨ÓÅÏÈ¼¶Ïß³ÌºÍºóÌ¨ÓÅÏÈ¼¶Ïß³ÌÖĞ¼äÊ¹ÓÃ¹²ÏíÍ¬²½¶ÔÏó
-    3.  Òì²½±à³ÌÄ£ĞÍ (APM)APM(Begin-End IAsyncResult) 
-        »ùÓÚÊÂ¼şµÄÒì²½Ä£Ê½ EAP(Async-Completed)
-        ÈÎÎñ²¢ĞĞTPL(Task ÊµÏÖÁËIAsyncResult ÄÜÒ»¶¨³Ì¶ÈÖ§³ÖAPM  FromAsync)
-    4.JavaScriptÑ§Ï°
-        ·â×°
-    5.ÕıÔò±í´ïÊ½ ·Ö×é http://blog.csdn.net/okyoung188/article/details/53407021
-        ÕâÔò±í´ïÊ½ÈıÖÖÄ£Ê½ https://www.cnblogs.com/ggkxg/p/5736064.html
-            ¼Ù¶¨Òª·ÖÎöµÄ×Ö·û´®ÊÇxfooxxxxxxfoo
-
-            Ä£Ê½.*foo £¨Ì°À·Ä£Ê½£©: Ä£Ê½·ÖÎª×ÓÄ£Ê½p1(.*)ºÍ×ÓÄ£Ê½p2(foo)Á½¸ö²¿·Ö. ÆäÖĞp1ÖĞµÄÁ¿´ÊÆ¥Åä·½Ê½Ê¹ÓÃÄ¬ÈÏ·½Ê½(Ì°À·ĞÍ)¡£ Æ¥Åä¿ªÊ¼Ê±,³ÔÈëËùÓĞ×Ö·ûxfooxxxxxxÈ¥Æ¥Åä×ÓÄ£Ê½p1¡£Æ¥Åä³É¹¦,µ«ÕâÑùÒÔÀ´¾ÍÃ»ÓĞÁË×Ö·û´®È¥Æ¥Åä×ÓÄ£Ê½p2¡£±¾ÂÖÆ¥ÅäÊ§°Ü£»µÚ¶şÂÖ£º¼õÉÙp1²¿·ÖµÄÆ¥ÅäÁ¿£¬ÍÂ³ö×îºóÒ»¸ö×Ö·û, °Ñ×Ö·û´®·Ö¸î³ÉxfooxxxxxxfoºÍoÁ½¸ö×Ó×Ö·û´®s1ºÍs2¡£ s1Æ¥Åäp1, µ«s2²»Æ¥Åäp2¡£±¾ÂÖÆ¥ÅäÊ§°Ü£»µÚÈıÂÖ£¬ÔÙ´Î¼õÉÙp1²¿·ÖÆ¥ÅäÁ¿£¬ÍÂ³öÁ½¸ö×Ö·û, ×Ö·û´®±»·Ö¸î³ÉxfooxxxxxxfoºÍooÁ½²¿·Ö¡£½á¹ûÍ¬ÉÏ¡£µÚËÄÂÖ£¬ÔÙ´Î¼õÉÙp1Æ¥ÅäÁ¿, ×Ö·û´®·Ö¸î³ÉxfooxxxxxxºÍfooÁ½¸ö²¿·Ö, Õâ´Îs1/s2·Ö±ğºÍp1/p2Æ¥Åä¡£Í£Ö¹³¢ÊÔ,·µ»ØÆ¥Åä³É¹¦¡£
-            Ä£Ê½.*?foo £¨ÃãÇ¿Ä£Ê½£©: ×îĞ¡Æ¥Åä·½Ê½¡£µÚÒ»´Î³¢ÊÔÆ¥Åä, p1ÓÉÓÚÊÇ0»òÈÎÒâ´Î£¬Òò´Ë±»ºöÂÔ£¬ÓÃ×Ö·û´®È¥Æ¥Åäp2,Ê§°Ü£»µÚ¶ş´Î£¬¶ÁÈëµÚÒ»¸ö×Ö·ûx, ³¢ÊÔºÍp1Æ¥Åä, Æ¥Åä³É¹¦; ×Ö·û´®Ê£Óà²¿·ÖfooxxxxxxfooÖĞÇ°Èı¸ö×Ö·ûºÍp2Ò²ÊÇÆ¥ÅäµÄ. Òò´Ë, Í£Ö¹³¢ÊÔ, ·µ»ØÆ¥Åä³É¹¦¡£ÔÚÕâÖÖÄ£Ê½ÏÂ£¬Èç¹û¶ÔÊ£Óà×Ö·û´®¼ÌĞøÈ¥Ñ°ÕÒºÍÄ£Ê½ÏàÆ¥ÅäµÄ×Ó×Ö·û´®£¬»¹»áÕÒµ½×Ö·û´®Ä©Î²µÄÁíÒ»¸öxfoo£¬¶øÔÚÌ°À·Ä£Ê½ÏÂ£¬ÓÉÓÚµÚÒ»´ÎÆ¥Åä³É¹¦µÄ×Ó´®¾ÍÒÑ¾­ÊÇËùÓĞ×Ö·û£¬Òò´Ë²»´æÔÚµÚ¶ş¸öÆ¥Åä×Ó´®¡£
-            Ä£Ê½.*+foo £¨ÇÖÕ¼Ä£Ê½£©: Ò²½ĞÕ¼ÓÃÄ£Ê½¡£Æ¥Åä¿ªÊ¼Ê±¶ÁÈëËùÓĞ×Ö·û´®, ºÍp1Æ¥Åä³É¹¦, µ«Ã»ÓĞÊ£Óà×Ö·û´®È¥ºÍp2Æ¥Åä¡£Òò´Ë, Æ¥ÅäÊ§°Ü¡£·µ»Ø¡£
-
-            ¼òµ¥µØËµ, Ì°À·Ä£Ê½ºÍÕ¼ÓĞÄ£Ê½Ïà±È, Ì°À·Ä£Ê½»áÔÚÖ»ÓĞ²¿·ÖÆ¥Åä³É¹¦µÄÌõ¼şÏÂ, ÒÀ´Î´Ó¶àµ½ÉÙ¼õÉÙÆ¥Åä³É¹¦²¿·ÖÄ£Ê½µÄÆ¥ÅäÊıÁ¿, ½«×Ö·ûÁô¸øÄ£Ê½ÆäËû²¿·ÖÈ¥Æ¥Åä; ¶øÕ¼ÓÃÄ£Ê½ÔòÊÇÕ¼ÓĞËùÓĞÄÜÆ¥Åä³É¹¦²¿·Ö, ¾ø²»Áô¸øÆäËû²¿·ÖÊ¹ÓÃ¡£
-            
-            Àı×Ó:
-                ÕıÔò£º\w+[a-z]Óë\w++[a-z]
-                Ä¿±ê´®£º232hjdhfd7474$
-                 ·ÖÎö£º¢Ù\w+[a-z]£º\w+ÊôÓÚÌ°À·Ä£Ê½£¬»áÒ»´ÎĞÔ³ÔµôËüËùÄÜ³ÔµôµÄËùÓĞµÄ×Ö·û£¬Ò²¾ÍÊÇ×Ó´®232hjdhfd7474£¬´ËÊ±[a-z]²»ÄÜ¹»ÕÒµ½Æ¥ÅäÁË£¬¹Ê\w+Æ¥ÅäµÄ´®»áÍÂ³öÒ»¸ö×Ö·û4£¬µ«´ËÊ±»¹ÊÇµÃ²»µ½Æ¥Åä¡£·´¸´µÄÕâÑùÍÂ³ö»ØÍË£¬Ö±µ½ÍÂ³ö×Ö·ûdÊ±£¬´ËÊ±[a-z]ÄÜ¹»Æ¥Åäh£¬ËùÒÔÕâÊ±ÕıÔò±í´ïÊ½»á·µ»ØÒ»´Î³É¹¦µÄÆ¥Åä½á¹û£¬Îª232hjdhfd
-                 ¢Ú\w++[a-z]£º\w++ÊôÓÚÇÖÕ¼Ä£Ê½£¬Ëü»áÒ»´ÎĞÔ³ÔµôËüËùÄÜ¹»³ÔµôµÄËùÓĞ×Ö·û£¬¼´×Ó´®232hjdhfd7474£¬¶øÇÒ²»Áô¸øÆäËû²¿·ÖÊ¹ÓÃ£¬¹Ê²»»á»ØÍË¡£´ËÊ±[a-z]²»ÄÜ¹»ÕÒµ½Æ¥Åä£¬ËùÒÔ´Ë´ÎÆ¥ÅäÊ§°Ü¡£ÔÚÓàÏÂµÄ×Ó´®ÖĞÒ²ÕÒ²»µ½ÄÜÆ¥Åä³É¹¦µÄ×Ó´®¡£ËùÒÔÕû¸öÕıÔò±í´ïÊ½ÊÇÕÒ²»µ½Æ¥Åä½á¹ûµÄ£¡
-                    Á¿¡¡´Ê¡¡ÖÖ¡¡Àà	Òâ¡¡¡¡Òå
-                    Ì°À·	ÃãÇ¿	ÇÖÕ¼
-                    X?	X??	X?+	Æ¥Åä X Áã´Î»òÒ»´Î
-                    X*	X*?	X*+	Æ¥Åä X Áã´Î»ò¶à´Î
-                    X+	X+?	X++	Æ¥Åä X Ò»´Î»ò¶à´Î
-                    X{n}	X{n}?	X{n}+	Æ¥Åä X n ´Î(Õâ¸öÓ¦¸Ã²»´æÔÚÕâ¼¸ÖÖÄ£Ê½£¬¾ÍÊÇ¹Ì¶¨Æ¥Åän¸ö)
-                    X{n,}	X{n,}?	X{n,}+	Æ¥Åä X ÖÁÉÙ n ´Î
-                    X{n,m}	X{n,m}?	X{n,m}+	Æ¥Åä X ÖÁÉÙ n ´Î£¬µ«²»¶àÓÚ m ´Î
-    6.clr vir C# Primitive Thread Synchronization Constructs
-        FCLÌá¹©µÄ¾²Ì¬·½·¨¶¼ÊÇÏß³Ì°²È«µÄ ÀıÈç ConsoleÀà°üº¬Ò»¸ö¾²Ì¬×Ö¶ÎĞí¶à·½·¨¶¼Òª»ñÈ¡Õâ¸ö×Ö¶ÎÉÏµÄËùÒÔÈ·±£Ò»´ÎÖ»ÓĞÒ»¸öÏß³Ì·ÃÎÊ¿ØÖÆÌ¨
-    10.win10´ÅÅÌÕ¼ÓÃÂÊ100% http://blog.csdn.net/dirful/article/details/74090523
-    11.ĞÔÄÜÖ¸±ê QPS(TPS) ²¢·¢Êı ÏìÓ¦Ê±¼ä https://www.cnblogs.com/cynchanpin/p/7365859.html
-20180307-20180308
-    1.JavaScriptÑ§Ï°
-        ±Õ°ü:º¯ÊıÄÚ²¿¿ÉÒÔ·ÃÎÊº¯ÊıÍâ²¿±äÁ¿,º¯ÊıÍâ²¿ÎŞ·¨¶ÁÈ¡º¯ÊıÄÚ²¿±äÁ¿.
-             ÔõÑù¶ÁÈ¡º¯ÊıÄÚ²¿±äÁ¿,ĞèÒª±äÍ¨=>º¯ÊıÄÚ²¿ÔÙ¶¨ÒåÒ»¸öº¯Êı ÈçÏÂ:
-                function f1(){
-                    var n=999;
-                    function f2(){
-                        alert(n); // 999
-                    }
-                    return f2;
-                }
-             ÕâÑùf2¾Í¿ÉÒÔ·ÃÎÊf1º¯ÊıÄÚ²¿µÄ±äÁ¿,ÄÇÃ´°Ñf2×÷Îª·µ»ØÖµ,¾Í¿ÉÒÔÔÚf1Íâ²¿·ÃÎÊµ½f1ÄÚ²¿µÄ±äÁ¿ÁË(Á´Ê½×÷ÓÃÓò)
-             ¼òµ¥Ëµf2¾ÍÊÇÒ»¸ö±Õ°ü,±Õ°ü¾ÍÊÇÄÜ¹»¶ÁÈ¡ÆäËûº¯ÊıÄÚ²¿±äÁ¿µÄº¯Êı;
-             ÓÉÓÚÔÚJavascriptÓïÑÔÖĞ£¬Ö»ÓĞº¯ÊıÄÚ²¿µÄ×Óº¯Êı²ÅÄÜ¶ÁÈ¡¾Ö²¿±äÁ¿£¬Òò´Ë¿ÉÒÔ°Ñ±Õ°ü¼òµ¥Àí½â³É"¶¨ÒåÔÚÒ»¸öº¯ÊıÄÚ²¿µÄº¯Êı"¡£
-             ËùÒÔ£¬ÔÚ±¾ÖÊÉÏ£¬±Õ°ü¾ÍÊÇ½«º¯ÊıÄÚ²¿ºÍº¯ÊıÍâ²¿Á¬½ÓÆğÀ´µÄÒ»×ùÇÅÁº¡£
-             ±Õ°ü¿ÉÒÔÓÃÔÚĞí¶àµØ·½¡£ËüµÄ×î´óÓÃ´¦ÓĞÁ½¸ö£¬Ò»¸öÊÇÇ°ÃæÌáµ½µÄ¿ÉÒÔ¶ÁÈ¡º¯ÊıÄÚ²¿µÄ±äÁ¿£¬ÁíÒ»¸ö¾ÍÊÇÈÃÕâĞ©±äÁ¿µÄÖµÊ¼ÖÕ±£³ÖÔÚÄÚ´æÖĞ¡£
-             ÔõÃ´À´Àí½âÕâ¾ä»°ÄØ£¿Çë¿´ÏÂÃæµÄ´úÂë¡£
-                function f1(){
-                    var n=999;
-                    nAdd=function(){n+=1}
-                    function f2(){
-                        alert(n);
-                    }
-                    return f2;
-                }
-                var result=f1();
-                result(); // 999
-                nAdd();
-                result(); // 1000
-             ÔÚÕâ¶Î´úÂëÖĞ£¬resultÊµ¼ÊÉÏ¾ÍÊÇ±Õ°üf2º¯Êı¡£ËüÒ»¹²ÔËĞĞÁËÁ½´Î£¬µÚÒ»´ÎµÄÖµÊÇ999£¬µÚ¶ş´ÎµÄÖµÊÇ1000¡£ÕâÖ¤Ã÷ÁË£¬º¯Êıf1ÖĞµÄ¾Ö²¿±äÁ¿nÒ»Ö±±£´æÔÚÄÚ´æÖĞ£¬²¢Ã»ÓĞÔÚf1µ÷ÓÃºó±»×Ô¶¯Çå³ı¡£
-             ÎªÊ²Ã´»áÕâÑùÄØ£¿Ô­Òò¾ÍÔÚÓÚf1ÊÇf2µÄ¸¸º¯Êı£¬¶øf2±»¸³¸øÁËÒ»¸öÈ«¾Ö±äÁ¿£¬Õâµ¼ÖÂf2Ê¼ÖÕÔÚÄÚ´æÖĞ£¬¶øf2µÄ´æÔÚÒÀÀµÓÚf1£¬Òò´Ëf1Ò²Ê¼ÖÕÔÚÄÚ´æÖĞ£¬²»»áÔÚµ÷ÓÃ½áÊøºó£¬±»À¬»ø»ØÊÕ»úÖÆ£¨garbage collection£©»ØÊÕ¡£
-             Õâ¶Î´úÂëÖĞÁíÒ»¸öÖµµÃ×¢ÒâµÄµØ·½£¬¾ÍÊÇ"nAdd=function(){n+=1}"ÕâÒ»ĞĞ£¬Ê×ÏÈÔÚnAddÇ°ÃæÃ»ÓĞÊ¹ÓÃvar¹Ø¼ü×Ö£¬Òò´ËnAddÊÇÒ»¸öÈ«¾Ö±äÁ¿£¬¶ø²»ÊÇ¾Ö²¿±äÁ¿¡£Æä´Î£¬nAddµÄÖµÊÇÒ»¸öÄäÃûº¯Êı£¨anonymous function£©£¬¶øÕâ¸öÄäÃûº¯Êı±¾ÉíÒ²ÊÇÒ»¸ö±Õ°ü£¬ËùÒÔnAddÏàµ±ÓÚÊÇÒ»¸ösetter£¬¿ÉÒÔÔÚº¯ÊıÍâ²¿¶Ôº¯ÊıÄÚ²¿µÄ¾Ö²¿±äÁ¿½øĞĞ²Ù×÷¡£
-        ±Õ°ü×¢Òâµã:
-            1£©ÓÉÓÚ±Õ°ü»áÊ¹µÃº¯ÊıÖĞµÄ±äÁ¿¶¼±»±£´æÔÚÄÚ´æÖĞ£¬ÄÚ´æÏûºÄºÜ´ó£¬ËùÒÔ²»ÄÜÀÄÓÃ±Õ°ü£¬·ñÔò»áÔì³ÉÍøÒ³µÄĞÔÄÜÎÊÌâ£¬ÔÚIEÖĞ¿ÉÄÜµ¼ÖÂÄÚ´æĞ¹Â¶¡£½â¾ö·½·¨ÊÇ£¬ÔÚÍË³öº¯ÊıÖ®Ç°£¬½«²»Ê¹ÓÃµÄ¾Ö²¿±äÁ¿È«²¿É¾³ı¡£
-            2£©±Õ°ü»áÔÚ¸¸º¯ÊıÍâ²¿£¬¸Ä±ä¸¸º¯ÊıÄÚ²¿±äÁ¿µÄÖµ¡£ËùÒÔ£¬Èç¹ûÄã°Ñ¸¸º¯Êıµ±×÷¶ÔÏó£¨object£©Ê¹ÓÃ£¬°Ñ±Õ°üµ±×÷ËüµÄ¹«ÓÃ·½·¨£¨Public Method£©£¬°ÑÄÚ²¿±äÁ¿µ±×÷ËüµÄË½ÓĞÊôĞÔ£¨private value£©£¬ÕâÊ±Ò»¶¨ÒªĞ¡ĞÄ£¬²»ÒªËæ±ã¸Ä±ä¸¸º¯ÊıÄÚ²¿±äÁ¿µÄÖµ¡£
-            3)ËµÃ÷ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
-                    ²»ÒªÔÚÑ­»·ÖĞ´´½¨±Õ°ü(ÀıÈçÑ­»·°ó¶¨ÊÂ¼ş´¦Àíº¯Êı) = > ¹Ø¼ü×Ölet
-                    ĞÔÄÜ¿¼ÂÇ ´¦ÀíËÙ¶ÈºÍÄÚ´æËğºÄ
-                             For instance, when creating a new object/class, methods should normally be associated to the object's prototype rather than defined into the object constructor. The reason is that whenever the constructor is called, the methods would get reassigned (that is, for every object creation).
-        
-        Ò³ÃæonloadÖ®Ç°µ÷ÓÃgetelementByXXX¿ÉÄÜ»á·µ»Ønull,ÒòÎªÒ³Ãæ»¹Î´¹¹ÔìÍê³É=>Ò³ÃæÖ´ĞĞË³Ğò
-        ¹Ø¼ü×Ö let letÉùÃ÷µÄ±äÁ¿Ö»ÔÚÆäÉùÃ÷µÄ¿é»ò×Ó¿éÖĞ¿ÉÓÃ£¬ÕâÒ»µã£¬ÓëvarÏàËÆ¡£¶şÕßÖ®¼ä×îÖ÷ÒªµÄÇø±ğÔÚÓÚvarÉùÃ÷µÄ±äÁ¿µÄ×÷ÓÃÓòÊÇÕû¸ö·â±Õº¯Êı
-        https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let
-        
-    2.ÓÉ±Õ°ü²»ÓÉµÃÏëµ½C#ÀïÃæµÄlambda±í´ïÊ½·ÃÎÊÍâ²¿±äÁ¿,ÈçÏÂ:
-        using System;
-        using System.Collections.Generic;
-        using System.Linq;
-        using System.Text;
-
-        namespace ClosureTest
+ï»¿20190304
+    1.Linqç¼–ç¨‹æŠ€æœ¯å†…å¹• 15ç«  é€šè¿‡LinqæŸ¥è¯¢å…³è”æ•°æ®åº“è¡¨
+    Linq To DataSet å·¦å¤–è¿æ¥ into...from...in +ï¼ˆDefaultIfEmptyï¼ˆDataTable.NewRowï¼‰ï¼‰+ å¯ç©ºç±»å‹
+20190306
+1.sqlserver å»ºè¡¨è„šæœ¬é€‰é¡¹
+    pad_index=off,statistics_norecompute=off,ignore_dup_key=off,all_row_locks=on,allow_page_locks=on
+      pad_index
+        æŒ‡å®šå¡«å……ç´¢å¼•çš„å†…éƒ¨èŠ‚ç‚¹çš„è¡Œæ•°ï¼Œè‡³å°‘åº”å¤§äºç­‰äºä¸¤è¡Œã€‚PAD_INDEX é€‰é¡¹åªæœ‰åœ¨FILLFACTOR é€‰é¡¹æŒ‡å®šåæ‰èµ·ä½œç”¨ã€‚
+        å› ä¸ºPAD_INDEX ä½¿ç”¨ä¸FILLFACTOR ç›¸åŒçš„ç™¾åˆ†æ¯”ã€‚
+        ç¼ºçœæ—¶ï¼ŒSQL Server ç¡®ä¿æ¯ä¸ªç´¢å¼•é¡µè‡³å°‘æœ‰èƒ½å®¹çº³ä¸€æ¡æœ€å¤§ç´¢å¼•è¡Œæ•°æ®çš„ç©ºé—²ç©ºé—´ã€‚
+        å¦‚æœFILLFACTOR æŒ‡å®šçš„ç™¾åˆ†æ¯”ä¸å¤Ÿå®¹çº³ä¸€è¡Œæ•°æ®SQL Server ä¼šè‡ªåŠ¨å†…éƒ¨æ›´æ”¹ç™¾åˆ†æ¯”ã€‚
+      statistics_norecompute
+        æŒ‡å®šåˆ†å¸ƒç»Ÿè®¡ä¸è‡ªåŠ¨æ›´æ–°ã€‚éœ€è¦æ‰‹åŠ¨æ‰§è¡Œä¸å¸¦NORECOMPUTE å­å¥çš„UPDATESTATISTICS å‘½ä»¤ã€‚
+      ignore_dup_key
+        æ­¤é€‰é¡¹æ§åˆ¶äº†å½“å¾€åŒ…å«äºä¸€ä¸ªæƒŸä¸€çº¦æŸä¸­çš„åˆ—ä¸­æ’å…¥é‡å¤æ•°æ®æ—¶SQL Server æ‰€ä½œçš„ååº”ã€‚
+        å½“é€‰æ‹©æ­¤é€‰é¡¹æ—¶ï¼ŒSQL Server è¿”å›ä¸€ä¸ªé”™è¯¯ä¿¡æ¯ï¼Œè·³è¿‡æ­¤è¡Œæ•°æ®çš„æ’å…¥ï¼Œç»§ç»­æ‰§è¡Œä¸‹é¢çš„æ’å…¥æ•°æ®çš„æ“ä½œï¼šå½“æ²¡é€‰æ‹©æ­¤é€‰é¡¹æ—¶ï¼ŒSQL Server ä¸ä»…ä¼šè¿”å›ä¸€ä¸ªé”™è¯¯ä¿¡æ¯ï¼Œè¿˜ä¼šå›æ»šï¼ˆRolls Backï¼‰æ•´ä¸ªINSERT è¯­å¥
+      all_row_locks
+        æ˜¯å¦å…è®¸è¡Œé”
+      allow_page_locks
+        æ˜¯å¦å…è®¸é¡µé¢é”
+2.SQLServeræ—¥æœŸç›¸å…³
+    a.smalldatetime vs datetime
+    smalldatetimeçš„æœ‰æ•ˆæ—¶é—´èŒƒå›´1900/1/1~2079/6/6
+    datetimeçš„æœ‰æ•ˆæ—¶é—´èŒƒå›´1753/1/1~9999/12/31
+    æ‰€ä»¥æˆ‘åˆ¤æ–­å¦‚æœè¯¥å€¼ä¸ç”¨åˆ°å¤ªè¿œçš„æ—¥æœŸèŒƒå›´ï¼Œ
+    å°±ä¼šä½¿ç”¨smalldatetime
+    æ›´å…³é”®çš„å·®åˆ«ï¼Œé‚£å°±æ˜¯smalldatetimeåªç²¾å‡†åˆ°åˆ†ï¼Œè€Œdatetimeåˆ™å¯ç²¾å‡†åˆ°3.33æ¯«ç§’ã€‚
+    b.DATEADD (datepart , number , date )  numberå¯ä»¥ä¸ºè´Ÿæ•° SELECT DATEADD(DAY,-1,'2019-01-01 12:34:56.789') => 2018-12-31 12:34:56.789 
+    c.DATEDIFF (datepart , startdate , enddate ) 
+    d.DATEPART ( datepart , date )  YYYYMMDD(int) =>  DATEPART(YEAR, GETDATE()) * 10000 + DATEPART(MONTH, GETDATE()) * 100 + DATEPART(DAY, GETDATE())
+3.SQLServerä»»åŠ¡è®¡åˆ’
+    å¿…é¡»å¼€å¯AgentæœåŠ¡
+4.SQLServeråˆ†é¡µ
+    a.row_number å­æŸ¥è¯¢
+    b.SQL Server 2012åŠ2012ä»¥ä¸Šç‰ˆæœ¬çš„OFFSET-FETCHç­›é€‰
+20190308
+    1.decimal å’Œ numeric åŒºåˆ« https://blog.csdn.net/kk185800961/article/details/78853515
+    decimal å®Œå…¨å’Œå£°æ˜çš„ä¸€æ ·ç²¾ç¡®ï¼›numeric  è‡³å°‘å’Œå£°æ˜çš„ä¸€æ ·ç²¾ç¡®ã€‚åœ¨ sql server ä¸­ä¸¤è€…ä½¿ç”¨å®Œå…¨å’Œå£°æ˜çš„ä¸€æ ·ç²¾ç¡®ã€‚
+    ä½†æ˜¯æ²¡æœ‰ä¾‹å­ï¼Œå¾ˆéš¾æ˜ç™½ã€‚äº‹å®ä¸Šï¼Œä¸ä»…sql server æœ‰è¿™ä¸¤ä¸ªç±»å‹ï¼Œå…¶ä»–æ»¡è¶³ sql æ ‡å‡†çš„æ•°æ®åº“éƒ½æœ‰ã€‚
+    2.sqlserver å°æ•°ç±»å‹ https://www.cnblogs.com/ljhdo/p/4910699.html
+    åœ¨SQL Serverä¸­ï¼Œå®é™…ä¸Šå°æ•°æ•°å€¼åªæœ‰ä¸¤ç§æ•°æ®ç±»å‹ï¼šfloat å’Œ decimalï¼Œåˆ†åˆ«æ˜¯è¿‘ä¼¼æ•°å€¼å’Œç²¾ç¡®æ•°å€¼ã€‚å…¶ä»–å°æ•°ç±»å‹ï¼Œéƒ½å¯ä»¥ä½¿ç”¨floatå’Œdecimalæ¥æ›¿ä»£ï¼Œ
+    ä¾‹å¦‚ï¼ŒåŒç²¾åº¦ï¼ˆdouble precisionï¼‰æ•°æ®ç±»å‹ç­‰ä»·äº float(53)ï¼Œrealç­‰ä»·äºfloat(24)ï¼Œ
+    numericæ˜¯ decimalçš„åŒä¹‰è¯ï¼Œ
+    åº”è¯¥é¿å…åœ¨ç¨‹åºä¸­ç›´æ¥ä½¿ç”¨ double precisionã€realå’Œnumericï¼Œè€Œæ˜¯ç”¨ float(24) ã€float(53)å’Œdecimal ä»£æ›¿ã€‚   
+    float(n)	ä» -1.79E + 308 åˆ° 1.79E + 308 çš„æµ®åŠ¨ç²¾åº¦æ•°å­—æ•°æ®ã€‚ å‚æ•° n æŒ‡ç¤ºè¯¥å­—æ®µä¿å­˜ 4 å­—èŠ‚è¿˜æ˜¯ 8 å­—èŠ‚ã€‚float(24) ä¿å­˜ 4 å­—èŠ‚ï¼Œè€Œ float(53) ä¿å­˜ 8 å­—èŠ‚ã€‚n çš„é»˜è®¤å€¼æ˜¯ 53ã€‚
+20190313
+    1.sqlserver å¤šè¯­å¥è¡¨å€¼å‡½æ•° åœ¨left joinä¸­çš„é—®é¢˜ï¼ˆç”¨å­æŸ¥è¯¢è§£å†³ï¼‰
+20190325
+1.left joinçš„å›°æƒ‘ï¼šä¸€æ—¦åŠ ä¸Šwhereæ¡ä»¶ï¼Œåˆ™æ˜¾ç¤ºçš„ç»“æœç­‰äºinner join 
+    https://www.cnblogs.com/huahua035/p/5718469.html
+    https://blog.csdn.net/wqc19920906/article/details/79785424
+    https://www.cnblogs.com/lgx5/p/6239498.html
+    å¯¹äºleft joinï¼šå·¦è¡¨å­—æ®µçš„åˆ é€‰ä¸èƒ½æ”¾åœ¨onåé¢ å› ä¸ºå·¦è¿æ¥åœ¨whereä¹‹å‰ä¸€å®šä¼šè¿”å›å·¦è¡¨æ‰€æœ‰è¡Œ
+                   å³è¡¨å­—æ®µçš„åˆ é€‰ä¸èƒ½æ”¾åœ¨whereåé¢ å› ä¸ºä¼šæŠŠä¸ºnullçš„å€¼è¿‡æ»¤æ‰ï¼ˆæ ¹æ®éœ€æ±‚è€Œå®šï¼‰
+20190408
+1.sqlåˆ†ç»„ç„¶åç»„å†…å­—ç¬¦ä¸²æ‹¼æ¥
+    my sql => group_concat( [distinct] è¦è¿æ¥çš„å­—æ®µ [order by æ’åºå­—æ®µ asc/desc ] [separator â€˜åˆ†éš”ç¬¦â€™] )  
+    sql server => STUFF + FOR XML PATH('')
+2.SQL SERVER STUFFå‡½æ•°
+    stuffå‡½æ•°ç”¨äºåˆ é™¤æŒ‡å®šé•¿åº¦çš„å­—ç¬¦ï¼Œå¹¶å¯ä»¥åœ¨åˆ¶å®šçš„èµ·ç‚¹å¤„æ’å…¥å¦ä¸€ç»„å­—ç¬¦
+ã€€ã€€select STUFF('abcdefg',1,0,'1234')       --ç»“æœä¸º'1234abcdefg'
+ã€€ã€€select STUFF('abcdefg',1,1,'1234')       --ç»“æœä¸º'1234bcdefg'
+ã€€ã€€select STUFF('abcdefg',2,1,'1234')       --ç»“æœä¸º'a1234cdefg'
+ã€€ã€€select STUFF('abcdefg',2,2,'1234')       --ç»“æœä¸º'a1234defg'
+3.SQL SERVER FOR XML PATH('')     https://www.cnblogs.com/liuchenxing/p/9253897.html
+4.åº”ç”¨ä½“åè®®å‘åå…¼å®¹
+    a.unionå¥—struct
+    b.æ¨¡ç‰ˆå…ƒç¼–ç¨‹
+    c.protobuf
+20190415
+1.lambdaè¡¨è¾¾å¼è°ƒç”¨å¤–éƒ¨å˜é‡çš„é—®é¢˜
+    for(int index = 0; index < 10; index++)
+    {
+        ThreadPool.QueueUserWorkItem(new WaitCallback((state) =>
         {
-            class Program
-            {
-                static void Main(string[] args)
-                {
-                    Action act = GetAction();
-                    act();//1
-                    act();//2
-                    act();//3
-                    Console.ReadLine();
-                }
+            Console.WriteLine(index); //è¾“å‡º å¹¶ä¸æ˜¯ 0ï¼Œ1ï¼Œ2ï¼Œ3ï¼Œ4ï¼Œ5ï¼Œ6ï¼Œ7ï¼Œ8ï¼Œ9äºŒæ˜¯ä¸è§„åˆ™çš„
+        }));
+    }
+2.C#foreachè¯­å¥çš„é—­åŒ…
+    https://blog.csdn.net/u010639500/article/details/82385959
+        ç¼–è¯‘å™¨å°†é—­åŒ…å¼•ç”¨çš„å±€éƒ¨å˜é‡è½¬æ¢ä¸ºåŒ¿åç±»å‹çš„å­—æ®µï¼Œå¯¼è‡´äº†å±€éƒ¨å˜é‡åˆ†é…åœ¨å †ä¸­ã€‚
+        é—­åŒ…åœ¨C#2.0 çš„æ—¶å€™å¼•å…¥äº†é—­åŒ…è¯­æ³•ï¼Œé€‰æ‹©å°†å¾ªç¯å˜é‡æ”¾åœ¨å¾ªç¯ä½“å¤–é¢ï¼Œfor å’Œforeach åœ¨è¿™æ–¹é¢å¤„ç†éƒ½æ˜¯ä¸€è‡´çš„ã€‚
+        ä½†éšç€äººä»¬åœ¨ä½¿ç”¨è¿‡ç¨‹ä¸­çš„ç§ç§ä¸é€‚ï¼Œå¾®è½¯åšå‡ºäº†â€ä¸€ç‚¹â€œè®©æ­¥ï¼Œåœ¨C#5 ä¸­å¯¹â€foreachâ€œåšäº†è°ƒæ•´ï¼Œä½†å¯¹â€forâ€œæ²¡æœ‰åšæ”¹åŠ¨
+        C#5.0ä¼šåœ¨whileå¾ªç¯çš„ä»£ç ä¸­åˆ›å»ºä¸€ä¸ªä¸åŒçš„å±€éƒ¨å¾ªç¯å˜é‡ã€‚
+3.gitlabä½¿ç”¨httpæ–¹å¼æäº¤ä»£ç ä¸è¾“å…¥å¯†ç  
+    https://blog.csdn.net/zhuifeng_tjy163163/article/details/80649367
+4.Git å¿½ç•¥ç¼–è¯‘åæ–‡ä»¶
+    https://blog.csdn.net/u011583927/article/details/80875281
+5.C#å‡½æ•°å¼ç¼–ç¨‹
+    a.å‡½æ•°çš„å¼•ç”¨é€æ˜æ€§ 
+      åœ¨æ•°å­¦å‡½æ•°ä¸­ y=f(x)y=f(x)ï¼Œä¸€ä¸ªè¾“å…¥å€¼æœ‰å›ºå®šçš„è¾“å‡ºå€¼ã€‚
+      ä¾‹å¦‚ï¼Œæ— è®ºè®¡ç®—å¤šå°‘æ¬¡ï¼ŒsinÏ€ sin?Ï€ çš„ç»“æœæ€»æ˜¯ 0ã€‚
+      ç¨‹åºè®¾è®¡ä¸­çš„å‡½æ•°å´ä¸å…·å¤‡è¿™ç§ç¨³å®šçš„ç‰¹æ€§ï¼Œå› ä¸ºå‡½æ•°çš„æ‰§è¡Œä¸ä»…ä¾èµ–äºè¾“å…¥å€¼ï¼Œè€Œä¸”ä¼šå—åˆ°å…¨å±€å˜é‡ï¼Œè¾“å…¥æ–‡ä»¶ï¼Œç±»çš„æˆå‘˜å˜é‡ç­‰è¯¸å¤šå› ç´ çš„å½±å“
+      å‡½æ•°çš„è¿”å›å€¼åªä¾èµ–äºå…¶è¾“å…¥å€¼ï¼Œè¿™ç§ç‰¹æ€§å°±ç§°ä¸ºå¼•ç”¨é€æ˜æ€§ï¼ˆreferential transparencyï¼‰
+    b.é«˜é˜¶å‡½æ•°
+      å‚æ•°æˆ–è€…è¿”å›å€¼æ˜¯å…¶å®ƒå‡½æ•°çš„å‡½æ•°å«åšé«˜é˜¶å‡½æ•°
+20190419
+1.C#æ‰©å±•æ–¹æ³• ç±»å‹å‚æ•°å¯ä»¥æ˜¯åŸºç±»å‹ æ¥å£ æˆ–è€…æ³›å‹
+2.git pullä¸‹æ¥çš„ +-å’Œå·¦è¾¹çš„æ•°å­—åˆ†åˆ«ä»£è¡¨ä»€ä¹ˆæ„æ€ https://segmentfault.com/q/1010000016341640/a-1020000016362929
+  ä»£è¡¨å¢åŠ ï¼Œ-ä»£è¡¨åˆ é™¤, + - å‰é¢çš„æ•°å­—æ˜¯æ€»å…±å˜æ›´çš„è¡Œæ•°. ä½†ä¸€ä¸ª+æˆ–è€…-ä»£è¡¨å‡ è¡Œæ˜¯ä¸å›ºå®šçš„. git ä¼šåŸºäºå½“å‰çš„å¯ç”¨æ˜¾ç¤ºèŒƒå›´æ¥è®¡ç®—å‡ºå…·ä½“çš„ç¬¦å·ä¸ªæ•°, ä»–ä¸èƒ½ä¿è¯æ¯ä¸ªç¬¦å·ä»£è¡¨çš„æ•°é‡å›ºå®š, ä½†å´å¯ä»¥ä¿è¯+-ç¬¦å·çš„æ¯”ä¾‹æ­£ç¡®.
+  æ¯”å¦‚ 4 +- è¯´æ˜æ€»å…±å˜æ›´äº†4è¡Œ, ä¸€ä¸ªä¸¤ä¸ªç¬¦å·, +å 50%, -å 50%. æ‰€ä»¥å¯ä»¥å¾—çŸ¥å¢åŠ äº†2è¡Œ,åˆ é™¤äº†2è¡Œ.
+  åŒç† 25 ++++- +å·å äº†80%, æ€»å…±å¢åŠ  25 * 0.8 = 20 è¡Œ, ï¼å·å 20%, æ€»å…±åˆ é™¤äº† 25 * 0.2 = 5 è¡Œ.
+3.C# å‡½æ•°å¼ç¼–ç¨‹ => .net 4.0 vs2010 å¥‘çº¦ => PureAttribute (çº¯å‡½æ•°ï¼Œå‰¯ä½œç”¨ï¼Œå¼•ç”¨é€æ˜)
+4.sqlserverè°ƒç”¨C#.dll https://blog.51cto.com/ultrasql/1593982
+20190421
+1.sql server profile ä½¿ç”¨ç»†èŠ‚
+  https://blog.csdn.net/jdoouddm7i/article/details/62037938
+  SQL Server Profiler->åˆ—ç­›é€‰[DataBaseName DataBaseID]
+2.Sql serverç»Ÿè®¡æŸ¥è¯¢è¯­å¥æ¶ˆè€—æ—¶é—´ 
+    https://www.cnblogs.com/wangfuyou/p/5670889.html
+    set statistics time on
+    go
+     xxxx
+    go
+    set statistics time off
+3.å·¥ä½œè®°å½•
+    a.SELECT * FROM [dbo].[v_agent_ances_simple]  --where AgentID = AgentAncesID = 30114
+    b.SELECT t1.id, t1.tree_path, t2.id, t2.tree_path
+      FROM [dbo].[pas_agent] t1 INNER JOIN [dbo].[pas_agent] t2 ON t2.tree_path like t1.tree_path + '%'
+     --WHERE t1.deleted = 0 AND t2.deleted = 0 AND t1.id = 30114
+    ä¸Šè¿°ä¸¤ä¸ªæŸ¥è¯¢ä½œç”¨å·®ä¸å¤šï¼Œä¸€ä¸ªç”¨äº†like ä¸€ä¸ªæ²¡ç”¨like åœ¨æ²¡æœ‰whereçš„æ—¶å€™ açš„æ•ˆç‡è¿œé«˜äºb åŠ äº†whereä¹‹åbçš„é«˜äºa 
+    aæ‰ç”¨äº†å­—ç¬¦ä¸²æ‹†åˆ†å‡½æ•°è€Œbæ‰ç”¨çš„lik%æ–¹æ³•åˆ¤æ–­å­—ç¬¦ä¸²ï¼Œä¸»è§‚ä¸Šæ¯”è¾ƒæ’æ–¥bæ²¡æƒ³åˆ°æœ€ç»ˆbå´æˆäº†æ•ˆç‡é«˜çš„ä¸€ç§ï¼Œæ•°æ®åº“è¿˜æ˜¯è¦å…·ä½“é—®é¢˜å…·ä½“åˆ†æä¸‡äº‹ä¸ç»å¯¹
+20190422
+1.é€’å½’åˆ é™¤æŸç§æ–‡ä»¶ del /?
+     names         æŒ‡å®šä¸€ä¸ªæˆ–å¤šä¸ªæ–‡ä»¶æˆ–è€…ç›®å½•åˆ—è¡¨ã€‚
+                   é€šé…ç¬¦å¯ç”¨æ¥åˆ é™¤å¤šä¸ªæ–‡ä»¶ã€‚
+                   å¦‚æœæŒ‡å®šäº†ä¸€ä¸ªç›®å½•ï¼Œè¯¥ç›®å½•ä¸­çš„æ‰€
+                   æœ‰æ–‡ä»¶éƒ½ä¼šè¢«åˆ é™¤ã€‚
 
-                static Action GetAction()
-                {
-                    int i = 0;
-                    return () =>
-                    {
-                        i++;
-                        Console.WriteLine(string.Format("i = {0}", i.ToString()));
-                    };
-                }
-            }
+     /P            åˆ é™¤æ¯ä¸€ä¸ªæ–‡ä»¶ä¹‹å‰æç¤ºç¡®è®¤ã€‚
+     /F            å¼ºåˆ¶åˆ é™¤åªè¯»æ–‡ä»¶ã€‚
+     /S            åˆ é™¤æ‰€æœ‰å­ç›®å½•ä¸­çš„æŒ‡å®šçš„æ–‡ä»¶ã€‚
+     /Q            å®‰é™æ¨¡å¼ã€‚åˆ é™¤å…¨å±€é€šé…ç¬¦æ—¶ï¼Œä¸è¦æ±‚ç¡®è®¤
+     /A            æ ¹æ®å±æ€§é€‰æ‹©è¦åˆ é™¤çš„æ–‡ä»¶
+20190423
+1.druid 
+    æ‰§è¡Œæ—¶é—´åˆ†å¸ƒ[ - - - - - - - - ] åˆ†åˆ«ä»£è¡¨8ä¸ªè€—æ—¶åŒºé—´çš„æ¬¡æ•° 
+    1æ¯«ç§’æ¬¡æ•°ã€1-10æ¯«ç§’æ¬¡æ•°ã€10-100æ¯«ç§’æ¬¡æ•°ã€100-1000æ¯«ç§’æ¬¡æ•°ã€1-10ç§’æ¬¡æ•°ã€10-100ç§’æ¬¡æ•°ã€100-1000ç§’æ¬¡æ•°ã€å¤§äº1000ç§’æ¬¡æ•°
+20190425
+1.sqlæŸ¥è¯¢ä¼˜åŒ–
+    https://www.cnblogs.com/firstdream/p/5446946.html
+    https://www.cnblogs.com/huangxincheng/p/4217551.html
+20190426
+1.sql exsits
+    https://www.cnblogs.com/xuanhai/p/5810918.html
+    EXISTSç”¨äºæ£€æŸ¥å­æŸ¥è¯¢æ˜¯å¦è‡³å°‘ä¼šè¿”å›ä¸€è¡Œæ•°æ®ï¼Œè¯¥å­æŸ¥è¯¢å®é™…ä¸Šå¹¶ä¸è¿”å›ä»»ä½•æ•°æ®ï¼Œè€Œæ˜¯è¿”å›å€¼Trueæˆ–False
+    EXISTS æŒ‡å®šä¸€ä¸ªå­æŸ¥è¯¢ï¼Œæ£€æµ‹ è¡Œ çš„å­˜åœ¨ã€‚
+2.any some all å…³é”®å­—
+  https://bbs.csdn.net/topics/370223425
+  =anyï¼ˆsubqueryï¼‰ <=> in (subquery)
+  https://wenku.baidu.com/view/1fad410a79563c1ec5da7112.html
+3.exsits in join æ•ˆç‡æ¯”è¾ƒ ä¸€èˆ¬exsitsæ¯”è¾ƒé«˜
+4.asp.net webpage => æ–°å»ºç½‘ç«™ Asp.Net ç½‘ç«™(Razor v2/3)
+   wpå¸ƒå±€ Content Blocksï¼ˆå†…å®¹å—ï¼‰@RenderPage()
+          Layout Pageï¼ˆå¸ƒå±€é¡µï¼‰@RenderBody()
+   wpé˜²æ­¢æ–‡ä»¶è¢«æµè§ˆ åœ¨ ASP.NET ä¸­ï¼Œæ–‡ä»¶çš„åç§°ä»¥ä¸‹åˆ’çº¿å¼€å¤´ï¼Œå¯ä»¥é˜²æ­¢è¿™äº›æ–‡ä»¶åœ¨ç½‘ä¸Šè¢«æµè§ˆã€‚
+                    å¦‚æœæ‚¨ä¸æƒ³è®©æ‚¨çš„å†…å®¹å—æˆ–è€…å¸ƒå±€é¡µè¢«æ‚¨çš„ç”¨æˆ·çœ‹åˆ°ï¼Œå¯ä»¥é‡å‘½åè¿™äº›æ–‡ä»¶ï¼š
+                    _header.cshtm
+                    _footer.cshtml
+                    _Layout.cshtml
+                    éšè—æ•æ„Ÿä¿¡æ¯ï¼ˆæ•°æ®åº“å¯†ç ã€ç”µå­é‚®ä»¶å¯†ç ç­‰ç­‰ï¼‰æœ€é€šç”¨çš„æ–¹æ³•æ˜¯å°†è¿™äº›ä¿¡æ¯ä¿å­˜åœ¨ä¸€ä¸ªåä¸º"_AppStart"çš„å•ç‹¬çš„æ–‡ä»¶ä¸­
+   å…¨å±€ _AppStart _PageStart
+   è¡¨å• IsPost Request["input-name"]
+   Pageå¯¹è±¡
+   æ–‡ä»¶ 
+        Persons.txt
+            George,Lucas
+            Steven,Spielberg
+            Alfred,Hitchcock
+        ----------------------------------------------------------
+        @{
+            var dataFile = Server.MapPath("~/App_Data/Persons.txt");
+            Array userData = File.ReadAllLines(dataFile);
         }
-        Î¯ÍĞ±äÁ¿actÊÇ²»ÊÇºÍ±Õ°üºÜÏñ?!ÆäÊµC#Õë¶Ôlambda±í´ïÊ½Éú³ÉÁËÒ»¸öÄäÃûÀà²¢¸ù¾İ¶ÔÓ¦µÄÍâ²¿±äÁ¿À´Éú³ÉÏàÓ¦µÄË½ÓĞ×Ö¶Î,È»ºóÓĞÒ»¸ö¹¹Ôìº¯ÊıÀ´´«µİÍâ²¿±äÁ¿³õÊ¼Öµ¸øÏàÓ¦µÄ×Ö¶Î.ÒÔºóÃ¿´Îµ÷ÓÃlambda·½·¨,Ïàµ±ÓÚÖ±½Ó·ÃÎÊË½ÓĞ×Ö¶Î
-    3.SQL Server Profile ÊÇ SQL TraceÍ¼ĞÎ»¯¹¤¾ß
-        SQL Trace 
-                  select * from sys.configurations where configuration_id = 1568 => ÅäÖÃ
-                  select * from sys.traces => ¸ú×ÙÎÄ¼ş
-                  --¿ªÆôDefault Trace
-                  sp_configure 'show advanced options' , 1 ;
-                  GO
-                  RECONFIGURE;
-                  GO
-                  sp_configure 'default trace enabled' , 1 ;
-                  GO
-                  RECONFIGURE;
-                  GO
-
-                  --²âÊÔÊÇ·ñ¿ªÆô
-                  EXEC sp_configure 'default trace enabled';
-                  GO
-
-                  --¹Ø±ÕDefault Trace
-                  sp_configure 'default trace enabled' , 0 ;
-                  GO
-                  RECONFIGURE;
-                  GO
-                  sp_configure 'show advanced options' , 0 ;
-                  GO
-                  RECONFIGURE;
-                  GO
-        https://www.cnblogs.com/zhijianliutang/p/4113911.html
-    4.sqlserver cpuÕ¼ÓÃÂÊ¸ß
-        ¸÷ÖÖCPUºÍSQLSERVER°æ±¾×éºÏ×Ô¶¯ÅäÖÃµÄ×î´ó¹¤×÷Ïß³ÌÊı
-            CPUÊı                 32Î»¼ÆËã»ú                        64Î»¼ÆËã»ú
-            <=4                     256                                   512
-              8                     288                                   576
-             16                     352                                   704
-             32                     480                                   960
-             
-        ²éÑ¯CPUÕ¼ÓÃ¸ßµÄSQLÓï¾ä
-        SELECT TOP 100
-           total_worker_time/execution_count AS avg_cpu_cost, plan_handle,
-           execution_count,
-           (SELECT SUBSTRING(text, statement_start_offset/2 + 1,
-              (CASE WHEN statement_end_offset = -1
-                 THEN LEN(CONVERT(nvarchar(max), text)) * 2
-                 ELSE statement_end_offset
-              END - statement_start_offset)/2)
-           FROM sys.dm_exec_sql_text(sql_handle)) AS query_text
-        FROM sys.dm_exec_query_stats
-        ORDER BY [avg_cpu_cost] DESC
-        ²éÑ¯È±Ê§Ë÷Òı
-        SELECT DatabaseName = DB_NAME(database_id)
-                ,[Number Indexes Missing] = count(*) 
-        FROM sys.dm_db_missing_index_details
-        GROUP BY DB_NAME(database_id)
-        ORDER BY 2 DESC;
-        
-        SELECT  TOP 10 
-        [Total Cost]  = ROUND(avg_total_user_cost * avg_user_impact * (user_seeks + user_scans),0) 
-                , avg_user_impact
-                , TableName = statement
-                , [EqualityUsage] = equality_columns 
-                , [InequalityUsage] = inequality_columns
-                , [Include Cloumns] = included_columns
-        FROM        sys.dm_db_missing_index_groups g 
-        INNER JOIN    sys.dm_db_missing_index_group_stats s 
-               ON s.group_handle = g.index_group_handle 
-        INNER JOIN    sys.dm_db_missing_index_details d 
-               ON d.index_handle = g.index_handle
-        ORDER BY [Total Cost] DESC;
-        
-        ×Ü½á
-        ´Ó¶à´ÎÀúÊ·¾­ÑéÀ´¿´£¬Èç¹ûCPU¸ºÔØ³ÖĞøºÜ¸ß£¬µ«ÄÚ´æºÍIO¶¼»¹ºÃµÄ»°£¬ÕâÖÖÇé¿öÏÂ£¬Ê×ÏÈÏëµ½µÄÒ»¶¨ÊÇË÷ÒıÎÊÌâ£¬Ê®ÓĞ°Ë¾Å´í²»ÁË¡£
-        https://www.cnblogs.com/lyhabc/archive/2013/06/12/3133273.html
-                
-        SELECT TOP 10 execution_count as [Number Of Executions],
-        total_worker_time/execution_count as [Average CPU Time],
-        total_elapsed_time/execution_count as [Average Elapsed Time],
-        (
-        SELECT SUBSTRING(text,statement_start_offset/2,
-        (CASE WHEN statement_end_offset = -1
-         THEN LEN(CONVERT(nvarchar(max),text)) *2
-         ELSE statement_end_offset END - statement_start_offset) /2)
-        FROM sys.dm_exec_sql_text(sql_handle)
-        ) as query_text
-        FROM sys.dm_exec_query_stats
-        ORDER BY [Average CPU Time] DESC;
-        
-        sql server»ùÓÚlikeµÄÄ£ºı²éÑ¯ºÜÌØ±ğ£¬ÏñÉÏÊöÄÇÖÖlike'%%'£¬Ç°ºó¶¼ÓĞÍ¨Åä·ûµÄÇé¿ö£¬²»¹Ü¸Ã×Ö¶ÎÓĞÃ»ÓĞË÷Òı£¬×ßµÄ¶¼ÊÇtable scan»òclustered index scan£¬Ğ§ÂÊ·Ç³£µÍ£¨¸ÃÉú²ú»·¾³±íÊı¾İÁ¿ÔÚ1000WĞĞ×óÓÒ£¬È«±íÉ¨ÃèĞÔÄÜÏûºÄºÜ´ó£©£¡Èç¹ûÊÇÖ»ÊÇºóÃæÍ¨Åä·ûÈç like 'abc%',ÇÒÓĞºÏÊÊË÷ÒıÊÇ¿ÉÒÔ×ßindex seekµÄ£¨Êµ¼ÊÉú²ú»·¾³»á¸ü¸´ÔÓ£¬ÓĞ»ùÓÚcostµÄËã·¨ÓĞÊ±Ò²»á×öÈ«±íÉ¨Ãè£©¡£½â¾ö°ì·¨Ö»ÄÜ´ÓÁ½¸ö·½ÃæÈëÊÖ£º1.´´½¨ºÏÊÊµÄË÷Òı£¬¸ü¸ÄÄ£ºı²éÑ¯Æ¥ÅäÎªºóÆ¥Åä£¨¾­²âÊÔcpuÊ±¼ä»á½µµÍ10-20±¶£©£»2.´´½¨È«ÎÄË÷Òı£¬È«ÎÄË÷ÒıÀàËÆÓÚËÑË÷ÒıÇæ¹¦ÄÜ£¬Ëü²»Í¬ÓÚ»ùÓÚB+Ê÷»òhashË÷ÒıµÄÆÕÍ¨Ë÷Òı£¬ĞÔÄÜÉÏÓÅÓÚÄ£ºı²éÑ¯
-        http://blog.sina.com.cn/s/blog_14bd4da2e0102wlii.html
-    5.clr vir C# Primitive Thread Synchronization Constructs
-        ÓÃ»§Ä£Ê½¹¹ÔìUser-Mode-Construct
-            volatile vs interlocked
-                ×Ö½Ú¶ÔÆë([StructLayout(LayoutKind.Explicit)][FieldOffset]) => DataMisalignedException
-                torn read
-            volatile mode:
-                VolatileWrite
-                VolatileRead
-                µ±Ïß³ÌÍ¨¹ıÄÚ´æ¹²ÏíÀ´Í¨ĞÅÊ±,ÓÃVolatileWriteÀ´Ğ´×îºóÒ»¸öÖµ,ÓÃVolatileReadÀ´¶ÁÈ¡µÚÒ»¸öÖµ
-                internal sealed class ThreadsSharingData {
-                    private Int32 m_flag = 0;
-                    private Int32 m_value = 0;
-                    // This method is executed by one thread
-                    public void Thread1() {
-                        // Note: 5 must be written to m_value before 1 is written to m_flag
-                        m_value = 5;
-                        Thread.VolatileWrite(ref m_flag, 1);
-                    }
-                    // This method is executed by another thread
-                    public void Thread2() {
-                        // Note: m_value must be read after m_flag is read
-                        if (Thread.VolatileRead(ref m_flag) == 1)
-                        Console.WriteLine(m_value);
-                    }
-                }
-20180309
-    1.clr vir C# Primitive Thread Synchronization Constructs
-        ¼òµ¥ÊµÏÖ×ÔĞıËø=>Ïß³Ì²¢·Ç±»¹ÒÆğ¶şÊÇÔÚ×ÔĞıµÈ´ıĞèÒªÏûºÄCPU,ÊÊºÏÖ´ĞĞ½Ï¿ìµÄÈÎÎñ²¢ÇÒ²»ÒªÔÚµ¥cpuÉÏÊ¹ÓÃ
-        struct SimpleSpinLock
-        {
-            private Int32 m_flag = 0;
-            
-            public void Enter()
-            {
-                while(Interlocked.Exchange(ref m_flag,1) != 0)
-                {
-                    ;//Black magic => System.Threading.SpinWait
-                }
-            }
-            
-            public void Leave()
-            {
-                Thread.VolatileWrite(ref m_flag,0);
-            }
-        }
-        Thread.Sleep() => ±íÊ¾¸ÃÏß³ÌÔÚ¶à³¤Ê±¼äÄÚ²»Ïë±»µ÷¶È
-        Thread.Yield() => ±íÊ¾¸ÃÏë³ÉÒªÇóÏµÍ³µ÷¶ÈÁíÒ»Ïß³Ìtrue false
-        µ÷ÓÃYieldµÄĞ§¹û½éÓÚSleep(0)ºÍSleep(1)Ö®¼ä Sleep(0)²»ÔÊĞí½ÏµÍÓÅÏÈ¼¶µÄÏß³ÌÔËĞĞ Sleep(1)Ç¿ÆÈÇĞ»»Ò»´ÎÉÏÏÂÎÄ(ÓÉÓÚÏµÍ³ÄÚ²¿¼ÆÊ±½âÎö¶ÈµÄÎÊÌâÕâ¸öÊ±¼ä×ÜÊÇ³¬¹ı1ms)
-        Thread.SpinWait() => ×ÔĞıµÈ´ı¾«¶È¸ßµ«ÊÇÕ¼ÓÃcpu
-20180309-20180310
-    1.ºÚÂíJSÑ§Ï° bom=>js¸ß¼¶=>jq
-        ÎåĞÇÆÀ·Ö
-        º¯Êıµ÷ÓÃ:
-            È«¾Öº¯Êı Ò»°ã
-            ³ÉÔ±·½·¨ thatÄ£Ê½(É³Ïä ±Õ°ü²»°ó¶¨ÈÎºÎ¶ÔÏó)
-            ¹¹Ôìº¯Êı new (Èô·µ»ØÖµ²»ÊÇ¶ÔÏó Ö±½Ó·Å»Øthis ·ñÔòÊÇ·µ»ØÖµÄÇ¸ö¶ÔÏó)
-            ÉÏÏÂÎÄµ÷ÓÃ apply call
-    2.Windows¶¯Ì¬±àÒëºÍ¾²Ì¬±àÒë http://blog.csdn.net/zhangxiao93/article/details/51367216
-        dllºÍlib¼ò½é
-        ÔÚWindowsÏÂºÜºÃÀí½âÕâĞ©¸ÅÄî£¬ÒòÎªµ±ÄãĞèÒªÒıÈëÒ»¸ö¶¯Ì¬¿â£¨dll£©»òÕßÒ»¸ö¾²Ì¬¿â£¨lib£©Ê±Ò»°ãµÄ²½ÖèÊÇ£º
-        Ìí¼ÓÍ·ÎÄ¼ş 
-        ÅäÖÃÍ·ÎÄ¼şÄ¿Â¼ 
-        ÅäÖÃ¿âµÄÄ¿Â¼ 
-        ½«dll¿½±´µ½¿ÉÖ´ĞĞÎÄ¼şËùÔÚµÄÄ¿Â¼£¨½öÏŞÓÚ¶¯Ì¬¿â£©
-        Òò´Ë£¬¾ÍºÜºÃÀí½â.hÎÄ¼ş¡¢.dllÎÄ¼şºÍ.libÎÄ¼şµÄ¹ØÏµ£º
-        .hÎÄ¼şÊÇ±àÒëÊ±ĞèÒªµÄ£¬ÒòÎªÀïÃæÓĞº¯Êı»ò±äÁ¿ÉùÃ÷¡£ 
-        .dllÎÄ¼şÊÇÉú³ÉµÄ¶¯Ì¬¿â£¬ÊÇÔÚ³ÌĞòÔËĞĞÊ±¶¯Ì¬¼ÓÔØµÄ¡£ 
-        ¶ø.libÎÄ¼ş¾ÍÓĞ»°ËµÁË£¬Ê×ÏÈ£¬¶ÔÓÚÒ»¸ö¾²Ì¬¿âÀ´Ëµ£¬ÆäÊÇÒÔxxx.libµÄĞÎÊ½.
-        ¶ø¶ÔÓÚÒ»¸ö¶¯Ì¬¿âÀ´Ëµ£¬µ±IDE°ïÎÒÃÇÉú³ÉÁË.dllÎÄ¼şÊ±£¬»¹»áÍ¬Ê±Éú³ÉÒ»¸öxxx.libÎÄ¼ş£¬ÕâÀïµÄ.lib²»ÊÇ¾²Ì¬¿â£¬¶øÊÇ¶¯Ì¬Á´½Ó¿âµÄµ¼Èë¿â£¨Import Libary£©
-    3.Visual Studio Ô¤±àÒëÍ·
-        ÔÚWindows³ÌĞò¿ª·¢Ê±£¬¾­³£ÒªÔÚ¸÷¸öÎÄ¼şÖĞ°üº¬windows.h¡¢afx.hµÈ±ê×¼Í·ÎÄ¼ş£¬¶øÕâĞ©ÎÄ¼ş·Ç³£µÄ´ó£¬ÔÚ±àÒëÊ±¾Í·Ç³£µÄÂı£¬·Ç³£ºÄÊ±¡£Îª½â¾öÕâ¸öÎÊÌâ£¬ÒÑÊÇ¾ÍÓĞÁËÔ¤±àÒëÍ·ÎÄ¼şµÄ¼¼Êõ¡£
-        ËùÎ½Í·ÎÄ¼şÔ¤±àÒë¼¼Êõ£¬¾ÍÊÇ°ÑÒ»¸ö¹¤³Ì(Project)ÖĞ³£ÓÃµÄÒ»Ğ©Í·ÎÄ¼ş(Èç±ê×¼Í·ÎÄ¼şWindows.h¡¢Afxwin.hµÈ£¬Ò²¿ÉÒÔÊÇ×Ô¼º¶¨ÒåµÄÍ·ÎÄ¼ş)°üº¬ÔÚstdafx.hÖĞ£¬²¢¶Ôstdafx.hÔ¤ÏÈ±àÒë(ÔÚËùÓĞµÄ.cppÎÄ¼ş±àÒëÖ®Ç°½øĞĞ±àÒë)£¬µÃµ½±àÒë½á¹û.pchÎÄ¼ş(Ä¬ÈÏÃû³ÆÎªProjectName.pch)£¬ºóÆÚ¸Ã¹¤³ÌÔÚ±àÒëÆäËü.cppÎÄ¼şÊ±²»ÔÙ±àÒëstdafx.hÖĞµÄÄÚÈİ(¼´Ê¹includeÁËËü)£¬½ö½öÊ¹ÓÃÔ¤±àÒëµÄ½á¹û¡£ 
-        ÆäÖĞstdafx.h½Ğ×öÔ¤±àÒëÍ·ÎÄ¼ş£¬stdafxÃû³ÆµÄÓ¢ÎÄÈ«³ÆÎª£ºStandard Application Framework Extensions£¬µ±È»ÄãÒ²¿ÉÒÔ×Ô¼º¶¨ÒåÔ¤±àÒëÍ·ÎÄ¼şµÄÃû³Æ£¬ÊÖ¶¯ÖØÃüÃûstdafx.h£¬Í¬Ê±½«ÉÏÃæÍ¼2ºÍÍ¼3ÖĞ¶ÔÓ¦µÄÃû³ÆÒ²µÃ¸Ä¹ıÀ´¡£ProjectName.pch½Ğ×öÔ¤±àÒëÍ·¡£
-        ²ÉÓÃÔ¤±àÒëÍ·¼¼Êõºó£¬¿ÉÒÔ¼Ó¿ì±àÒëËÙ¶È£¬½ÚÊ¡±àÒëÊ±¼ä¡£ÒòÎªÖ»ĞèÒªÔ¤ÏÈ±àÒëÒ»´Î¾Í¿ÉÒÔÔÚËùÓĞµÄ.cpp±àÒëÊ±Ê¹ÓÃ£¬²»ÓÃÔÙ´Î±àÒë¡£ÕâÑù´øÀ´µÄÒ»¸öÎÊÌâ¾ÍÊÇÃ¿Ò»¸ö.cppÎÄ¼şµÄ¿ªÍ·¶¼Òª°üº¬Ô¤±àÒëÍ·ÎÄ¼ş#include ¡°stdafx.h¡±¡£ÒòÎªÔ¤±àÒëÍ·¼¼ÊõÊÇ¼Ù¶¨Ô¤±àÒëÍ·ÖĞµÄÄÚÈİ»áÔÚËùÓĞ.cppÎÄ¼şÖĞÊ¹ÓÃ£¬ÔÚ±àÒëÄãµÄ .cpp µÄÊ±ºò£¬¾Í»á½«Ô¤±àÒëÍ·ÖĞÒÑ¾­±àÒëÍêµÄ²¿·Ö¼ÓÔØµ½ÄÚ´æÖĞ¡£
-        Ê¹ÓÃÔ¤±àÒëÍ·ÎÄ¼şĞèÒª×¢ÒâµÄ¼¸¸öÒªµã£º 
-        1. Äã±àĞ´µÄÈÎºÎ.cppÎÄ¼ş¶¼±ØĞëÊ×ÏÈ°üº¬stdafx.h¡£ 
-        2. Èç¹ûÄãÓĞ¹¤³ÌÎÄ¼şÀïµÄ´ó¶àÊı.cppÎÄ¼şĞèÒªµÄ.hÎÄ¼ş£¬Ë³±ã½«ËüÃÇ¼ÓÔÚstdafx.h(ºó²¿)ÉÏ£¬È»ºóÔ¤±àÒëstdafx.cpp¡£ 
-        3. ÓÉÓÚ.pchÎÄ¼ş¾ßÓĞ´óÁ¿µÄ·ûºÅĞÅÏ¢£¬ËüÊÇÄãµÄ¹¤³ÌÎÄ¼şÀï×î´óµÄÎÄ¼ş
-    4.clr vir C# Primitive Thread Synchronization Constructs ½áÊø
-        Event¹¹Ôì (AutoResetEvent)
-            AutoResetEvent¹¹Ôì Ò»´ÎÒ»¸ö
-                class SimpleWaitLock
-                {
-                    private AutoResetEvent m_event = new  AutoResetEvent(true);
-                    
-                    public void Enter()
-                    {
-                        m_event.WaitOne();
-                    }
-                    
-                    public void Leave()
-                    {
-                        m_event.Set();
-                    }
-                    
-                    public void Dispose()
-                    {
-                        m_event.Dispose();
-                    }
-                }
-            ManualResetEvent¹¹Ôì Ò»´ÎËùÓĞ
-        Semaphore¹¹Ôì Ò»´ÎN¸ö
-        mutex¹¹Ôì¸ü¸´ÔÓ Òì³£ ÀÛ»ı¼ÆÊı(µİ¹éËø)
-        Ïß³ÌÍ¬²½ÄÜ±ÜÃâ¾¡Á¿±ÜÃâ=>ÓÃ»§Ä£Ê½¹¹Ôì=>ÄÚºËÄ£Ê½¹¹Ôì
-        ÔÚÒ»¸öÄÚºË¶ÔÏó¿ÉÓÃÊ±µ÷ÓÃÒ»¸ö·½·¨System.Threading.ThreadPool.RegisterWaitForSingleObject
-20180314
-    1.ºÚÂíJS¸ß¼¶
-        ¼Ì³Ğ
-        Ô­ĞÍ¶ÔÏó
-        Ô­ĞÍÁ´
-20180318
-    1.ºÚÂíJS  
-        JQuery»ù´¡
-    2.JS¼Ì³Ğ
-    3.ÁÎÑ©·åjavascript 
-        ´Ó ¸ß½×º¯Êı µ½ generator ¶¼ÔÚ½²º¯ÊıÊ½±à³ÌµÄË¼Ïë£¬º¯ÊıºÍÊı¾İµÄ½çÏŞ±äµÃÄ£ºı£¬¶¼¿ÉÒÔ±»µ±×ö¶ÔÏóÀ´²Ù×÷ºÍ´«µİ£¬ÏëÒª¸üÉîÈëµÄÁË½âº¯ÊıÊ½±à³Ì¿ÉÒÔÔÄ¶ÁÏÂ¾­µäÊé¼® SICP¡£
-        µ±È»»¹ÓĞÒ»Æª ²©¿Í£¬·­ÒëÁË¹úÍâÒ»Î»´óÉñ¶ÔlambdaÑİËã£¬Ò²¾ÍÊÇÇğÆæÊıµÄ½²½â£¬ÈÃÃ»ÓĞ½Ó´¥¹ı·ºº¯¸ÅÄîµÄÈËÒ²ÄÜÈİÒ×Àí½âÇğÆæÊıÊÇÊ²Ã´£¬Ò²¾ÍÈİÒ×Àí½â ÄÔ¶´´ó¿ª Ò»½ÚÔÚËµµÄÊÇÊ²Ã´¡£
-        µ±È»ÁËÕâĞ©ÖªÊ¶¿ÉÒÔµ±×öÀ©Õ¹ĞÔÔÄ¶Á£¬¹¤×÷ÖĞÎÒÃÇ»ù±¾ÉÏÓÃ²»µ½Èç´Ë³éÏóµÄ±à³Ì·½Ê½µÄ¡£
-         http://blog.csdn.net/g9yuayon/article/details/748684
-         https://mitpress.mit.edu/sicp/
-        ÄÔ¶´´ó¿ª
-            ºÜ¾ÃºÜ¾ÃÒÔÇ°£¬ÓĞ¸ö½Ğ°¢Â¡×ô¡¤ÇñÆæµÄË§¸ç£¬·¢ÏÖÖ»ĞèÒªÓÃº¯Êı£¬¾Í¿ÉÒÔÓÃ¼ÆËã»úÊµÏÖÔËËã£¬¶ø²»ĞèÒª0¡¢1¡¢2¡¢3ÕâĞ©Êı×ÖºÍ+¡¢-¡¢*¡¢/ÕâĞ©·ûºÅ
-        ¼ıÍ·º¯Êı => this. ´Ê·¨×÷ÓÃÓò (thatÄ£Ê½)
-    4.how to share data between stored procedures
-        http://www.sommarskog.se/share_data.html
-20180320
-    1.ºÚÂíJS
-        JQuery»ù±¾ÓÃ·¨
-20180321
-    1.80¶Ë¿Ú±»System½ø³ÌÕ¼ÓÃ pid=4
-        netstat -ano
-        netsh http show servicestate
-20180322
-    1.JSÃæÏò¶ÔÏó±à³Ì
-        __proto__ vs prototype => https://www.zhihu.com/question/34183746
-                                  https://www.zhihu.com/question/56770432/answer/315342130
-        ¶ÔÏó¾ßÓĞÊôĞÔ__proto__£¬¿É³ÆÎªÒşÊ½Ô­ĞÍ£¬Ò»¸ö¶ÔÏóµÄÒşÊ½Ô­ĞÍÖ¸Ïò¹¹Ôì¸Ã¶ÔÏóµÄ¹¹Ôìº¯ÊıµÄÔ­ĞÍ
-        
-        1).¶ÔÏóÓĞÊôĞÔ__proto__,Ö¸Ïò¸Ã¶ÔÏóµÄ¹¹Ôìº¯ÊıµÄÔ­ĞÍ¶ÔÏó¡£
-        2).·½·¨³ıÁËÓĞÊôĞÔ__proto__,»¹ÓĞÊôĞÔprototype£¬prototypeÖ¸Ïò¸Ã·½·¨µÄÔ­ĞÍ¶ÔÏó¡£
-        3).Object.prototypeµÄ__proto__ÊôĞÔÖ¸Ïònull
-        example: 
-            <script>
-                var Student = {
-                    name: 'Robot',
-                    height: 1.2,
-                    run: function () {
-                        console.log(this.name + ' is running...');
-                    }
-                };
-
-                var xiaoming = {
-                    name: 'Ğ¡Ã÷'
-                };
-
-                xiaoming.__proto__ = Student;
-                alert(xiaoming.__proto__ === Student);//true
-                alert(Student.__proto__ === Object);//false
-                alert(Student.__proto__ === Object.prototype);//true
-            </script>
-        4)¹¹Ôìº¯Êı¼Ì³Ğ ¹¹Ôìº¯Êı°ó¶¨ prototypeÄ£Ê½ Ö±½Ó¼Ì³Ğprototype  ÀûÓÃ¿Õ¶ÔÏóÖĞ½é ¿½±´¼Ì³Ğ
-        5)·Ç¹¹Ôìº¯Êı¼Ì³Ğ object·½·¨ Ç³¿½±´ Éî¿½±´
-        6)¼Ì³ĞË¼Ïë http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html
-    2.SQLServerÊı¾İ¿â»¹Ô­Ê±²úÉú¹ÂÁ¢ÓÃ»§µÄ½â¾ö·½·¨ 
-        http://blog.csdn.net/aking8736/article/details/38782713
-        http://blog.csdn.net/rivarola/article/details/41724851
-20180323-20180324
-    1.JS¼Ì³ĞÉè¼ÆË¼Ïë http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html
-    2.JS Ô­ĞÍÁ´ this new
-    3.sql server error : ÊÂÎñ(½ø³Ì ID X)ÓëÁíÒ»¸ö½ø³Ì±»ËÀËøÔÚ Ëø | Í¨ĞÅ»º³åÇø ×ÊÔ´ÉÏ
-     => ËÀËø 
-     => sql serverÖĞµÄËø
-        https://www.cnblogs.com/sthinker/p/5922967.html
-        https://www.cnblogs.com/zoro-zero/p/6140280.html
-     => ·ÖÎö²éÑ¯
-        SET STATISTICS PROFILE ON 
-        SET STATISTICS IO ON  
-        SET STATISTICS TIME ON
-     => ËÀËøÍ¼ sqlserver profile(ÊÂ¼şÌ½²éÆ÷) -> deadlock graph
-     => ÊÂÎñÈÕÖ¾·ÖÎö
-     => Ô­Òò·ÖÎö
-        ËÀËø²úÉúµÄÔ­ÒòÊÇÊéÇ©²éÕÒºÍ¸üĞÂÊı¾İ²úÉúµÄ½©³Ö×´Ì¬¡£
-        ¼òµ¥À´Ëµ,¾ÍÊÇÓÉÓÚUpdateÓï¾ä¶Ô»ù±¾±í²úÉúXËø£¬È»ºóĞèÒª¶Ô±íÉÏµÄË÷ÒıÒ²½øĞĞ¸üĞÂ£¬
-        ¶ø±íÉÏµÄË÷ÒıÕıºÃ±»ÁíÒ»¸öÁ¬½Ó½øĞĞ²éÕÒ£¬¼ÓÁËSËø£¬´ËÊ±ÓÖ²úÉúÊéÇ©²éÕÒÈ¥»ù±¾±í¼ÓÁËXËøµÄÊı¾İ½øĞĞÊéÇ©²éÕÒ£¬´ËÊ±ĞÎ³ÉËÀËø
-     => select with nolock/READPAST
-        https://www.cnblogs.com/cjm123/p/8303200.html
-20180326
-    1.Êı¾İ¿â¿ÉÒÉ:Êı¾İ¿âÒì³£ÖĞ¶Ï
-        µ±Êı¾İ¿â·¢ÉúÕâÖÖ²Ù×÷¹ÊÕÏÊ±£¬¿ÉÒÔ°´ÈçÏÂ²Ù×÷²½Öè¿É½â¾ö´Ë·½·¨£¬´ò¿ªÊı¾İ¿âÀïµÄSql ²éÑ¯±à¼­Æ÷´°¿Ú£¬ÔËĞĞÒÔÏÂµÄÃüÁî¡£
-        ¡¡¡¡1¡¢ĞŞ¸ÄÊı¾İ¿âÎª½ô¼±Ä£Ê½
-        ¡¡¡¡ALTER DATABASE Zhangxing SET EMERGENCY
-        ¡¡¡¡2¡¢Ê¹Êı¾İ¿â±äÎªµ¥ÓÃ»§Ä£Ê½
-        ¡¡¡¡ALTER DATABASE Zhangxing SET SINGLE_USER
-        ¡¡¡¡3¡¢ĞŞ¸´Êı¾İ¿âÈÕÖ¾ÖØĞÂÉú³É£¬´ËÃüÁî¼ì²éµÄ·ÖÅä£¬½á¹¹£¬Âß¼­ÍêÕûĞÔºÍËùÓĞÊı¾İ¿âÖĞµÄ¶ÔÏó´íÎó¡£µ±ÄúÖ¸¶¨¡°REPAIR_ALLOW_DATA_LOSS¡±×÷ÎªDBCC CHECKDBÃüÁî²ÎÊı£¬¸Ã³ÌĞò½«¼ì²éºÍĞŞ¸´±¨¸æµÄ´íÎó¡£µ«ÊÇ£¬ÕâĞ©ĞŞ¸´¿ÉÄÜ»áµ¼ÖÂÒ»Ğ©Êı¾İ¶ªÊ§¡£
-        ¡¡¡¡DBCC CheckDB (Zhangxing, REPAIR_ALLOW_DATA_LOSS)
-        ¡¡¡¡4¡¢Ê¹Êı¾İ¿â±ä»ØÎª¶àÓÃ»§Ä£Ê½
-        ¡¡¡¡ALTER DATABASE Zhangxing SET MULTI_USER
-    ¡¡¡¡Ò²¿ÉÒÔÕâÑù×ö£º
-        ¡¡¡¡1£ºÖØĞÂ½¨Á¢Ò»¸ö£¬Ò»ÑùµÄÊı¾İ¿â£¬Â·¾¶Ãû³Æ£¬ÎÄ¼ş¶¼Ò»Ñù¡£
-        ¡¡¡¡2£º¹ØµôSQL Server·şÎñ;
-        ¡¡¡¡3£º°ÑÔ´ÎÄ¼şCOPY¹ıÀ´;
-        ¡¡¡¡4£º¿ªÆôSQL Server·şÎñ£¬ÕâÑùÎÊÌâÍ¬Ñù¾Í½â¾öÁË¡£
-20180327-20180330
-    1.Ìì²ÆµÚÈıÆÚ»º´æÅÌ¿ÚÊı¾İ
-        memcached »ù±¾Ê¹ÓÃ set get replace
-        tcpclient Á¬½Ómemcached ÀûÓÃnetworkstream¶ÁĞ´Êı¾İ
-        =>memcachedÉîÈë
-        =>C# tcp socket±à³Ì
-    2.·ç¿ØÊ±ĞòĞŞ¸ÄÒı·¢µÄ¶ÔÈÎÎñ¶ÓÁĞµÄÓÅ»¯´¦Àí(²»ÓÃ³£×¤Ïß³Ì)************
-        https://www.cnblogs.com/zw369/p/4021135.html
-        Á÷Ë®Ïß±à³ÌÄ£ĞÍ
-        BlockingCollection vs ConcurrentQueue
-            BlockingCollection has a Take method that would block the consumer if there is nothing to take, 
-            and wait for a producer side to provide an item. 
-            ConcurrentQueue lacks such method - if it is empty, 
-            the consumer would need to handle the wait, 
-            and the producer would need to provide a non-empty notification.
-        ÎÒÃÇĞèÒªÊ²Ã´ÑùµÄÏûÏ¢¶ÓÁĞ https://blog.csdn.net/paolei/article/details/73277439
-        Òì²½ vs ²¢ĞĞhttps://www.cnblogs.com/qixuejia/p/7801581.html
-        =>½áÂÛ         (³£×¤Ïß³Ì¿ÉÒÔÔÚÃ»ÓĞÈÎÎñÊ±×èÈû,Ò²²»Õ¼ÓÃcpu×ÊÔ´,»¹¼õÉÙÁËÆµ·±´´½¨ºÍÏú»Ù¿ªÏúÒÔ¼°²»±ØÒªµÄÏß³ÌÇĞ»» ÓÃblockingcollectionÖØ×öÊ±¼ä¶ÓÁĞ)
-          Ps.(.net 4.0 CQ-Bug http://www.cnblogs.com/gaochundong/p/net4_memory_leak_of_cocurrent_queue.html)
-
-    3. C# singleton ¾²Ì¬¹¹Ôìº¯Êı(Clr via C# 8 chapter:Type Constructor )=>BeforeFieldInit
-        C# ÀïÃæµÄ¾²Ì¬¹¹Ôìº¯Êı£¬Ò²³ÆÎªÀàĞÍ¹¹ÔìÆ÷£¬ÀàĞÍ³õÊ¼»¯Æ÷£¬ËüÊÇË½ÓĞµÄ£¬¾ÍÊÇÔÚÉÏÍ¼ÖĞµÄ.cctor : void()¡£CLR±£Ö¤Ò»¸ö¾²Ì¬¹¹Ôìº¯ÊıÔÚÃ¿¸öAppDomainÖĞÖ»Ö´ĞĞÒ»´Î£¬¶øÇÒÕâÖÖÖ´ĞĞÊÇÏß³Ì°²È«µÄ£¬ËùÒÔÔÚ¾²Ì¬¹¹Ôìº¯ÊıÖĞ·Ç³£ÊÊºÏÓÚµ¥ÀıÄ£Ê½µÄ³õÊ¼»¯
-        ³õÊ¼»¯¾²Ì¬×Ö¶ÎµÈÍ¬ÓÚÔÚ¾²Ì¬¹¹Ôìº¯ÊıÖĞ³õÊ¼»¯£¬µ«²»ÍêÈ«ÏàÍ¬£¬ÒòÎªÏÔÊ½¶¨Òå¾²Ì¬¹¹Ôìº¯Êı»áÒÖÖÆbeforefieldinit±êÖ¾¡£
-        JIT±àÒëÆ÷ÔÚ±àÒëÒ»¸ö·½·¨Ê±£¬»á²é¿´´úÂëÖĞÒıÓÃÁËÄÄĞ©ÀàĞÍ£¬ÈÎºÎÒ»¸öÀàĞÍ¶¨ÒåÁË¾²Ì¬¹¹Ôìº¯Êı£¬JIT±àÒëÆ÷¶¼»á¼ì²éÕë¶Ôµ±Ç°AppDomain£¬ÊÇ·ñÖ´ĞĞÁËÕâ¸ö¾²Ì¬¹¹Ôìº¯Êı¡£Èç¹ûÀàĞÍ¹¹ÔìÈ¥Ã»ÓĞÖ´ĞĞ£¬JIT±àÒëÆ÷¾Í»áÔÚÉú³ÉµÄ±¾µØ´úÂëÖĞÌí¼Ó¶Ô¾²Ì¬¹¹Ôìº¯ÊıµÄÒ»¸öµ÷ÓÃ£¬·ñÔò¾Í²»»áÌí¼Ó£¬ÒòÎªÀàĞÍÒÑ¾­³õÊ¼»¯¡£Í¬Ê±CLR»¹±£Ö¤ÔÚÖ´ĞĞ±¾µØ´úÂëÖĞÉú³ÉµÄ¾²Ì¬¹¹Ôìº¯´úÂëµÄÏß³Ì°²È«¡£
-        ¸ù¾İÉÏÃæµÄÃèÊö£¬ÎÒÃÇÖªµÀJIT ±ØĞë¾ö¶¨ÊÇ·ñÉú³ÉÀàĞÍ¾²Ì¬¹¹Ôìº¯Êı´úÂë£¬»¹Ğë¾ö¶¨ºÎÊ±µ÷ÓÃËü¡£¾ßÌåÔÚºÎÊ±µ÷ÓÃÓĞÁ½ÖĞ·½Ê½£º
-        precise£ºJIT±àÒëÆ÷¿ÉÒÔ¸ÕºÃÔÚ´´½¨ÀàĞÍµÄµÚÒ»¸öÊµÀıÖ®Ç°£¬»ò¸ÕºÃÔÚ·ÃÎÊÀàµÄÒ»¸ö·Ç¼Ì³ĞµÄ×Ö¶Î»ò³ÉÔ±Ö®Ç°Éú²úÕâ¸öµ÷ÓÃ¡£
-        beforefieldinit£ºJIT±àÒëÆ÷¿ÉÒÔÔÚÊ×´Î·ÃÎÊÒ»¸ö¾²Ì¬×Ö¶Î»òÕßÒ»¸ö¾²Ì¬/ÊµÀı·½·¨Ö®Ç°£¬»òÕß´´½¨ÀàĞÍµÄµÚÒ»¸öÊµÀıÖ®Ç°£¬Ëæ±ãÕÒÒ»¸öÊ±¼äÉú³Éµ÷ÓÃ¡£¾ßÌåµ÷ÓÃÊ±»úÓÉCLR¾ö¶¨£¬ËüÖ»±£Ö¤·ÃÎÊ³ÉÔ±Ö®Ç°»áÖ´ĞĞ¾²Ì¬¹¹Ôìº¯Êı£¬µ«¿ÉÄÜ»áÌáÇ°ºÜÔç¾ÍÖ´ĞĞ¡£
-        ¼òµ¥µãËµ¾ÍÊÇbeforefieldinit¿ÉÄÜ»áÌáÇ°µ÷ÓÃÒ»¸öÀàĞÍµÄ¾²Ì¬¹¹Ôìº¯Êı£¬¶øpreciseÄ£Ê½ÊÇ·ÇÒªµÈµ½ÓÃÊ±²Åµ÷ÓÃÀàĞÍµÄ¾²Ì¬¹¹Ôìº¯Êı£¬ËüÊÇÑÏ¸ñµÄÑÓ³Ù×°ÔØ¡£
-        beforefieldinit ÊÇÊ×Ñ¡µÄ£¨Èç¹ûÃ»ÓĞ×Ô¶¨Òå¾²Ì¬¹¹Ôìº¯Êı£¬Ä¬ÈÏ¾ÍÊÇÕâÖÖ·½Ê½£©£¬ÒòÎªËüÊ¹CLRÄÜ¹»×ÔÓÉÑ¡Ôñµ÷ÓÃ¾²Ì¬¹¹Ôìº¯ÊıµÄÊ±»ú£¬¶øCLR»á¾¡¿ÉÄÜÀûÓÃÕâÒ»µãÀ´Éú³ÉÔËĞĞµÃ¸ü¿ìµÄ´úÂë¡£±ÈÈçËµÔÚÒ»¸öÑ­»·ÖĞµ÷ÓÃµ¥Àı£¨ÇÒ°üº¬Ê×´Îµ÷ÓÃ£©£¬beforefieldinit·½Ê½¿ÉÒÔÈÃCLR¾ö¶¨ÔÚÑ­»·Ö®Ç°¾Íµ÷ÓÃ¾²Ì¬¹¹Ôìº¯ÊıÀ´ÓÅ»¯£¬¶øpreciseÄ£Ê½ÔòÖ»»áÔÚÑ­»·ÌåÖĞÀ´µ÷ÓÃ¾²Ì¬¹¹Ôìº¯Êı£¬²¢ÔÚÖ®ºóµÄµ÷ÓÃ»á¼ì²â¾²Ì¬¹¹Ôìº¯ÊıÊÇ·ñÒÑ±»Ö´ĞĞµÄ±êÖ¾Î»£¬ÕâÑùĞ§ÂÊÉÔµÍÒ»Ğ©¡£ÔÚÇ°ÃæÊ¹ÓÃ¾²Ì¬FieldµÄÇé¿öÏÂ£¬beforefieldinit ·½Ê½ÏÂCLRÒ²ÈÏÎªÌáÇ°Ö´ĞĞ¾²Ì¬¹¹Ôìº¯ÊıÊÇ¸üºÃµÄÑ¡Ôñ¡£
-        C# µÄµ¥ÀıÊµÏÖ£¬¿ÉÒÔÀûÓÃ precise ÑÓ³Ùµ÷ÓÃÕâÒ»µãÀ´ÑÓ³Ù¶Ôµ¥Àı¶ÔÏóµÄ¹¹Ôì£¨¶öº¹Ä£Ê½£©£¬´Ó¶ø´øÀ´Ò»¶¡µãµÄÓÅ»¯£¬µ«ÊÇÔÚ¾ø´ó²¿·ÖÇé¿öÏÂÕâÒ»¶¡µãµÄÓÅ»¯×÷ÓÃ²¢²»´ó£¡
-            http://blog.sina.com.cn/s/blog_752ca76a0101fb2g.html
-    4. .NET timer
-        ÌØÊâ»·¾³µÄµ¥Ïß³Ì¼ÆÊ±Æ÷£º
-        µ¥Ïß³ÌÊ¹ÓÃÏûÏ¢Ñ­»·»úÖÆ,ÕâÒâÎ¶×ÅTickÊÂ¼ş×ÜÊÇÔÚ´´½¨timerµÄÄÇ¸öÏß³ÌÉÏÖ´ĞĞ£¬Í¬Ê±Ò²ÒâÎ¶×ÅÈç¹ûÉÏÒ»¸öTickÏûÏ¢»¹Î´±»´¦Àí£¬¼´Ê¹Ê±¼ä³¬¹ıÁË¼ä¸ôÊ±¼ä£¬ÔÚÏûÏ¢Ñ­»·ÖĞÒ²Ö»´æÔÚÒ»¸öTickÏûÏ¢
-        1£ºSystem.Windows.Forms.Timer£¨Ê¹ÓÃ»·¾³:Windows Forms Timer£©
-        2£ºSystem.Windows.Threading.DispatcherTimer( Ê¹ÓÃ»·¾³:WPF timer);
-        ¶àÏß³Ì¼ÆÊ±Æ÷
-        ¶àÏß³Ì¼ÆÊ±Æ÷Ê¹ÓÃ»Øµ÷·½·¨²¢ÓÉÏß³Ì³ØÏß³ÌÌá¹©·şÎñ.µ±¼ÆÊ±Æ÷¼ä¸ôĞ¡ÓÚÖ´ĞĞ´Ë»Øµ÷(Tick·½·¨)ËùĞèµÄÊ±¼äÊ±,»Øµ÷¿ÉÒÔÍ¬Ê±ÔÚ¶à¸öÏß³ÌÖĞÖ´ĞĞ.
-        ±ÈÈçµ±¼ÆÊ±Æ÷µÄÊ±¼ä¼ä¸ôÊÇ5Ãë,µ«¹ıÁË5Ãëºó,ÉÏÒ»´ÎµÄ»Øµ÷ÈÔÎ´Íê³É,´ËÊ±ĞÂµÄ»Øµ÷½«ÔÚĞÂµÄÏß³ÌÖĞÔËĞĞ.ÔÚ¿ª·¢ÖĞĞèÒª±ÜÃâ´ËÖÖÇé¿ö
-        1£ºSystem.Threading.Timer
-            ÊÇ×î¼òµ¥µÄ¶àÏß³Ì¼ÆÊ±Æ÷¡£  
-            Ö»ÒªÔÚÊ¹ÓÃ System.Threading.Timer£¬¾Í±ØĞë±£Áô¶ÔËüµÄÒıÓÃ¡£¶ÔÓÚÈÎºÎÍĞ¹Ü¶ÔÏó£¬Èç¹ûÃ»ÓĞ¶Ô Timer µÄÒıÓÃ£¬¼ÆÊ±Æ÷»á±»À¬»ø»ØÊÕ¡£ 
-            ¼´Ê¹ Timer ÈÔ´¦ÔÚ»î¶¯×´Ì¬£¬Ò²»á±»»ØÊÕ¡£
-        2£ºSystem.Timers.Timer
-        ÔÚ¡¶CLR Via C#¡·ÖĞ½²¶àÏß³ÌÊ±ÓĞÌáµ½Õâ3¸ö¼ÆÊ±Æ÷£¬µ«×÷ÕßËµSystem.Timers.TimerÊÇ¶ÔSystem.Threading.TimerµÄ°ü×°£¬²»ÍÆ¼öÊ¹ÓÃ   
-    5. Èí¼şµ÷ÊÔ
-        windows¸ß¼¶µ÷ÊÔ
-        Èí¼şµ÷ÊÔ
-        windows³ÌĞòµ÷ÊÔ
-        .net¸ß¼¶µ÷ÊÔ
-    6.TcpClient
-        ²»Í¬µÄ¹¹Ôìº¯Êı¹¦ÄÜ²»Í¬,¿Õ¹¹Ôìº¯Êı½ö¹¹Ôìtcp¶ÔÏó²»»á×Ô¶¯Á¬½Ó,´øµØÖ·µÄ¹¹Ôìº¯Êı²»½ö¹¹Ôìtcp¶ÔÏó»¹»á×Ô¶¯½øĞĞÁ¬½Ó
-        NetworkStreamµÄRead·½·¨ÔÚ¹Ø±ÕÁ¬½ÓÊ±»áÅ×Òì³£(IOException)¡£µ«ÊÇËü»á½«Ïß³Ì×èÈû¡£Èç¹û²»ÏëÏİÈë×èÈû×´Ì¬£¬¾ÍÖ»ÄÜÍ¨¹ıÉÏÃæµÄ·½·¨¼ì²âÁË£¡ÔÚ¶ÁÈ¡ÍøÂçÁ÷Ö®Ç°×îºÃ¼ì²âÒ»ÏÂNetworkStream.DataAvailableÓĞÊı¾İÔÙ¶Á¡£
-20180402
-    1.²¢·¢»·¾³ÏÂµÄÈİÆ÷ĞÔÄÜÓÅ»¯
-        "¶ÁĞ´Ëø"³¡¾°:Ä³¸öÏß³Ì¶ÁÈ¡×ÖµäµÄÍ¬Ê±£¬ÁíÒ»¸öÏß³ÌÕıÔÚĞŞ¸Ä×Öµä¡£Ò»µ©³öÏÖ¶ÁĞ´²Ù×÷Í¬Ê±½øĞĞµÄÇé¿ö£¬×Öµä¾ÍºÜ¿ÉÄÜ±»ÆÆ»µÁË¡£Òò´Ë£¬ÆäÊµÎÒÃÇµÄÒªÇóÓĞÁ½µã£º
-            Ö»ÄÜÓÉµ¥¸öÏß³ÌĞ´£¬µ«¿ÉÒÔÓÉ¶à¸öÏß³ÌÍ¬Ê±¶Á¡£
-            ÔÚ½øĞĞ¶Á²Ù×÷Ê±£¬²»¿ÉÍ¬Ê±½øĞĞĞ´²Ù×÷¡£·´Ö®ÒàÈ»¡£
-        Õâ±ãÊÇ¡°¶ÁĞ´Ëø¡±Ê¹ÓÃ³¡¾°¡£Ö»ÒªÊ¹ÓÃ¡°Ğ´¡±ËøÀ´±£»¤ĞŞ¸Ä²Ù×÷£¬¶øÊ¹ÓÃ¡°¶Á¡±ËøÀ´±£»¤¶ÁÈ¡²Ù×÷£¬±ã¿ÉÒÔÈÃ×ÖµäÕıÈ·²¢¸ßĞ§µØ¹¤×÷ÔÚ²¢·¢»·¾³ÏÂ¡£
-        ¡°¶ÁĞ´Ëø¡±ÔÚ.NET¿ò¼ÜÖĞÓĞ×ÅÁ½¸öÊµÏÖ£ºReaderWriterLockºÍReaderWriterLockSlim¡£Ç°Õß³öÏÖÔÚ.NET 1.xÖĞ£¬¶øºóÕßËæ.NET 2.0·¢²¼¡£Á½ÕßµÄÇø±ğÔÚÓÚÇ°ÕßĞÔÄÜµÍ£¬ºóÕßĞÔÄÜ¸ß.
-        Òò´ËÔÚÄ¿Ç°£¬»ù±¾ÉÏĞèÒª¶ÁĞ´ËøµÄ³¡¾°¶¼»á½¨ÒéÊ¹ÓÃReaderWriterLockSlim£¨³ıÁËÉÔºó»áÌáµ½µÄÇé¿ö£©¡£
-20180403
-    1. NuGetÊ¹ÓÃ (asp.net mvc)
-        https://www.cnblogs.com/liyanwei/p/af94dcd17cc45977968211162ecebabb.html
-        https://msdn.microsoft.com/zh-cn/magazine/hh547106.aspx
-    2. .Net MemcachedClient
-        https://github.com/enyim
-    3.sqlserverÒ»¸ö´æ´¢¹ı³Ì·µ»Ø¶à¸ö½á¹û¼¯
-            //·½Ê½Ò»£ºÊ¹ÓÃSqlDataAdapter
-            SqlDataAdapter sda = new SqlDataAdapter();
-            DataSet ds = new DataSet();
-            sda.Fill(ds);//Fill DataSet:Èç¹û½á¹û¼¯ÓĞ¶à¸ö£¬¶ÔÓ¦datasetÖĞµÄ¶à¸ötable
-
-            //·½Ê½¶ş£ºÊ¹ÓÃSqlDataReader
-            SqlDataReader sdr = cmd.ExecuteReader();
-            if (sdr.HasRows)
-            {
-                while (sdr.Read())
-                {
-                    //¶ÁÈ¡µÚÒ»¸ö½á¹û¼¯
-                }
-                if (sdr.NextResult())
-                {
-                    while (sdr.Read())
-                    {
-                        //¶ÁÈ¡µÚ¶ş¸ö½á¹û¼¯
-                    }
-                }
-                //if (sdr.NextResult())¿ÉÒÔ¼ÌĞø¶ÁÈ¡¶à¸ö½á¹û¼¯£¨Èç¹ûÓĞµÄ»°£©
-            }
-    4.C# ¸ßĞÔÄÜ TCP ·şÎñµÄ¶àÖÖÊµÏÖ·½Ê½
-        https://www.cnblogs.com/gaochundong/p/csharp_tcp_service_models.html
-20180409
-    1.public IEnumerator<T> GetEnumerator()
-          ConcurrentStack<T>
-            The enumeration represents a moment-in-time snapshot of the contents of the stack. 
-            It does not reflect any updates to the collection after GetEnumerator was called. 
-            The enumerator is safe to use concurrently with reads from and writes to the stack. 
-            The enumerator returns items in LIFO (last-in, first-out) order.
-          ConcurrentQueue<T>
-            The enumeration represents a moment-in-time snapshot of the contents of the queue. 
-            It does not reflect any updates to the collection after GetEnumerator was called. 
-            The enumerator is safe to use concurrently with reads from and writes to the queue.
-            The enumerator returns the collection elements in the order in which they were added, which is FIFO order (first-in, first-out).
-          ConcurrentDictionary<T>
-            The enumerator returned from the dictionary is safe to use concurrently with reads and writes to the dictionary, 
-            however it does not represent a moment-in-time snapshot of the dictionary. 
-            The contents exposed through the enumerator may contain modifications made to the dictionary after GetEnumerator was called.
-20180412
-    1.sqlseverÊı¾İ´æÔÚ¾Í¸üĞÂ,²»´æÔÚ¾Í²åÈëµÄÁ½ÖÖ·½·¨
-        Á½ÖÖ¾­³£Ê¹ÓÃµÄ·½·¨:
-        1). Update, if @@ROWCOUNT = 0 then insert
-        UPDATETable1 SETColumn1 = @newValue WHEREId = @id
-        IF@@ROWCOUNT= 0
-        BEGIN
-        INSERT INTOTable1 (Id, Column1) VALUES(@id, @newValue)
-        END
-        Èç¹ûÒ»ĞĞÊı¾İ´æÔÚ¸üĞÂ¾ÍÓĞĞ§,·ñÔò²åÈë½«±»Ö´ĞĞ.¸öÈË¸Ğ¾õÕâÖÖ·½·¨ÇãÏòÓÚÊı¾İ¶à°ë´æÔÚÓÚÊı¾İ±íÖĞµÄÇé¿ö;
-
-        2). If row exists update, otherwise insert
-        IFEXISTS(SELECT* FROMTable1 WHEREId = @id)
-        BEGIN
-        UPDATETable1 SETColumn1 = @newValue WHEREId = @id
-        END
-        ELSE
-        BEGIN
-        INSERT INTOTable1 (Id, Column1) VALUES(@id, @newValue)
-        END
-        ÔÚÕâÖÖ·½·¨,selectÓï¾äÖ´ĞĞºó½ô½Ó×Å¾ÍÊÇÖ´ĞĞupdate»òÊÇinsert,ÏûºÄ×ÊÔ´ÊÇÉÙÓë·½·¨Ò»µÄ.
-        3).mysqlÊı¾İ´æÔÚ¾Í¸üĞÂ,²»´æÔÚ¾Í²åÈë
-        insert into T(f1,f2,f3) values(v1,v2,v3) on DUPLICATE KEY UPDATE v3=values(v3)+v3
-    2.sqlserver ´æ´¢¹ı³ÌÏ¸½Ú
-        1).char(x) ½áÎ²¿Õ¸ñ¿ÉÒÔÆ¥Åä ÀıÈç 'SHFE' == 'SHFE  '
-        2).IF EXISTS (SELECT* FROM Table1 WHEREId = @id)
-                BEGIN
-                INSERT INTO Table1 (Id, Column1) VALUES(@id, @newValue)
-                END
-           ExecuteNonQuery(..)Ö´ĞĞ´æ´¢¹ı³ÌÆä·µ»ØÖµÖ»ÓĞÁ½ÖÖÇé¿ö
-           (1)¼ÙÈçÍ¨¹ı²éÑ¯·ÖÎöÆ÷Ö´ĞĞ¸Ã´æ´¢¹ı³Ì£¬ÔÚÏÔÊ¾À¸ÖĞ¼ÙÈçÓĞÓ°ÏìµÄĞĞÊı£¬ÔòÓ°Ïì¼¸ĞĞcount¾ÍÊÇ¼¸(×¢ÊÍµôSET¡¡NOCOUNT ON)
-           (2)¼ÙÈçÍ¨¹ı²éÑ¯·ÖÎöÆ÷Ö´ĞĞ¸Ã´æ´¢¹ı³Ì£¬ÔÚÏÔÊ¾À¸ÖĞ¼ÙÈçÏÔÊ¾'ÃüÁîÒÑ³É¹¦Íê³É¡£'Ôòcount = -1;ÔÚÏÔÊ¾À¸ÖĞ¼ÙÈçÓĞ²éÑ¯½á¹û£¬Ôòcount = -1
-           (3)¼ÙÈç´æ´¢¹ı³ÇÖĞ¿ªÆôÁËSET¡¡NOCOUNT ONÔò²»»á·µ»ØÊÜÓ°ÏìµÄĞĞÊı ÔÚÏÔÊ¾À¸ÖĞÊ¼ÖÕÏÔÊ¾'ÃüÁîÒÑ³É¹¦Íê³É' count = -1
-        3).SqlDataAdapterÄÚ²¿»ñÈ¡Êı¾İÊÇÍ¨¹ıµ÷ÓÃSqlDataReaderÀ´ÊµÏÖµÄ£¬¶øÁ½Õß¶¼ĞèÒªÊ¹ÓÃSqlConnectionºÍSqlCommand
-        4).´æ´¢¹ı³Ì·µ»ØÖµhttps://blog.csdn.net/youlong198808/article/details/52909851
-20180416-20180417
-    1.ADO.net ²ÎÊı»¯²éÑ¯
-        ĞèÒªÏòSqlCommand¶ÔÏóµÄParameters¼¯ºÏÌí¼ÓSqlParameter¶ÔÏó¡£Éú³ÉSqlParameter¶ÔÏó×î¼òµ¥µÄ·½Ê½ÊÇµ÷ÓÃSqlCommand¶ÔÏóµÄParameters¼¯ºÏµÄAddWithValue·½·¨
-        Ê¹ÓÃ²ÎÊı»¯SQLÓï¾äµÄ²½ÖèÊÇ£º
-            ¶¨Òå°üº¬²ÎÊıµÄSQLÓï¾ä£¬ÓÃ@·ûºÅÉùÃ÷²ÎÊı¡£
-            ÎªSQLÓï¾äÖĞ³öÏÖµÄÃ¿Ò»¸ö²ÎÊı¶¨Òå²ÎÊı¶ÔÏó£¬²¢½«²ÎÊı¶ÔÏó¼ÓÈëµ½SqlCommand¶ÔÏóÖĞ¡£
-            ¸ø²ÎÊı¸³Öµ£¬²¢Ö´ĞĞSQLÓï¾ä¡£
-            
-            string sqlStr = "select * from [Users] where UserName='" + txtUserName.Text.Trim() + "'and Password='" + txtUserPassword.Text.Trim() + "'";  
-            ËùÒÔ£¬ĞŞ¸ÄÉÏÃæµÄ´úÂëÎª£º
-            string sqlStr="select * from [Users] where UserName=@UserName and Password=@Password"  
-            
-        1)·ÀÖ¹sql×¢Èë¹¥»÷
-        2)×¢ÒâÖ¸¶¨²ÎÊıÀàĞÍÓÅ»¯²éÑ¯Ğ§ÂÊ
-    2.jvm Ïß³Ì¿É¼ûĞÔ Óë Ö¸ÁîÖØÅÅ
-        1).ÔÚJVM¹æ¶¨¶à¸öÏß³Ì½øĞĞÍ¨Ñ¶ÊÇÍ¨¹ı¹²Ïí±äÁ¿½øĞĞµÄ£¬¶øJavaÄÚ´æÄ£ĞÍ¹æ¶¨ÁËÓĞÖ÷ÄÚ´æÊÇËùÓĞÏß³Ì¹²ÏíµÄ£¬¶ø¸÷¸öÏß³ÌÓÖÓĞ×Ô¼ºµÄ¹¤×÷ÄÚ´æ£¬Ïß³ÌÖ»ÄÜ·ÃÎÊ×Ô¼ºµÄ¹¤×÷ÄÚ´æÖĞÊı¾İ£»
-        Èç£ºÓĞÒ»¸ö¹²Ïí±äÁ¿x£¬Á½¸öÏß³Ìa¡¢b±äÁ¿x´æ´¢ÔÚÖ÷ÄÚ´æÖĞÈ»ºóÓÖÁ½¸öxµÄ¿½±´·Ö±ğ´æ´¢ÔÚa¡¢bÏß³ÌµÄ¹¤×÷ÄÚ´æÖĞÏß³Ìa¡¢bÖ»ÄÜ¶Ô×Ô¼º¹¤×÷ÄÚ´æÖĞµÄxµÄ¿½±´½øĞĞ²Ù×÷£¬²»¿ÉÖ±½Ó²Ù×÷Ö÷ÄÚ´æ£»
-        Ïß³Ìa¶ÔxĞŞ¸ÄÊ±ÏÈ°ÑÖµ·Åµ½×Ô¼ºµÄ¹¤×÷ÄÚ´æÖĞ£¬È»ºóÔÙ°Ñ¹¤×÷ÄÚ´æÖĞµÄx¿½±´¸üĞÂµ½Ö÷ÄÚ´æÖĞ£¬Ïß³ÌbÍ¬ÑùÈç´Ë£»µ±Ïß³Ìa¸üĞÂÁËÖ÷ÄÚ´æºóÏß³ÌbË¢ĞÂ¹¤×÷ÄÚ´æºó¾ÍÄÜ¿´µ½a¸üĞÂºóµÄ×îĞÂÖµÕâ¾ÍÊÇÄÚ´æ¿É¼ûĞÔÎÊÌâ
-        µ±Ïß³ÌÒıÓÃ¹²Ïí±äÁ¿Ê±£¬¹¤×÷ÄÚ´æÖĞÃ»ÓĞ¹²Ïí±äÁ¿Ê±Ëü»á´ÓÖ÷ÄÚ´æ¸´ÖÆ¹²Ïí±äÁ¿µ½×Ô¼º¹¤×÷ÄÚ´æÖĞ£¬µ±¹¤×÷ÄÚ´æÓĞ¹²Ïí±äÁ¿Ê±Ïß³Ì¿ÉÄÜ»á´ÓÖ÷ÄÚ´æ¸üĞÂÒ²ÓĞ¿ÉÄÜÖ±½ÓÊ¹ÓÃ¹¤×÷ÄÚ´æÖĞµÄ¹²Ïí±äÁ¿
-        2).Ö¸ÁîÖØÅÅ
-        ¿´ÏÂÃæÕâ¶Î´úÂë£º
-        int i = 0;              
-        boolean flag = false;
-            i = 1;                //Óï¾ä1  
-            flag = true;          //Óï¾ä2
-        ÉÏÃæ´úÂë¶¨ÒåÁËÒ»¸öintĞÍ±äÁ¿£¬¶¨ÒåÁËÒ»¸öbooleanÀàĞÍ±äÁ¿£¬È»ºó·Ö±ğ¶ÔÁ½¸ö±äÁ¿½øĞĞ¸³Öµ²Ù×÷¡£´Ó´úÂëË³ĞòÉÏ¿´£¬Óï¾ä1ÊÇÔÚÓï¾ä2Ç°ÃæµÄ£¬ÄÇÃ´JVMÔÚÕæÕıÖ´ĞĞÕâ¶Î´úÂëµÄÊ±ºò»á±£Ö¤Óï¾ä1Ò»¶¨»áÔÚÓï¾ä2Ç°ÃæÖ´ĞĞÂğ£¿²»Ò»¶¨£¬ÎªÊ²Ã´ÄØ£¿ÕâÀï¿ÉÄÜ»á·¢ÉúÖ¸ÁîÖØÅÅĞò£¨Instruction Reorder£©¡£
-        ÏÂÃæ½âÊÍÒ»ÏÂÊ²Ã´ÊÇÖ¸ÁîÖØÅÅĞò£¬Ò»°ãÀ´Ëµ£¬´¦ÀíÆ÷ÎªÁËÌá¸ß³ÌĞòÔËĞĞĞ§ÂÊ£¬¿ÉÄÜ»á¶ÔÊäÈë´úÂë½øĞĞÓÅ»¯£¬Ëü²»±£Ö¤³ÌĞòÖĞ¸÷¸öÓï¾äµÄÖ´ĞĞÏÈºóË³ĞòÍ¬´úÂëÖĞµÄË³ĞòÒ»ÖÂ£¬µ«ÊÇËü»á±£Ö¤³ÌĞò×îÖÕÖ´ĞĞ½á¹ûºÍ´úÂëË³ĞòÖ´ĞĞµÄ½á¹ûÊÇÒ»ÖÂµÄ¡£
-        ±ÈÈçÉÏÃæµÄ´úÂëÖĞ£¬Óï¾ä1ºÍÓï¾ä2Ë­ÏÈÖ´ĞĞ¶Ô×îÖÕµÄ³ÌĞò½á¹û²¢Ã»ÓĞÓ°Ïì£¬ÄÇÃ´¾ÍÓĞ¿ÉÄÜÔÚÖ´ĞĞ¹ı³ÌÖĞ£¬Óï¾ä2ÏÈÖ´ĞĞ¶øÓï¾ä1ºóÖ´ĞĞ¡£
-        µ«ÊÇÒª×¢Òâ£¬ËäÈ»´¦ÀíÆ÷»á¶ÔÖ¸Áî½øĞĞÖØÅÅĞò£¬µ«ÊÇËü»á±£Ö¤³ÌĞò×îÖÕ½á¹û»áºÍ´úÂëË³ĞòÖ´ĞĞ½á¹ûÏàÍ¬£¬ÄÇÃ´Ëü¿¿Ê²Ã´±£Ö¤µÄÄØ£¿ÔÙ¿´ÏÂÃæÒ»¸öÀı×Ó£º
-            int a = 10;    //Óï¾ä1
-            int r = 2;    //Óï¾ä2
-            a = a + 3;    //Óï¾ä3
-            r = a*a;     //Óï¾ä4
-        Õâ¶Î´úÂëÓĞ4¸öÓï¾ä£¬ÄÇÃ´¿ÉÄÜµÄÒ»¸öÖ´ĞĞË³ĞòÊÇ£ºÓï¾ä2 Óï¾ä1 Óï¾ä3 Óï¾ä4
-        ÄÇÃ´¿É²»¿ÉÄÜÊÇÕâ¸öÖ´ĞĞË³ĞòÄØ£º Óï¾ä2 Óï¾ä1 Óï¾ä4 Óï¾ä3
-        ²»¿ÉÄÜ£¬ÒòÎª´¦ÀíÆ÷ÔÚ½øĞĞÖØÅÅĞòÊ±ÊÇ»á¿¼ÂÇÖ¸ÁîÖ®¼äµÄÊı¾İÒÀÀµĞÔ£¬Èç¹ûÒ»¸öÖ¸ÁîInstruction 2±ØĞëÓÃµ½Instruction 1µÄ½á¹û£¬ÄÇÃ´´¦ÀíÆ÷»á±£Ö¤Instruction 1»áÔÚInstruction 2Ö®Ç°Ö´ĞĞ
-        Ö¸ÁîÖØÅÅĞò²»»áÓ°Ïìµ¥¸öÏß³ÌµÄÖ´ĞĞ£¬µ«ÊÇ»áÓ°Ïìµ½Ïß³Ì²¢·¢Ö´ĞĞµÄÕıÈ·ĞÔ
-        => volatile ¹Ø¼ü×Ö
-           1) ¿É¼ûĞÔ µ±Ò»¸ö¹²Ïí±äÁ¿±»volatileĞŞÊÎÊ±£¬Ëü»á±£Ö¤ĞŞ¸ÄµÄÖµ»áÁ¢¼´±»¸üĞÂµ½Ö÷´æ£¬µ±ÓĞÆäËûÏß³ÌĞèÒª¶ÁÈ¡Ê±£¬Ëü»áÈ¥ÄÚ´æÖĞ¶ÁÈ¡ĞÂÖµ
-                    ¶øÆÕÍ¨µÄ¹²Ïí±äÁ¿²»ÄÜ±£Ö¤¿É¼ûĞÔ£¬ÒòÎªÆÕÍ¨¹²Ïí±äÁ¿±»ĞŞ¸ÄÖ®ºó£¬Ê²Ã´Ê±ºò±»Ğ´ÈëÖ÷´æÊÇ²»È·¶¨µÄ£¬µ±ÆäËûÏß³ÌÈ¥¶ÁÈ¡Ê±£¬´ËÊ±ÄÚ´æÖĞ¿ÉÄÜ»¹ÊÇÔ­À´µÄ¾ÉÖµ£¬Òò´ËÎŞ·¨±£Ö¤¿É¼ûĞÔ
-           2) ½ûÖ¹½øĞĞÖ¸ÁîÖØÅÅĞò
-           3) volatile²»ÄÜÈ·±£Ô­×ÓĞÔ
-           4) volatile±£Ö¤ÓĞĞòĞÔ
-            x = 2;        //Óï¾ä1
-            y = 0;        //Óï¾ä2
-            flag = true;  //Óï¾ä3
-            x = 4;         //Óï¾ä4
-            y = -1;       //Óï¾ä5
-            ÓÉÓÚflag±äÁ¿Îªvolatile±äÁ¿£¬ÄÇÃ´ÔÚ½øĞĞÖ¸ÁîÖØÅÅĞòµÄ¹ı³ÌµÄÊ±ºò£¬²»»á½«Óï¾ä3·Åµ½Óï¾ä1¡¢Óï¾ä2Ç°Ãæ£¬Ò²²»»á½²Óï¾ä3·Åµ½Óï¾ä4¡¢Óï¾ä5ºóÃæ¡£µ«ÊÇÒª×¢ÒâÓï¾ä1ºÍÓï¾ä2µÄË³Ğò¡¢Óï¾ä4ºÍÓï¾ä5µÄË³ĞòÊÇ²»×÷ÈÎºÎ±£Ö¤µÄ¡£
-            ²¢ÇÒvolatile¹Ø¼ü×ÖÄÜ±£Ö¤£¬Ö´ĞĞµ½Óï¾ä3Ê±£¬Óï¾ä1ºÍÓï¾ä2±Ø¶¨ÊÇÖ´ĞĞÍê±ÏÁËµÄ£¬ÇÒÓï¾ä1ºÍÓï¾ä2µÄÖ´ĞĞ½á¹û¶ÔÓï¾ä3¡¢Óï¾ä4¡¢Óï¾ä5ÊÇ¿É¼ûµÄ¡£
-        Ps:volatileµÄÊµÏÖÔ­Àí
-            a.Èç¹û¶ÔÉùÃ÷ÁËvolatile±äÁ¿½øĞĞĞ´²Ù×÷Ê±£¬JVM»áÏò´¦ÀíÆ÷·¢ËÍÒ»ÌõLockÇ°×ºµÄÖ¸Áî£¬½«Õâ¸ö±äÁ¿ËùÔÚ»º´æĞĞµÄÊı¾İĞ´»áµ½ÏµÍ³ÄÚ´æ¡£ ÕâÒ»²½È·±£ÁËÈç¹ûÓĞÆäËûÏß³Ì¶ÔÉùÃ÷ÁËvolatile±äÁ¿½øĞĞĞŞ¸Ä£¬ÔòÁ¢¼´¸üĞÂÖ÷ÄÚ´æÖĞÊı¾İ¡£
-            µ«ÕâÊ±ºòÆäËû´¦ÀíÆ÷µÄ»º´æ»¹ÊÇ¾ÉµÄ£¬ËùÒÔÔÚ¶à´¦ÀíÆ÷»·¾³ÏÂ£¬ÎªÁË±£Ö¤¸÷¸ö´¦ÀíÆ÷»º´æÒ»ÖÂ£¬Ã¿¸ö´¦Àí»áÍ¨¹ıĞáÌ½ÔÚ×ÜÏßÉÏ´«²¥µÄÊı¾İÀ´¼ì²é ×Ô¼ºµÄ»º´æÊÇ·ñ¹ıÆÚ£¬µ±´¦ÀíÆ÷·¢ÏÖ×Ô¼º»º´æĞĞ¶ÔÓ¦µÄÄÚ´æµØÖ·±»ĞŞ¸ÄÁË£¬¾Í»á½«µ±Ç°´¦ÀíÆ÷µÄ»º´æĞĞÉèÖÃ³ÉÎŞĞ§×´Ì¬£¬µ±´¦ÀíÆ÷Òª¶ÔÕâ¸öÊı¾İ½øĞĞĞŞ¸Ä²Ù×÷Ê±£¬»áÇ¿ÖÆÖØĞÂ´ÓÏµÍ³ÄÚ´æ°ÑÊı¾İ¶Áµ½´¦ÀíÆ÷»º´æÀï¡£ ÕâÒ»²½È·±£ÁËÆäËûÏß³Ì»ñµÃµÄÉùÃ÷ÁËvolatile±äÁ¿¶¼ÊÇ´ÓÖ÷ÄÚ´æÖĞ»ñÈ¡×îĞÂµÄ
-            b.LockÇ°×ºÖ¸ÁîÊµ¼ÊÉÏÏàµ±ÓÚÒ»¸öÄÚ´æÆÁÕÏ£¨Ò²³ÉÄÚ´æÕ¤À¸£©£¬ËüÈ·±£Ö¸ÁîÖØÅÅĞòÊ±²»»á°ÑÆäºóÃæµÄÖ¸ÁîÅÅµ½ÄÚ´æÆÁÕÏÖ®Ç°µÄÎ»ÖÃ£¬Ò²²»»á°ÑÇ°ÃæµÄÖ¸ÁîÅÅµ½ÄÚ´æÆÁÕÏµÄºóÃæ£»¼´ÔÚÖ´ĞĞµ½ÄÚ´æÆÁÕÏÕâ¾äÖ¸ÁîÊ±£¬ÔÚËüÇ°ÃæµÄ²Ù×÷ÒÑ¾­È«²¿Íê³É
-    3.C# volatile ¹Ø¼ü×Ö±ÜÃâ±»±àÒëÆ÷ÓÅ»¯
-      volatile constructor <=> interlocked constructor
-    4.C# Synchronized vs SyncRoot (·â×°lock &&  ICollection.SyncRoot)
-    5.windows¹ÜµÀ¼ò½é(ÄÚ´æ¹²Ïí)
-        https://blog.csdn.net/caoshangpa/article/details/53199022
-        http://www.cnblogs.com/shipfi/archive/2006/05/27/410658.html
-        windows ½ø³Ì¼äÍ¨ĞÅhttps://msdn.microsoft.com/en-us/library/windows/desktop/aa365574(v=vs.85).aspx
-    6.¶ÁĞ´Ëø
-        1¡¢µ±ÎÄ¼şÎŞËøµÄÊ±ºò£¬ÈÎºÎ½ø³Ì¶¼ÄÜÉÏ¶ÁËø»òĞ´Ëø¡£
-        2¡¢µ±ÎÄ¼ş±»A½ø³ÌÉÏÁË¶ÁËøµÄÊ±ºò£¬ÆäËüÈÎºÎ½ø³Ì¶¼¿ÉÒÔÉÏ¶ÁËø£¬µ«²»ÄÜÉÏĞ´Ëø£¡£¨ºÜÈİÒ×Àí½â£¬A½ø³ÌÉÏÁË¶ÁËø£¨ĞèÒª¶Á´ËÎÄ¼ş£©£¬´ËÊ±ÆäËü½ø³ÌÒ²ÉÏ¶ÁËø²»»á¶ÔA×ö³ÉÓ°Ïì¡£µ«Èç¹ûÆäËü½ø³ÌÒªÉÏĞ´Ëø£¨ĞèÒª¶ÔÎÄ¼ş½øĞĞĞ´²Ù×÷£©£¬ÄÇ»áÓ°Ïìµ½AµÄ½øĞĞ£¬ÒòÎªĞ´²Ù×÷»áĞŞ¸ÄÔ­ÎÄ¼ş£¡£¡£©
-        3¡¢µ±ÎÄ¼ş±»A½ø³ÌÉÏÁËĞ´Ëø£¬ÆäËüÈÎºÎ½ø³Ì¶¼²»ÄÜÉÏĞ´»ò¶ÁËø¡££¨ÒòÎªA½ø³ÌÉÏĞ´Ëø£¨´ú±íĞèÒªĞ´´ËÎÄ¼ş£©£¬Èç¹û´ËÊ±ÆäËü½ø³Ì¶Á´ËÎÄ¼şµÄ»°±Ø¶¨ÊÜÓ°Ïì£¬ÆäËü½ø³ÌĞ´²Ù×÷µÄ»°£¬Ë«·½¶¼ÊÜÓ°Ïì¡££©
-    7.clr vir C# chapter29 hybird thread synchronization constructs
-        a.ReaderWriterLockSlim => oneManyLock
-        b.double-check http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
-        c.MonitorµÄÒ»µã²¹³ä TryEnter(Object, Int32, Boolean) lockTaken ³¢ÊÔ»ñÈ¡ËøµÄ½á¹û£¬Í¨¹ıÒıÓÃ´«µİ¡£ ÊäÈë±ØĞëÎª false¡£ Èç¹ûÒÑ»ñÈ¡Ëø£¬ÔòÊä³öÎª true£»·ñÔòÊä³öÎª false¡£ ¼´Ê¹ÔÚ³¢ÊÔ»ñÈ¡ËøµÄ¹ı³ÌÖĞ·¢ÉúÒì³££¬Ò²»áÉèÖÃÊä³ö¡£ 
-            bool acquiredLock = false;
-            try
-            {
-                Monitor.TryEnter(lockObject, 500, ref acquiredLock);
-                if (acquiredLock)
-                {
-
-                    // Code that accesses resources that are protected by the lock.
-
-                }
-                else
-                {
-
-                    // Code to deal with the fact that the lock was not acquired.
-
-                }
-            }
-            finally
-            {
-                if (acquiredLock)
-                {
-                    Monitor.Exit(lockObject);
-                }
-            }
-
-20180418-20180420
-    1.C# in depth http://csharpindepth.com/
-    2.clr vir C# chapter29 hybird thread synchronization constructs ½áÊø
-        a.SpinWait
-            SpinWait £º ×ÔĞıµÈ´ı
-                    internal const int YIELD_THRESHOLD = 10; // When to switch over to a true yield.
-                    internal const int SLEEP_0_EVERY_HOW_MANY_TIMES = 5; // After how many yields should we Sleep(0)?
-                    internal const int SLEEP_1_EVERY_HOW_MANY_TIMES = 20; // After how many yields should we Sleep(1)?
-                SpinWait.NextSpinWillYield£ºÒ»¸öboolÖµ£¬±íÊ¾ÏÂÒ»´ÎÍ¨¹ıSpinOnce·½·¨×ÔĞıÊÇ·ñ»áÈÃ³öµ×²ãÏß³ÌµÄÊ±¼äÆ¬²¢·¢ÉúÉÏÏÂÎÄÇĞ»»¡£
-                                            public bool NextSpinWillYield
-                                            {
-                                                get { return m_count > YIELD_THRESHOLD /*default value 10*/|| PlatformHelper.IsSingleProcessor; }
-                                            }
- 
-                SpinOnce:This is typically called in a loop, and may change in behavior based on the number of times a SpinOnce has been called thus far on this instance. 
-                         Each spin results in the SpinWait method being called. 
-                         A count is kept of the number of times SpinOnce is called, and after a threshold count is reached, the Yield method is called.
-                         (ÄÚ²¿Ê¹ÓÃNextSpinWillYield)
-                SpinUntil £ºµÈ´ıÄ³¸öÌõ¼ş·¢Éú ÄÚ²¿µ÷ÓÃ SpinOnce
-        b.yield
-            keyword
-                yield return;
-                yield break;
-            Thread.yield(·ÅÆúÊ±¼äÆ¬ °ÑÏß³Ì·ÅÈë¾ÍĞ÷¶ÓÁĞ Ö»ÄÜµ÷¶ÈÍ¬Ò»¸ö´¦ÀíÆ÷µÄÏß³Ì£¬²»ÄÜµ÷¶ÈÆäËü´¦ÀíÆ÷µÄÏß³Ì¡£µ±Ã»ÓĞÆäËü¾ÍĞ÷µÄÏß³Ì£¬»áÒ»Ö±Õ¼ÓÃ CPU Ê±¼äÆ¬£¬Ôì³É CPU 100%Õ¼ÓÃÂÊ) https://www.cnblogs.com/stg609/p/3857242.html
-        c.Monitor.Enter(s_lock);
-          if (s_value == null)
-          {
-              Singleton temp = new Singleton();        //----|
-              Interlocked.Exchange(ref s_value, temp); //-----> vs s_value = new new Singleton();
-          }
-          Monitor.Exit(s_lock);
-          
-         s_value = new new Singleton()
-         ÒâÍ¼:1.·ÖÅäSingletonÄÚ´æ2.µ÷ÓÃ¹¹ÔìÆ÷À´³õÊ¼»¯×Ö¶Î3.È»ºó½«ÄÚ´æÒıÓÃ¸³Öµ¸øs_value4.È»ºó¶ÔÆäËüÏß³Ìpublish
-         Êµ¼Ê:±àÒëÆ÷ÒÔ¼°cpuÓÅ»¯¿ÉÄÜµ¼ÖÂ Ö¸ÁîÖØÅÅ ÀıÈç,1.·ÖÅäSingletonÄÚ´æ3.È»ºó½«ÄÚ´æÒıÓÃ¸³Öµ¸øs_value4.¶ÔÆäËüÏß³Ìpublish2.ÔÙµ÷ÓÃ¹¹ÔìÆ÷À´³õÊ¼»¯×Ö¶Î Èô´ËÊ±ÔÚ4ºÍ2Ö®¼äÓĞÆäËüÏß³Ì¶ÁÈ¡s_value,»á·¢ÏÖs_value²»Îªnullµ«ÊÇÆäÊµ´ËÊ±¹¹Ôì²¢Î´½áÊø
-         ËùÒÔÓÃInterlocked.ExchangeĞŞÕıÁËÕâ¸öÎÊÌâËû¹¹³ÉÁËÒ»¸öÄÚ´æÕ¤À¸,È·±£temp¹¹ÔìÍê³Éºó,ÔÙÒÔÔ­×ÓµÄ·½Ê½·¢²¼µ½s_valueÖĞ
-         Í¬Ê±½«s_valueÉùÃ÷ÎªvolatileÒ²¿ÉÒÔ´ïµ½ÀàËÆĞ§¹û,²»¹ı»áÊ¹ËùÓĞ¶Ôs_valueµÄ¶Á²Ù×÷Ò²¾ßÓĞ"volatile",ĞÔÄÜÎŞÎ½µØÊÕµ½Ëğº¦
-         ¼òµ¥µÄSingleton
-         internal sealed class Singleton
-         {
-            private static Singleton s_value = new Singleton();
-            // Private constructor prevents any code outside this class from creating an instance
-            private Singleton() {
-            // Code to initialize the one Singleton object goes here...
-            }
-            // Public, static method that returns the Singleton object (creating it if necessary)
-            public static Singleton GetSingleton() { return s_value; }
-        }
-        È±µã:ÈôÓĞÆäËü¾²Ì¬³ÉÔ±,¾Í»áÔÚ·ÃÎÊÆäËü³ÉÔ±Ê±´´½¨Ò»¸öSingleton,¿ÉÒÔÍ¨¹ı¶¨ÒåÇ¶Ì×ÀàÀ´½â¾öÕâ¸öÎÊÌâ(C# 4.0 => Lazy<T>)
-        public sealed class Singleton
-        {   
-            private Singleton()   {   }     
-            public static Singleton Instance { get { return Nested._instance; } }     
-            private class Nested   
-            {     
-                // Explicit static constructor to tell C# compiler     
-                // not to mark type as beforefieldinit     
-                static Nested()     {     }       
-                internal static readonly Singleton _instance = new Singleton();   
-            }
-        } 
-        ÁíÒ»ÖÖSingletonµÄ·½·¨
-        internal sealed class Singleton
-        {
-            private static Singleton s_value = null;
-            // Private constructor prevents any code outside this class from creating an instance
-            private Singleton() 
-            {
-                // Code to initialize the one Singleton object goes here...
-            }
-            // Public, static method that returns the Singleton object (creating it if necessary)
-            public static Singleton GetSingleton() 
-            {
-                if (s_value != null) return s_value;
-                // Create a new Singleton and root it if another thread didn't do it first
-                Singleton temp = new Singleton();
-                Interlocked.CompareExchange(ref s_value, temp, null);
-                // If this thread lost, then the second Singleton object gets GC'd
-                return s_value; // Return reference to the single object
-            }
-        }
-        ÔÚ¶àÏß³Ìµ÷ÓÃµÄÇé¿öÏÂ,ÓĞ¿ÉÄÜ¹¹Ôì¶à¸ötemp,µ«ÊÇ×îÖÕÖ»ÓĞÒ»¸ötemp¿ÉÒÔ·¢²¼µ½s_value,¶øÇÒËÙ¶È¿ì,ÓÀÔ¶²»×èÈûÏß³Ì
-        System.Threading.LazyInitializerÑÓ³Ù³õÊ¼»¯±ÜÃâ·ÖÅäLazy<T>¶ÔÏó½ÚÊ¡ÄÚ´æ
-        d. javaÄÚ´æÄ£ĞÍ(¼Ä´æÆ÷ Ö÷ÄÚ´æ Ïß³Ì¹¤×÷Çø) .netÄÚ´æÄ£ĞÍ(clrÈÎºÎËøµ÷ÓÃ¶¼¹¹³ÉÒ»¸öÄÚ´æÕ¤À¸)
-    3.C#¸÷°æ±¾ĞÂÌØĞÔ 
-        https://blog.csdn.net/paxhujing/article/details/52290017
-        https://blog.csdn.net/meplusplus/article/details/76762203
-20180423
-    1. SQL Server Error: provider: TCP Provider, error: 0 - Ô¶³ÌÖ÷»úÇ¿ÆÈ¹Ø±ÕÁËÒ»¸öÏÖÓĞµÄÁ¬½Ó¡£
-        https://bbs.csdn.net/topics/220013571
-        https://bbs.csdn.net/topics/392203049
-    2.cpu¼Ü¹¹ 
-        https://blog.csdn.net/gaijf/article/details/8571084
-        https://blog.csdn.net/primox/article/details/46877047?ref=myread
-    3.C#¶àÏß³Ì±à³ÌÊµÕ½ 1 2ÕÂ
-        AutoResetEvent(ÄÚºË¹¹Ôì) ³õÊ¼»¯false => unsignaled×´Ì¬ => WaitOneµÈ´ı
-        ManualResetEventSlim(»ìºÏ¹¹Ôì)
-        ManualResetEventºÍAutoResetEventµÄÇø±ğÔÚÓÚ£º
-        Ç°Õßµ÷ÓÃSet·½·¨ºó½«×Ô¶¯½«¿ª¹ØÁ¿Öµ½«Ò»Ö±±£³ÖÎªtrue,ºóÕßµ÷ÓÃSet·½·¨½«±äÎªtrueËæºóÁ¢¼´±äÎªfalse,¿ÉÒÔ½«ËüÀí½âÎªÒ»¸öÂö³å
-        CountDown ³õÊ¼»¯ x => signal() //x-- => wait() //x = 0
-        Barrier ·Ö²½ÖèÍ¬²½SignalAndWait() Òì³£´¦Àí
-        ¶ÁĞ´ËøReadWriteLockSlim  ³¡¾°:¶ÁºóĞ´ => EnterUpgradeableReadLock / ExitUpgreadeableReadLock
-20180424-20180425
-    1.C#¶àÏß³Ì±à³ÌÊµÕ½ 3ÕÂ
-        Ïß³Ì³Ø ThreadPool.RegisterWaitForSingleObject ¶¨Ê±µ÷ÓÃ»òĞÅºÅÁ¿´¥·¢µ÷ÓÃ https://www.cnblogs.com/Kazaf/archive/2012/03/26/2417341.html
-        System.Threading.Timer ÔÚ¶¨Ê±Æ÷ÄÚ²¿ÉèÖÃÏÂ´ÎÔËĞĞÊ±¼ä
-        (Asynchronous Programming Model)APMÒì²½±à³ÌÄ£ĞÍ(begin\end IAsyncResult)
-        (Event-based Asynchronous Pattern)EAP»ùÓÚÊÂ¼şµÄÒì²½Ä£Ê½(AsyncXXX && Completed)(BackgroundWorker)
-        (Task Parallel Library)TPLÈÎÎñ²¢ĞĞ¿â => C#5.0 async\await
-    2.¹ØÓÚBlockingCollection<T>
-            BlockingCollection<T> Take =>TryTake=>SemaphoreSlim.Wait=> SpinWait && Monitor
-    3.Âß¼­Ó¢ÓïµÚÈı¼¾Íê½á
-20180426
-    1.C#¶àÏß³Ì±à³ÌÊµÕ½ 3 4ÕÂ
-        a.ÈÎÎñ http://www.cnblogs.com/x-xk/archive/2012/12/11/2804563.html
-             https://www.cnblogs.com/enuo/p/6668941.html
-        b.APM -> TPL FromAsync()
-          EAP -> TPL TaskCompletionSourece<T>
-        c.var cts = new CancellationTokenSource();
-          var longTask = new Task<int>(()=>TaskMethod("Task 1",10,cts.Token),cts.Token);
-          ÎÒÃÇ¸øÈÎºÎºÍÈÎÎñº¯Êı·Ö±ğ´«ÈëÁË²ÎÊıcts.Token
-          ÒòÎªÈç¹ûÈÎÎñÊµ¼ÊÆô¶¯Ç°È¡ÏûËü,¸ÃÈÎÎñµÄTPL»ù´¡ÉèÊ©ÓĞÔğÈÎÈ¡Ïû²Ù×÷,ÒòÎªÈÎÎñº¯Êı´úÂë¸ù±¾²»»áÖ´ĞĞ,Èç¹û³¢ÊÔStart() »áÅ×³öInvalidateOperationExceptionÒì³£
-          Èç¹ûĞèÒª×Ô¼ºµÄ´úÂëÀ´´¦ÀíÈ¡Ïû¹ı³Ì,ÕâÒâÎ¶×ÅÎÒÃÇ×Ô¼º¸ºÔğ´¦ÀíÈ¡Ïû,²¢ÇÒÈ¡ÏûºóÈÎÎñµÄ×´Ì¬ÊÇRanToCompletion,ÒòÎª´ÓTPLÊÓ½Ç¿´¸ÃÈÎÎñÕı³£Íê³ÉÁË.
-          ±æ±ğÕâÁ½ÖÖÇé¿ö·Ç³£ÖØÒª.
-        d.AggregatesException FlattenÃ¶¾Ù innerException
-        e.²¢ĞĞ whenAll whenAny continueWith
+    å¸®åŠ©å™¨ http://www.runoob.com/aspnet/webpages-ref-helpers.html
+        WebGrid å¸®åŠ©å™¨
+        Chart å¸®åŠ©å™¨
+        WebMail å¸®åŠ©å™¨
+        WebImage å¸®åŠ©å™¨
+        ç¬¬ä¸‰æ–¹å¸®åŠ©å™¨
+            é€šè¿‡ Razorï¼Œæ‚¨å¯ä»¥åˆ©ç”¨å†…å»ºçš„æˆ–è€…ç¬¬ä¸‰æ–¹çš„å¸®åŠ©å™¨æ¥ç®€åŒ–ç”µå­é‚®ä»¶ã€æ•°æ®åº“ã€å¤šåª’ä½“ã€ç¤¾äº¤ç½‘ç»œä»¥åŠå¾ˆå¤šå…¶ä»–é—®é¢˜ï¼ˆå¦‚å¯¼èˆªå’Œçš„ç½‘ç»œå®‰å…¨ï¼‰çš„ä½¿ç”¨ã€‚
+20190428
+1. .net Xmlåºåˆ—åŒ– xmlserializer 
+    https://www.cnblogs.com/mad/p/xmlserializer_filenotfoundexception.html   
+2.å…³äºASP.NET WebFormä¸ASP.NET MVCçš„æ¯”è¾ƒ
+    https://www.cnblogs.com/hgmyz/p/6960903.html
+3.web form äº‹ä»¶
+    Page_Load äº‹ä»¶ Page.IsPostBack å±æ€§      
+        Page_Load å­ä¾‹ç¨‹ä¼šåœ¨é¡µé¢æ¯æ¬¡åŠ è½½æ—¶è¿è¡Œã€‚å¦‚æœæ‚¨ä»…å¸Œæœ›åœ¨é¡µé¢ç¬¬ä¸€æ¬¡åŠ è½½æ—¶æ‰§è¡Œ Page_Load å­ä¾‹ç¨‹ä¸­çš„ä»£ç ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨ Page.IsPostBack å±æ€§ã€‚
+        å¦‚æœ Page.IsPostBack å±æ€§ä¸º falseï¼Œåˆ™é¡µé¢ç¬¬ä¸€æ¬¡è¢«è½½å…¥ï¼Œå¦‚æœä¸º trueï¼Œåˆ™é¡µé¢ä¼ å›æœåŠ¡å™¨
+4.sql server query running slow from java
+    https://stackoverflow.com/questions/961078/sql-server-query-running-slow-from-java
+20190429
+1. web from æœåŠ¡å™¨æ§ä»¶
+    æ‰€æœ‰æœåŠ¡å™¨æ§ä»¶å¿…é¡»å‡ºç°åœ¨ <form> æ ‡ç­¾å†…ï¼ŒåŒæ—¶ <form> æ ‡ç­¾å¿…é¡»åŒ…å« runat="server" å±æ€§
+    è¯¥è¡¨å•æ€»æ˜¯å‘è‡ªèº«é¡µé¢è¿›è¡Œæäº¤ã€‚å¦‚æœæ‚¨è§„å®šäº†ä¸€ä¸ª action å±æ€§ï¼Œå®ƒä¼šè¢«å¿½ç•¥ã€‚å¦‚æœæ‚¨çœç•¥äº† method å±æ€§ï¼Œå®ƒå°†è¢«é»˜è®¤åœ°è®¾ç½®ä¸º method="post"ã€‚
+    åŒæ—¶ï¼Œå¦‚æœæ‚¨æ²¡æœ‰è§„å®š name å’Œ id å±æ€§ï¼Œå®ƒä»¬åˆ™ç”± ASP.NET è‡ªåŠ¨åˆ†é…
+    ä¸€ä¸ª .aspx ä»…èƒ½åŒ…å«ä¸€ä¸ª <form runat="server"> æ§ä»¶
+2. web from å¯¹è±¡ViewState
+    https://www.cnblogs.com/wwan/archive/2010/11/18/1880357.html
