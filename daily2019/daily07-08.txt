@@ -1,0 +1,236 @@
+﻿20190702
+1.linq to sql 事务
+ 核心对象 TransactionScope
+201900704
+1.int* &p,int *p 到底有什么区别
+    int *p是定义一个指针
+    int *&p是定义一个指针的引用
+
+    指针当参数时，只能改名指针指向的内容，不能改变指针本身你。
+    指针的引用当参数是，既可以改变指针指向的内容，又可以修改指针本身。
+2.协程的原理
+        协程，又称微线程，纤程。英文名Coroutine。
+        协程的概念很早就提出来了，但直到最近几年才在某些语言（如Lua）中得到广泛应用。
+        子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。
+        所以子程序调用是通过栈实现的，一个线程就是执行一个子程序。
+        子程序调用总是一个入口，一次返回，调用顺序是明确的。而协程的调用和子程序不同。
+        协程看上去也是子程序，但执行过程中，在子程序内部可中断，然后转而执行别的子程序，在适当的时候再返回来接着执行。
+        注意，在一个子程序中中断，去执行其他子程序，不是函数调用，有点类似CPU的中断。比如子程序A、B：
+        def A():
+            print('1')
+            print('2')
+            print('3')
+        def B():
+            print('x')
+            print('y')
+            print('z')
+        假设由协程执行，在执行A的过程中，可以随时中断，去执行B，B也可能在执行过程中中断再去执行A，结果可能是：
+        1
+        2
+        x
+        y
+        3
+        z
+        但是在A中是没有调用B的，所以协程的调用比函数调用理解起来要难一些。
+        看起来A、B的执行有点像多线程，但协程的特点在于是一个线程执行，那和多线程比，协程有何优势？
+        最大的优势就是协程极高的执行效率。因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销，和多线程比，线程数量越多，协程的性能优势就越明显。
+        第二大优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不加锁，只需要判断状态就好了，所以执行效率比多线程高很多。
+        因为协程是一个线程执行，那怎么利用多核CPU呢？最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。
+3..net 中的协程（协同方法）=> yield => IEnumerator => 迭代器模式
+    https://www.cnblogs.com/rhwleo/p/6853667.html
+    https://www.cnblogs.com/rhwleo/p/6853767.html
+    https://www.cnblogs.com/rhwleo/p/6853830.html
+    => 线程循环执行队列的问题
+        当没有请求进来时，线程仍然会轮询执行，这样造成了CPU资源的浪费
+        因此，需要进一步改进，实现仅当有请求进入时，才启动线程，若请求进入时线程已经启动则直接把请求添加到队列，同时保证只有一个线程启动
+4.linq 并发冲突
+    异常=>映射属性ColumnAttributte=>UpdateCheck参数[Always][Never][WhenChanged]
+    SubmitChanges方法ConflicMode参数[FailOnFirstConflict][ContinueOnConflict]=>ChangeConflictException
+20190705
+1.C语言变长数组之剖析
+    c89标准不支持变长数组，单色gcc的编译器因为有GNU C扩展，即使你用gcc -std=c89 test.c 来实验也看不到效果，照样编译通过。我在网上查到用gcc -pedantic test.c 可以看到效果，已经验证。
+    C语言变长数组之剖析 http://www.cppblog.com/Walker/articles/80805.html
+20190709
+1.sql语句在数据库工具中运行很快,但在Hibernate框架中运行很慢(而且同一个查询,按不同字段排序,有点慢有的快,随机出现,基本无规律,重启web服务有一定缓解)
+  解决:把查询中的视图连表去掉后,卡顿现象消失
+  分析:从数据库层面,视图本身就会和外部查询一并被解析执行,所以本上视图和查询没有区别,怀疑可能是Hibernate框架处理多表连接查询时底层对sqlserver视图兼容性有问题
+20190712
+1.Entity Framework
+    基础 https://www.cnblogs.com/xuf22/articles/5513283.html
+    详解 https://blog.csdn.net/uffvhj/article/details/83791429
+    系列教程 https://www.cnblogs.com/wyy1234/p/9650759.html
+2. asp ef 版本梳理 
+    https://www.cnblogs.com/liangxiaofeng/p/5840754.html
+        2009年發行ASP.NET MVC 1.0版
+        2010年發行ASP.NET MVC 2.0版，VS2010
+        2011年發行ASP.NET MVC 3.0版+EF4，需要.Net4.0支持，VS2011
+        2012年發行ASP.NET MVC 4.0版+EF5，需要.Net4.0支持，VS2012
+        2013年發行ASP.NET MVC 5.0版+EF6，需要.Net4.5支持，VS2013
+        2015年發行ASP.NET MVC 6.0版+EF7，需要.Net5.0支持，VS2015
+        ASP.NET 5.0　　　　　　将改名为　　ASP.NET Core 1.0
+        ASP.NET MVC 6　　　　  将改名为　　ASP.NET MVC Core 1.0
+        Entity Framework 7.0   将改名为　　Entity Framework Core 1.0
+     
+    EF版本概览
+        https://blog.csdn.net/WuLex/article/details/80498950
+     
+    https://www.cnblogs.com/n-pei/p/4274907.html[十分钟轻松让你认识Entity Framework 7 ]
+        EF7不是在EF6上更新，而是完全重写了。它完全支持.NET Core runtime 
+20190719
+1.秒杀多线程 https://blog.csdn.net/morewindows/article/details/7392749
+20190722
+1. C/C++ --- 全局变量初始化总结 https://blog.csdn.net/zhufenglonglove/article/details/52401939
+   根据 C++ 标准，全局变量的初始化要在 main 函数执行前完成，常识无疑，但是这个说法有点含糊，main 函数执行前到底具体是什么时候呢？是编译时还是运行时？
+   答案是既有编译时，也可能会有运行时(seriously), 从语言的层面来说，全局变量的初始化可以划分为以下两个阶段（c++11 N3690 3.6.2)：
+   static initialization: 静态初始化指的是用常量来对变量进行初始化,
+                          主要包括 zero initialization 和 const initialization，
+                          静态初始化在程序加载的过程中完成，
+                          对简单类型(内建类型，POD等)来说，
+                          从具体实现上看，zero initialization 的变量会被保存在 bss 段，const initialization 的变量则放在 data 段内，
+                          程序加载即可完成初始化，这和 c 语言里的全局变量初始化基本是一致的。
+   dynamic initialization：动态初始化主要是指需要经过函数调用才能完成的初始化，
+                           比如说：int a = foo()，或者是复杂类型（类）的初始化（需要调用构造函数）等。
+                           这些变量的初始化会在 main 函数执行前由运行时调用相应的代码从而得以进行(函数内的 static 变量除外)。
+   需要明确的是：静态初始化执行先于动态初始化！ 只有当所有静态初始化执行完毕，动态初始化才会执行。
+   显然，这样的设计是很直观的，能静态初始化的变量，它的初始值都是在编译时就能确定，因此可以直接 hard code 到生成的代码里，
+   而动态初始化需要在运行时执行相应的动作才能进行，因此，静态初始化先于动态初始化是必然的。
+2. C++中使用placement new   https://blog.csdn.net/linuxheik/article/details/80449059
+    一般来说，使用new申请空间时，是从系统的“堆”（heap）中分配空间。申请所得的空间的位置是根据当时的内存的实际使用情况决定的。
+    但是，在某些特殊情况下，可能需要在已分配的特定内存创建对象，这就是所谓的“定位放置new”（placement new）操作。
+3.C# 函数式编程 第六章 闭包
+    1.匿名对象
+    2.讲话beg/end模式
+20190723
+1.谓词,接收一个对象,判断对象是否满足条件
+  Predicate<T>  <=>  Func<T, bool>
+2..net表达式树 
+  运行时处理代码,动态处理表达式
+  类似eval(js, python)
+3.局部套用(currying 柯里化) 局部应用(Partial Application 偏应用) https://blog.csdn.net/lzl315/article/details/42390775
+  局部应用： 返回最终结果的处理方式是限定的，每一层的函数调用所传入
+             的参数都将逐次参与最终处理过程中去；
+  局部套用： 返回最终结果的处理方式是未知的，需要我们在使用的时候将
+             其作为参数传入。
+  =>参数分离
+4.严格求值与非严格求值
+  使用高阶函数(传递函数) => 惰性求值
+  Lazy<T> => 惰性求值
+20190726
+1.C# 函数式编程 预计算与缓存 (以数据的方式 or 以函数的方式)
+    //预计算和缓存示例
+    static void Main(string[] args)
+    {
+     
+        List<string > list  = new List<string>();
+
+        list.Add("one");
+        list.Add("two");
+        list.Add("three");
+        list.Add("four");
+
+        var fun1 = FindStr(list);
+
+        Console.WriteLine(fun1("two"));
+
+        Console.Read();
+
+    }
+
+    //作用缓存
+    static Func<string , bool> FindStr(List<string > lst)
+    {
+        HashSet<string > hsSet = new HashSet<string >(lst);
+
+        return item =>
+        {
+            return hsSet.Contains(item);
+        };
+    }
+    局部套用进行缓存(函数式编程,以函数的方式缓存数据,而不是以数据的方式)
+20190730
+1.C#函数式编程 递归
+    尾调用->尾递归 https://www.cnblogs.com/freelandun/p/7290768.html
+        尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。做到这一点的方法，就是把所有用到的内部变量改写成函数的参数
+    累加器传递模式
+        为了使lambda表达式具有递归作用,先声明为null 再赋值调用
+    后继传递模式(CPS)
+    间接递归/互递归
+20190820
+1.获取硬盘序列号
+    windows在cmd里执行:wmic diskdrive get SerialNumber linux命令行执行：sudo hdparm -I /dev/sd? | grep 'Serial\ Number'
+    PS:网上普遍流传的diskpart命令获取的磁盘id并不是磁盘唯一序列号
+    
+20190831
+1.C# ConcurrentDictionary AddOrUpdate vs Indexer Set    
+https://stackoverflow.com/questions/17926519/concurrent-dictionary-addorupdate-vs-index-add
+This is an old question, but no one answered why you would use one over the other.
+Choose A (the indexer) if you want to add or update and the update is not dependent on the existing value.
+Choose B (AddOrUpdate) if you want to add or update and the update depends on an existing value. AddOrUpdate will do the update atomically.
+So in the case in the question, you want to use the indexer. It's simpler, easier to read, and probably faster since you aren't creating an anonymous function.  
+
+2.lambda 传递ref参数有个语法bug，必须要显式书写参数类型。
+//如
+delegate bool FuncType(ref int num);
+
+FuncType func1;
+func1 = num => true; //错
+func1 = (ref num) => true;//错
+func1 = (ref int num) => true;//ok
+
+//并且,当一个参数书写类型，其他参数也要书写，总之很烦。d
+
+3..NET：字符集和编码学习总结   https://www.cnblogs.com/happyframework/p/3273606.html
+    .NET中使用何种编码表示字符串? 这个问题和源代码所在的文件的编码没有任何关系，文件的格式只是影响开发期间的编程工作
+    .NET使用的是Unicode的16位编码
+
+4.各种编码
+  https://blog.csdn.net/xiangxianghehe/article/details/77574965
+  ansi 与 ascii 
+    ANSI编码是一种对ASCII码的拓展：ANSI编码用0x00~0x7f （即十进制下的0到127）范围的1 个字节来表示 1 个英文字符，超出一个字节的 0x80~0xFFFF 范围来表示其他语言的其他字符。
+    也就是说，ANSI码仅在前128（0-127）个与ASCII码相同，之后的字符全是某个国家语言的所有字符。
+    值得注意的是，两个字节最多可以存储的字符数目是2的16次方，即65536个字符，这对于一个语言的字符来说，绝对够了。
+    还有ANSI编码其实包括很多编码：中国制定了GB2312编码，用来把中文编进去另外，日本把日文编到Shift_JIS里，韩国把韩文编到Euc-kr里，各国有各国的标准。
+    受制于当时的条件，不同语言之间的ANSI码之间不能互相转换，这就会导致在多语言混合的文本中会有乱码。
+ Unicode 与 UTF-8
+    为了解决不同国家ANSI编码的冲突问题，Unicode应运而生：如果全世界每一个符号都给予一个独一无二的编码，那么乱码问题就会消失。
+    这就是Unicode，就像它的名字都表示的，这是一种所有符号的编码。
+    Unicode标准也在不断发展，但最常用的是用两个字节表示一个字符（如果要用到非常偏僻的字符，就需要4个字节）。
+    现代操作系统和大多数编程语言都直接支持Unicode。
+    但是问题在于，原本可以用一个字节存储的英文字母在Unicode里面必须存两个字节（规则就是在原来英文字母对应ASCII码前面补0），这就产生了浪费。
+    那么有没有一种既能消除乱码，又能避免浪费的编码方式呢？
+    答案就是UTF-8！这是一种变长的编码方式：它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度，当字符在ASCII码的范围时，就用一个字节表示，保留了ASCII字符一个字节的编码做为它的一部分，如此一来UTF-8编码也可以是为视为一种对ASCII码的拓展。
+    值得注意的是unicode编码中一个中文字符占2个字节，而UTF-8一个中文字符占3个字节。从unicode到uft-8并不是直接的对应，而是要过一些算法和规则来转换。
+  PS：在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。
+      用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件。
+  https://blog.csdn.net/lvxiangan/article/details/8151670
+    ISO-8859-1编码是单字节编码，向下兼容ASCII，其编码范围是0x00-0xFF，0x00-0x7F之间完全和ASCII一致，0x80-0x9F之间是控制字符，0xA0-0xFF之间是文字符号。此字符集主要支持欧洲使用的语言。
+   
+    GBK: ?汉字国标扩展码,基本上采用了原来GB2312-80所有的汉字及码位，并涵盖了原Unicode中所有的汉字20902，总共收录了883个符号， ? 21003个汉字及提供了1894个造字码位。
+          Windows 95系统就是以GBK为内码，又由于GBK同时也涵盖了Unicode所有CJK汉字，所以也可以和Unicode做一一对应。
+    URL与URI
+        URL是全球资源定位符的英文所写，您平时上网时在IE浏览器中输入的那个地址就是URL。比如：网易 http://www.163.com就是一个URL。
+        URI是Web上可用的每种资源 - HTML文档、图像、视频片段、程序,由一个通过通用资源标志符(Universal Resource Identifier, 简称"URI")进行定位。
+    URL编码 一般来说，URL只能使用英文字母、阿拉伯数字和某些标点符号，不能使用其他文字和符号
+ http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html
+   unicode的问题
+    需要注意的是，Unicode 只是一个符号集，它只规定了符号的二进制代码，却没有规定这个二进制代码应该如何存储。
+    比如，汉字严的 Unicode 是十六进制数4E25，转换成二进制数足足有15位（100111000100101），也就是说，这个符号的表示至少需要2个字节。
+    表示其他更大的符号，可能需要3个字节或者4个字节，甚至更多。
+    这里就有两个严重的问题，第一个问题是，如何才能区别 Unicode 和 ASCII ？
+    计算机怎么知道三个字节表示一个符号，而不是分别表示三个符号呢？第二个问题是，我们已经知道，英文字母只用一个字节表示就够了，如果 Unicode 统一规定，每个符号用三个或四个字节表示，那么每个英文字母前都必然有二到三个字节是0，这对于存储来说是极大的浪费，文本文件的大小会因此大出二三倍，这是无法接受的。
+    它们造成的结果是：1）出现了 Unicode 的多种存储方式，也就是说有许多种不同的二进制格式，可以用来表示 Unicode。2）Unicode 在很长一段时间内无法推广，直到互联网的出现
+    
+    互联网的普及，强烈要求出现一种统一的编码方式。UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式。
+    其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示），不过在互联网上基本不用。重复一遍，这里的关系是，UTF-8 是 Unicode 的实现方式之一。
+    UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度。
+    UTF-8 的编码规则很简单，只有二条：
+    1）对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。
+    2）对于n字节的符号（n > 1），第一个字节的前n位都设为1，第n + 1位设为0，后面字节的前两位一律设为10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。
+   Little endian 和 Big endian
+    如果一个文本文件的头两个字节是FE FF，就表示该文件采用大头方式；如果头两个字节是FF FE，就表示该文件采用小头方式。
+  https://www.cnblogs.com/skynet/archive/2011/05/03/2035105.html
+    字符集与编码
+        
+5.文件编码与BOM浅析 https://blog.csdn.net/lipeijs3/article/details/5062243
+    UTF-8的BOM（0xEF BB BF）允许但并不建议使用, UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符”ZERO WIDTH NO-BREAK SPACE”的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。
+    Windows就是使用BOM来标记文本文件的编码方式的。用记事本编写代码要注意BOM。
